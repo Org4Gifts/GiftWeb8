@@ -25,7 +25,9 @@
 	width: 350px;
 }
 </style>
-
+<%
+String str = (String)request.getAttribute("error");
+%>
 </head>
 
 <body class="login">
@@ -78,7 +80,7 @@
 	</div>
 
 	<!-- Modal -->
-	<form action="" method="POST"
+	<form action="Main" method="POST"
 		name="ForgotPwd">
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
@@ -99,7 +101,7 @@
 							</div>
 
 							<div class="controls">
-								<button type="submit" class="btn btn-primary">傳送確認電子郵件</button>
+								<button form="Main" type="submit" name="forgot" class="btn btn-primary">傳送確認電子郵件</button>
 							</div>
 						</div>
 					</div>
@@ -115,5 +117,6 @@
 	<script
 		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
 
+<%=str %>
 </body>
 </html>
