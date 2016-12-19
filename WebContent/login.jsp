@@ -26,17 +26,16 @@
 }
 </style>
 <%
-String str = (String)request.getAttribute("error");
+	String str = (String) request.getAttribute("error");
 %>
 </head>
 
 <body class="login">
 	<div class="account-container login stacked">
 		<div class="content clearfix">
-			<form action="<%=request.getContextPath()%>/index.jsp"
-				method="POST" name="login">
+			<form action="<%=request.getContextPath()%>/index.jsp" method="POST"
+				name="login">
 				<!-- <form action="ExampleLogin" method="post"> -->
-				<button type="button" onclick="changeBtn()">test butt</button>				
 				<h1>公關禮品申請管理系統</h1>
 				<div class="login-fields">
 					<p>請輸入：</p>
@@ -77,11 +76,12 @@ String str = (String)request.getAttribute("error");
 	<!-- Text Under Box -->
 	<div class="login-extra">
 		忘記 <a href="#" data-toggle="modal" data-target="#myModal">密碼</a>
+		<h3 style="color: red"><%= (str == null) ? "" : str%></h3>
 	</div>
 
 	<!-- Modal -->
-	<form action="Main" method="POST"
-		name="ForgotPwd">
+	<form action="Main" method="POST" name="ForgotPwd">
+	<!-- <form action="<%=application.getContextPath()%>/Main" method="POST" name="ForgotPwd"> -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -94,15 +94,16 @@ String str = (String)request.getAttribute("error");
 						<h4 class="modal-title" id="myModalLabel">重設您的密碼</h4>
 					</div>
 					<div class="modal-body">
-						<div class="control-group">							
-							<label class="control-label" for="email">Your Email Address</label>
+						<div class="control-group">
+							<label class="control-label" for="email">Your Email
+								Address</label>
 							<div class="controls">
 								<input type="text" class="input-large" name="email" id="email">
 							</div>
 
 							<div class="controls">
-								<button type="submit" form="Main" name="forgot" class="btn btn-primary">傳送確認電子郵件</button>
-								
+								<button type="submit" name="forgot"
+									class="btn btn-primary">傳送確認電子郵件</button>
 							</div>
 						</div>
 					</div>

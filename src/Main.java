@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jdk.management.resource.internal.inst.SocketOutputStreamRMHooks;
 import tw.youth.project.gift2016.consts.ConstValue;
 import tw.youth.project.gift2016.func.Login;
 import tw.youth.project.gift2016.sql.DBManager;
@@ -51,6 +52,10 @@ public class Main extends HttpServlet {
 
 		String user = request.getParameter("user");
 		String pass = request.getParameter("pass");
+		
+		System.out.println("123");
+		user = "user";
+		pass = "pass";
 		
 		DBManager dao = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
 		Login login = new Login(dao, user, pass);
