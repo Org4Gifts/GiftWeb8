@@ -26,15 +26,15 @@
 }
 </style>
 <%
-String str = (String)request.getAttribute("error");
+	String str = (String) request.getAttribute("error");
 %>
 </head>
 
 <body class="login">
 	<div class="account-container login stacked">
 		<div class="content clearfix">
-			<form action="<%=request.getContextPath()%>/index.jsp"
-				method="POST" name="login">
+			<form action="<%=request.getContextPath()%>/index.jsp" method="POST"
+				name="login">
 				<!-- <form action="ExampleLogin" method="post"> -->
 
 				<h1>公關禮品申請管理系統</h1>
@@ -80,8 +80,7 @@ String str = (String)request.getAttribute("error");
 	</div>
 
 	<!-- Modal -->
-	<form action="Main" method="POST"
-		name="ForgotPwd">
+	<form action="Main" method="POST" name="ForgotPwd">
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -94,14 +93,15 @@ String str = (String)request.getAttribute("error");
 						<h4 class="modal-title" id="myModalLabel">重設您的密碼</h4>
 					</div>
 					<div class="modal-body">
-						<div class="control-group">							
-							<label class="control-label" for="email">Your Email Address</label>
+						<div class="control-group">
+							<label class="control-label" for="email">Your Email
+								Address</label>
 							<div class="controls">
 								<input type="text" class="input-large" name="email" id="email">
 							</div>
 
 							<div class="controls">
-								<button form="Main" type="submit" name="forgot" class="btn btn-primary">傳送確認電子郵件</button>
+								<button type="submit" class="btn btn-primary">傳送確認電子郵件</button>
 							</div>
 						</div>
 					</div>
@@ -116,7 +116,14 @@ String str = (String)request.getAttribute("error");
 		src="<%=application.getContextPath()%>/FrontEnd/js/jquery.min.js"></script>
 	<script
 		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		var error = '${error}';
+		if (error != "") {
+			alert(error);
+			$("#myModal").modal();
+		}
+	</script>
 
-<%=str %>
+	<%=str%>
 </body>
 </html>
