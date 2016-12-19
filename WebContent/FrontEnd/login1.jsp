@@ -36,8 +36,8 @@ String str = (String)request.getAttribute("error");
 			<form action="<%=request.getContextPath()%>/index.jsp"
 				method="POST" name="login">
 				<!-- <form action="ExampleLogin" method="post"> -->
-				<button type="button" onclick="changeBtn()">test butt</button>				
-				<h1>公關禮品申請管理系統</h1>
+
+				<h1>公關禮品申請管理系統123456</h1>
 				<div class="login-fields">
 					<p>請輸入：</p>
 					<div class="field">
@@ -80,7 +80,7 @@ String str = (String)request.getAttribute("error");
 	</div>
 
 	<!-- Modal -->
-	<form action="Main" method="POST"
+	<form action="<%=request.getContextPath()%>/Main" method="POST"
 		name="ForgotPwd">
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
@@ -101,8 +101,7 @@ String str = (String)request.getAttribute("error");
 							</div>
 
 							<div class="controls">
-								<button type="submit" form="Main" name="forgot" class="btn btn-primary">傳送確認電子郵件</button>
-								
+								<button form="Main" type="submit" name="forgot" class="btn btn-primary">傳送確認電子郵件</button>
 							</div>
 						</div>
 					</div>
@@ -117,5 +116,7 @@ String str = (String)request.getAttribute("error");
 		src="<%=application.getContextPath()%>/FrontEnd/js/jquery.min.js"></script>
 	<script
 		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
+
+<%=str %>
 </body>
 </html>
