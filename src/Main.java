@@ -57,8 +57,7 @@ public class Main extends HttpServlet {
 		user = "user";
 		pass = "pass";
 		
-		DBManager dao = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
-		Login login = new Login(dao, user, pass);
+		Login login = new Login(manager, user, pass);
 		System.out.println("2. login 變數");
 		System.out.println("manager = " + manager);
 		System.out.println("forgot = " + request.getParameter("email"));
