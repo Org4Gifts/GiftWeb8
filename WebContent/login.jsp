@@ -25,14 +25,16 @@
 	width: 350px;
 }
 </style>
-
+<%
+	String str = (String) request.getAttribute("error");
+%>
 </head>
 
 <body class="login">
 	<div class="account-container login stacked">
 		<div class="content clearfix">
-			<form action="<%=request.getContextPath()%>/index.jsp"
-				method="POST" name="login">
+			<form action="<%=request.getContextPath()%>/index.jsp" method="POST"
+				name="login">
 				<!-- <form action="ExampleLogin" method="post"> -->
 
 				<h1>公關禮品申請管理系統</h1>
@@ -78,8 +80,7 @@
 	</div>
 
 	<!-- Modal -->
-	<form action="" method="POST"
-		name="ForgotPwd">
+	<form action="Login.do" method="POST" name="ForgotPwd">
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -92,8 +93,9 @@
 						<h4 class="modal-title" id="myModalLabel">重設您的密碼</h4>
 					</div>
 					<div class="modal-body">
-						<div class="control-group">							
-							<label class="control-label" for="email">Your Email Address</label>
+						<div class="control-group">
+							<label class="control-label" for="email">Your Email
+								Address</label>
 							<div class="controls">
 								<input type="text" class="input-large" name="email" id="email">
 							</div>
@@ -114,6 +116,17 @@
 		src="<%=application.getContextPath()%>/FrontEnd/js/jquery.min.js"></script>
 	<script
 		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		var error = '${error}';
+		if (error.trim() != "") {
+			if (error.substring(0,3) != "已發送") {
+				alert(error);
+				$("#myModal").modal();		
+			} 
+			else alert(error);
+		}
+	</script>
 
+	<!-- <%=str%> -->
 </body>
 </html>
