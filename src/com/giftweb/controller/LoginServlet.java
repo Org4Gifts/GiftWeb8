@@ -1,0 +1,75 @@
+package com.giftweb.controller;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import tw.youth.project.gift2016.consts.ConstValue;
+import tw.youth.project.gift2016.func.Login;
+import tw.youth.project.gift2016.sql.DBManager;
+import tw.youth.project.gift2016.sql.SQLCmd;
+
+/**
+ * Servlet implementation class LoginServlet
+ */
+@WebServlet(description = "For Login Check Up", urlPatterns = { "/Login.do" })
+public class LoginServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private static DBManager manager;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public LoginServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+		manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
+		manager.starup();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub		
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		String username = request.getParameter("username")==null?"":request.getParameter("username");
+		String pass = request.getParameter("pass")==null?"":request.getParameter("pass");
+		
+		Login login = new Login(manager, username, pass);
+
+		String info = login.forgotPass(manager, request.getParameter("email")); 
+		
+		System.out.println("info = " + info);
+		System.out.println("mail = " + request.getParameter("email"));		
+		System.out.println("username = " + username);
+		System.out.println("pass = " + pass);
+		
+		if (info.equals(ConstValue.LOGIN_CHECK_EMAIL_FAILURE)) {
+			request.setAttribute("error", info);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+			//response.sendRedirect(request.getContextPath() + "/login.jsp");			
+		}
+		else if(info.equals(ConstValue.LOGIN_SEND_EMAIL_SUCCESS)){
+			request.setAttribute("error", info);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+	}
+
+}
