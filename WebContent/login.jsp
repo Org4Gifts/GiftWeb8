@@ -80,7 +80,7 @@
 	</div>
 
 	<!-- Modal -->
-	<form action="Main" method="POST" name="ForgotPwd">
+	<form action="Login.do" method="POST" name="ForgotPwd">
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -118,12 +118,15 @@
 		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		var error = '${error}';
-		if (error != "") {
-			alert(error);
-			$("#myModal").modal();
+		if (error.trim() != "") {
+			if (error.substring(0,3) != "已發送") {
+				alert(error);
+				$("#myModal").modal();		
+			} 
+			else alert(error);
 		}
 	</script>
 
-	<%=str%>
+	<!-- <%=str%> -->
 </body>
 </html>
