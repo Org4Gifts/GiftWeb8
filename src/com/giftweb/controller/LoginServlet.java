@@ -46,27 +46,45 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub		
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-		String username = request.getParameter("username")==null?"":request.getParameter("username");
-		String pass = request.getParameter("pass")==null?"":request.getParameter("pass");
-		
-		Login login = new Login(manager, username, pass);
+		// TODO Auto-generated method stub
+		// response.getWriter().append("Served at:
+		// ").append(request.getContextPath());
 
-		String info = login.forgotPass(manager, request.getParameter("email")); 
+		String username = request.getParameter("username") == null ? "" : request.getParameter("username");
+		String pass = request.getParameter("pass") == null ? "" : request.getParameter("pass");
 		
-		System.out.println("info = " + info);
-		System.out.println("mail = " + request.getParameter("email"));		
 		System.out.println("username = " + username);
 		System.out.println("pass = " + pass);
 		
-		if (info.equals(ConstValue.LOGIN_CHECK_EMAIL_FAILURE)) {
-			request.setAttribute("error", info);
-			request.getRequestDispatcher("/login.jsp").forward(request, response);
-			//response.sendRedirect(request.getContextPath() + "/login.jsp");			
+		Login login = new Login(manager, username, pass);
+
+		String action = request.getParameter("action"); // 取得
+														// client端送來的某(①name)請求參數的【值
+														// (②value)。 例如: <input
+														// type="hidden"
+														// name="①action"
+														// value="②login">
+		System.out.println("action=" + action);
+
+		// 前端網頁 1.登入
+		if ("Login".equals(action)) {
+			String check = login.checkLogin();
+			if("登入失敗".equals(check)){
+				request.setAttribute("error", check);
+				request.getRequestDispatcher("/login.jsp").forward(request, response);				
+			}else{
+				request.getRequestDispatcher("/index.jsp").forward(request, response);
+			}
 		}
-		else if(info.equals(ConstValue.LOGIN_SEND_EMAIL_SUCCESS)){
+		
+		// 前端網頁 2.忘記密碼
+		if ("forgot".equals(action)) {
+
+			String info = login.forgotPass(manager, request.getParameter("email"));
+
+			System.out.println("info = " + info);
+			System.out.println("mail = " + request.getParameter("email"));
+
 			request.setAttribute("error", info);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
