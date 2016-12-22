@@ -33,7 +33,7 @@
 <body class="login">
 	<div class="account-container login stacked">
 		<div class="content clearfix">
-			<form action="<%=request.getContextPath()%>/index.jsp" method="POST"
+			<form action="<%=request.getContextPath()%>/Login.do" method="POST"
 				name="login">
 				<!-- <form action="ExampleLogin" method="post"> -->
 
@@ -42,7 +42,7 @@
 					<p>請輸入：</p>
 					<div class="field">
 						<label for="username">帳號:</label> <input type="text" id="username"
-							name="user" value="" placeholder="員工工號"
+							name="username" value="" placeholder="員工工號"
 							class="login username-field" />
 					</div>
 					<!-- /field -->
@@ -63,6 +63,7 @@
 						tabindex="4" /> <label class="choice" for="Field">保持登入</label>
 					</span>
 					<button class="button btn btn-primary btn-large" type="reset">重設</button>
+					<input type="hidden" name="action" value="Login">
 					<button class="button btn btn-primary btn-large">登入</button>
 				</div>
 				<!-- .actions -->
@@ -101,8 +102,20 @@
 							</div>
 
 							<div class="controls">
+								<input type="hidden" name="action" value="forgot">
 								<button type="submit" class="btn btn-primary">傳送確認電子郵件</button>
 							</div>
+
+							<!-- 
+							<div align="center">
+								<input type="hidden" name="var_state" value="0"> <input
+									type="hidden" name="action" value="add">
+								<button class="btn btn-primary" type="submit">確認送出</button>
+								&nbsp;&nbsp;&nbsp;
+								<button class="btn btn-default" type="reset">清除重填</button>
+							</div>
+							 -->
+
 						</div>
 					</div>
 				</div>
@@ -118,12 +131,12 @@
 		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		var error = '${error}';
-		if (error.trim() != "") {
-			if (error.substring(0,3) != "已發送") {
+		if (error.trim() != "") {			
+			if (error.substring(0, 3) != "已發送" && error != "登入失敗") {
 				alert(error);
-				$("#myModal").modal();		
-			} 
-			else alert(error);
+				$("#myModal").modal();
+			} else
+				alert(error);
 		}
 	</script>
 
