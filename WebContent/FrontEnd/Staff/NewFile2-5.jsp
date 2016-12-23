@@ -23,46 +23,99 @@
 	href="<%=application.getContextPath()%>/FrontEnd/css/style.css">
 
 <style>
+.control-group.error .control-label, .control-group.error .help-block,
+	.control-group.error .help-inline {
+	color: #b94a48
+}
+
+.control-group.error input {
+	border-color: #b94a48;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+/*------------------------------------------------------------------
+ 
+Validation Styles
+
+------------------------------------------------------------------- */
+.control-group span.error {
+	color: #B94A48;
+	font-size: 11px;
+	font-weight: 600;
+	position: relative;
+	top: 5px;
+	padding: 4px 8px;
+	margin-bottom: 1em;
+	color: #FFF;
+	background: #B94A48;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.control-group span.error::after {
+	content: '';
+	display: inline-block;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-bottom: 6px solid #B94A48;
+	position: absolute;
+	top: -6px;
+	left: 7px;
+}
+
+.control-group.error {
+	padding-bottom: .5em;
+}
+
+.control-group.error div.clean {
+	display: none;
+}
 
 input[type="text"] {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -webkit-transition: border linear .2s, box-shadow linear .2s;
-    -moz-transition: border linear .2s, box-shadow linear .2s;
-    -o-transition: border linear .2s, box-shadow linear .2s;
-    transition: border linear .2s, box-shadow linear .2s;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border linear .2s, box-shadow linear .2s;
+	-moz-transition: border linear .2s, box-shadow linear .2s;
+	-o-transition: border linear .2s, box-shadow linear .2s;
+	transition: border linear .2s, box-shadow linear .2s;
 }
+
 input[type="text"] {
-    display: inline-block;
-    height: 30px;
-    padding: 4px 6px;
-    margin-bottom: 10px;
-    font-size: 14px;
-    line-height: 20px;
-    color: #555;
-    vertical-align: middle;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+	display: inline-block;
+	height: 30px;
+	padding: 4px 6px;
+	margin-bottom: 2px;
+	font-size: 14px;
+	line-height: 20px;
+	color: #555;
+	vertical-align: middle;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 }
+
 input[type="text"] {
-    font-family: 'Raleway', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: #7e7e7e;
-    border-width: 1px;
-    border-style: solid;
-    padding: 0 5px;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    -moz-transition: border linear .3s;
-    -webkit-transition: border linear .3s;
-    -o-transition: border linear .3s;
-    transition: border linear .3s;
+	font-family: 'Raleway', sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	color: #7e7e7e;
+	border-width: 1px;
+	border-style: solid;
+	padding: 0 5px;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	-moz-transition: border linear .3s;
+	-webkit-transition: border linear .3s;
+	-o-transition: border linear .3s;
+	transition: border linear .3s;
 }
 input[type="text"]:focus {
 	background: rgba(255, 255, 255, 0.5);

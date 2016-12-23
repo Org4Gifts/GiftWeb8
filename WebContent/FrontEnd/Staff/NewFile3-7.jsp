@@ -23,10 +23,6 @@
 
 <link rel="stylesheet" href="../css/application.css">
 
-<style>
-
-</style>
-
 </head>
 <body id="top" data-spy="scroll">
 	<header id="home">

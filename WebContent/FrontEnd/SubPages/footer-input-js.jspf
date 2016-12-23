@@ -1,0 +1,43 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+	
+	<!--footer-->
+	<div id="bottom-footer" class="hidden-xs navbar navbar-default navbar-fixed-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="footer-left">
+						&copy; 楊梅幼獅練習網站
+						<div class="credits">
+							by <a href="https://bootstrapmade.com/">2016</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-8">
+					<div class="footer-right">
+						<ul class="list-unstyled list-inline pull-right">
+							<li><a href="#">聯絡我們</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+        
+    <!-- jQuery -->
+	<script src="<%=application.getContextPath()%>/FrontEnd/js/libs/jquery-1.7.2.min.js"></script>
+	<script src="<%=application.getContextPath()%>/FrontEnd/js/libs/jquery-ui-1.8.21.custom.min.js"></script>	
+	<script src="<%=application.getContextPath()%>/FrontEnd/js/libs/jquery.ui.touch-punch.min.js"></script>
+	<script src="<%=application.getContextPath()%>/FrontEnd/js/plugins/validate/jquery.validate.js"></script>	
+	<script src="<%=application.getContextPath()%>/FrontEnd/js/libs/bootstrap/bootstrap.min.js"></script>
+	<script src="<%=application.getContextPath()%>/FrontEnd/js/Theme.js"></script>
+	<script src="<%=application.getContextPath()%>/FrontEnd/js/demos/demo.validation.js"></script>
+	<script>
+		$(function() {
+			Theme.init();
+		});
+	</script>
+    
+</body>
+</html>
