@@ -1,16 +1,20 @@
 package com.giftweb.controller;
 
 import java.io.IOException;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import tw.youth.project.gift2016.consts.ConstValue;
 import tw.youth.project.gift2016.func.Login;
 import tw.youth.project.gift2016.sql.DBManager;
 import tw.youth.project.gift2016.sql.SQLCmd;
+import tw.youth.project.gift2016.sql.user.AUSER;
 
 /**
  * Servlet implementation class LoginServlet
@@ -19,6 +23,7 @@ import tw.youth.project.gift2016.sql.SQLCmd;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static DBManager manager;
+	private static Map<String, Object[]> changePassList;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -50,12 +55,20 @@ public class LoginServlet extends HttpServlet {
 		// response.getWriter().append("Served at:
 		// ").append(request.getContextPath());
 
-		String username = request.getParameter("username") == null ? "" : request.getParameter("username");
-		String pass = request.getParameter("pass") == null ? "" : request.getParameter("pass");
+		HttpSession session = request.getSession();
 		
+		System.out.println("(String)session.getAttribute(username) = " + (String)session.getAttribute("username"));
+		
+		String username = request.getParameter("username") == null ? (String)session.getAttribute("username") : request.getParameter("username");		
+		
+		//session.setAttribute("username", username);
+		//session.setAttribute("username", (username == null)?"":username);		
+		//String username = session.getAttribute("username") == null ? "" : request.getParameter("username");
+		String pass = request.getParameter("pass") == null ? "" : request.getParameter("pass");
+
 		System.out.println("username = " + username);
 		System.out.println("pass = " + pass);
-		
+
 		Login login = new Login(manager, username, pass);
 
 		String action = request.getParameter("action"); // 取得
@@ -69,25 +82,59 @@ public class LoginServlet extends HttpServlet {
 		// 前端網頁 1.登入
 		if ("Login".equals(action)) {
 			String check = login.checkLogin();
-			if("登入失敗".equals(check)){
+			System.out.println("check = " + check);
+			if ("登入失敗".equals(check)) {
 				request.setAttribute("error", check);
-				request.getRequestDispatcher("/login.jsp").forward(request, response);				
-			}else{
+				request.getRequestDispatcher("/login.jsp").forward(request, response);
+			} else {
+				AUSER user = login.getUser();
+//				System.out.println("user.getEname() = " + user.getEname());
+//				request.setAttribute("user", user.getEname());
+//				System.out.println("request.setAttribute(user) = " + request.getAttribute("user"));
+//				request.setAttribute("username", username);				
+//				HttpSession session = request.getSession();
+				session.setAttribute("username", user.getEmpno());
+//				System.out.println("session.setAttribute(user) = " + session.getAttribute("user"));
+				
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			}
 		}
-		
+
 		// 前端網頁 2.忘記密碼
 		if ("forgot".equals(action)) {
 
-			String info = login.forgotPass(manager, request.getParameter("email"));
+			// String info = login.forgotPass(manager,
+			// request.getParameter("email"),);
+			//
+			// System.out.println("info = " + info);
+			// System.out.println("mail = " + request.getParameter("email"));
 
-			System.out.println("info = " + info);
-			System.out.println("mail = " + request.getParameter("email"));
+			// request.setAttribute("error", info);
+			// request.getRequestDispatcher("/login.jsp").forward(request,
+			// response);
 
-			request.setAttribute("error", info);
+			Object[] info = login.forgotPass(manager, request.getParameter("email"), "");
+			request.setAttribute("error", info[0]);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
-	}
 
+		// 前端網頁 3.修改密碼
+		if ("ChangePwd".equals(action)) {
+			String oldPasswd = request.getParameter("pass");
+			String newPasswd1 = request.getParameter("newpass");
+			String newPasswd2 = request.getParameter("repass");
+			
+			System.out.println("oldPasswd = " + oldPasswd);
+			System.out.println("newPasswd1 = " + newPasswd1);
+			System.out.println("newPasswd2 = " + newPasswd2);
+
+			String info = login.changPassword(manager, oldPasswd, newPasswd1, newPasswd2);
+
+			System.out.println("info = " + info);
+			
+			request.setAttribute("error", info);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+		}
+
+	}
 }

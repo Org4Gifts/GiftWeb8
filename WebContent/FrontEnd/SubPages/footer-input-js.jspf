@@ -38,6 +38,5 @@
 			Theme.init();
 		});
 	</script>
-    
 </body>
 </html>
