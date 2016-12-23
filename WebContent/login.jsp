@@ -117,10 +117,15 @@
 	<script
 		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
-		var error = '${error}';
-		if (error != "") {
-			alert(error);
+		var errorEmail = '${errorEmail}';
+		if (errorEmail != "") {
+			alert(errorEmail);
 			$("#myModal").modal();
+		}
+		
+		var errorLogin = '${errorLogin}';
+		if(errorLogin !=""){
+			alert(errorLogin);
 		}
 	</script>
 
