@@ -1,0 +1,64 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<%
+	System.out.println("application.getContextPath() = " + application.getContextPath());
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Java Web</title>
+
+<link
+	href="https://fonts.googleapis.com/css?family=Josefin+Sans|Open+Sans|Raleway"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="<%=application.getContextPath()%>/FrontEnd/css/flexslider.css">
+<link rel="stylesheet"
+	href="<%=application.getContextPath()%>/FrontEnd/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="<%=application.getContextPath()%>/FrontEnd/css/bootstrap.css">
+<link rel="stylesheet"
+	href="<%=application.getContextPath()%>/FrontEnd/css/bootstrap-responsive.css">
+<link rel="stylesheet"
+	href="<%=application.getContextPath()%>/../css/ui-lightness/jquery-ui-1.8.21.custom.css">
+<link rel="stylesheet"
+	href="<%=application.getContextPath()%>/../css/application.css">
+<script
+	src="<%=application.getContextPath()%>/FrontEnd/js/libs/modernizr-2.5.3.min.js"></script>
+</head>
+
+<body id="top" data-spy="scroll">
+	<header id="home">
+		<!--main-nav-->
+		<div id="main-nav">
+			<nav class="navbar">
+				<div class="container">
+					<div class="navbar-header">
+						<a href="index.html" class="navbar-brand">Java Web </a>
+						<button type="button" class="navbar-toggle collapsed"
+							data-toggle="collapse" data-target="#ftheme">
+							<span class="sr-only">Toggle</span> <span class="icon-bar"></span>
+							<span class="icon-bar"></span> <span class="icon-bar"></span>
+						</button>
+					</div>
+					<div class="navbar-collapse collapse" id="ftheme">
+						<ul class="nav navbar-nav navbar-right">
+							<li><a href="#">Home</a></li>
+							<li><a href="<%=application.getContextPath()%>/login.jsp">登出</a></li>
+						</ul>
+					</div>
+
+					<div class="search-form">
+						<form>
+							<input type="text" id="s" size="40" placeholder="Search..." />
+						</form>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</header>
