@@ -25,9 +25,6 @@
 	width: 350px;
 }
 </style>
-<%
-	String str = (String) request.getAttribute("error");
-%>
 </head>
 
 <body class="login">
@@ -42,14 +39,14 @@
 					<p>請輸入：</p>
 					<div class="field">
 						<label for="username">帳號:</label> <input type="text" id="username"
-							name="user" value="" placeholder="員工工號"
+							name="login_user" value="" placeholder="員工工號"
 							class="login username-field" />
 					</div>
 					<!-- /field -->
 
 					<div class="field">
 						<label for="password">密碼:</label> <input type="password"
-							id="password" name="pass" value="" placeholder="密碼"
+							id="password" name="login_pass" value="" placeholder="密碼"
 							class="login password-field" />
 					</div>
 					<!-- /password -->
@@ -80,7 +77,7 @@
 	</div>
 
 	<!-- Modal -->
-	<form action="Main" method="POST" name="ForgotPwd">
+	<form action="Service.do" method="POST" name="ForgotPwd">
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -128,7 +125,5 @@
 			alert(errorLogin);
 		}
 	</script>
-
-	<%=str%>
 </body>
 </html>

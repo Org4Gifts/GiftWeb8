@@ -28,7 +28,7 @@
 </head>
 
 <%
-	String key = request.getParameter("chg") != null ? request.getParameter("chg") : "";
+	String key = request.getParameter("mailKey") != null ? request.getParameter("mailKey") : "";
 %>
 
 <body class="login">

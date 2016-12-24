@@ -12,6 +12,17 @@
 	<link rel="stylesheet" href="<%=application.getContextPath()%>/FrontEnd/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<%=application.getContextPath()%>/FrontEnd/css/style.css">
 </head>
+<%
+Cookie[] cookies = request.getCookies();
+String userCode = null;
+for (Cookie cook : cookies) {
+	if (cook.getName().equals("userCode")) {
+		userCode = cook.getValue();
+		break;
+	}
+}
+System.out.println("userCode = "+userCode);
+%>
 <body id="top" data-spy="scroll">
 	<header id="home">
 		<!--main-nav-->
@@ -35,7 +46,11 @@
 
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="#">Home</a></li>
-							<li><a href="<%=application.getContextPath()%>/login.jsp">登出</a></li>
+							<% if(userCode == null || userCode.equals("")){ %>
+							<li><a href="<%=application.getContextPath()%>/login.jsp">登入</a></li>
+							<% }else{ %>
+							<li><a href="<%=application.getContextPath()%>/Service.do?logout=<%=userCode%>">登出</a></li>
+							<% } %>
 						</ul>
 
 					</div>
