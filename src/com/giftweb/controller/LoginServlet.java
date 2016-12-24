@@ -54,9 +54,8 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at:
 		// ").append(request.getContextPath());
-
-		// String username = session.getAttribute("username") == null ? "" :
-		// request.getParameter("username");
+		
+		System.out.println("---------------------------------");		
 
 		HttpSession session = request.getSession();
 		String username = request.getParameter("username") == null ? (String) session.getAttribute("username")
@@ -64,7 +63,18 @@ public class LoginServlet extends HttpServlet {
 		String pass = request.getParameter("pass") == null ? (String) session.getAttribute("pass")
 				: request.getParameter("pass");
 
+		System.out.println("username=" + username);
+		System.out.println("pass=" + pass);
+
+		if (username == null || pass == null) {
+			// request.setAttribute("error", "請重新登入!");
+			System.out.println("username == null || pass == null");
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+
 		Login login = new Login(manager, username, pass);
+		
+		System.out.println("login=" + login);		
 
 		String action = request.getParameter("action"); // 取得
 														// client端送來的某(①name)請求參數的【值
@@ -72,7 +82,7 @@ public class LoginServlet extends HttpServlet {
 														// type="hidden"
 														// name="①action"
 														// value="②login">
-		System.out.println("action=" + action);
+		System.out.println("action=" + action);		
 
 		// 前端網頁 1.登入
 		if ("Login".equals(action)) {
@@ -97,12 +107,29 @@ public class LoginServlet extends HttpServlet {
 
 		// 前端網頁 3.修改密碼
 		if ("ChangePwd".equals(action)) {
+
+			System.out.println("======== In the if ('ChangePwd.equals(action) ========");
+
 			String pass1 = request.getParameter("pass1");
 			String newpass = request.getParameter("newpass");
 			String repass = request.getParameter("repass");
 
-			if (pass1.equals(pass)) {
-				String info = login.changPassword(manager, pass1, newpass, repass);
+			System.out.println("pass1=" + pass1);
+			System.out.println("pass=" + pass);
+			System.out.println("username=" + username);
+
+			AUSER auser = login.getUser();
+
+			System.out.println("login.getUser()!!");
+			System.out.println("login=" + login);
+			System.out.println("auser=" + auser);
+
+			//System.out.println("auser.getPass()=" + auser.getPass());
+			//System.out.println("auser.toMD5Pass(pass1)=" + auser.toMD5Pass(pass1));
+
+			// if (pass1.equals(pass)) {
+			if (auser != null && auser.toMD5Pass(pass).equals(auser.getPass())) {
+				String info = login.changPassword(manager, pass, newpass, repass);
 				System.out.println("info = " + info);
 				if (info.equals(ConstValue.LOGIN_NOT_LOGIN)) {
 					request.setAttribute("error", info);
