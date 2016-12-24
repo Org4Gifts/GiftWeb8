@@ -18,4 +18,13 @@
     		</div>
     	</div>
     </div>
+    
+    <script type="text/javascript">
+		var error = '${error}';
+		if (error.trim() != "") {
+			if (error.substring(0, 15) == "ChangePwd-True-") {			
+				alert(error.substring(15));
+			}
+		}
+	</script>
 <%@include file="/FrontEnd/SubPages/footer.jspf" %>    
