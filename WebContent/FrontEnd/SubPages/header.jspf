@@ -20,10 +20,6 @@
 	href="<%=application.getContextPath()%>/FrontEnd/css/style.css">
 </head>
 <body id="top" data-spy="scroll">
-
-<%
-	System.out.println("123456");
-%>
 	<header id="home">
 		<!--main-nav-->
 		<div id="main-nav">
@@ -41,12 +37,7 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li><a href="#">Home</a></li>
 							<%
-								System.out.println("111");
 								String username = (String)session.getAttribute("username");
-								System.out.println("username = " + username);
-								System.out.println("session.getAttribute(username) = " + session.getAttribute("username"));
-								System.out.println("request.getAttribute(username) = " + request.getAttribute("username"));
-								//AUSER auser = (AUSER)session.getAttribute("username");
 								if (username == null) {
 							%>
 							<li><a href="<%=application.getContextPath()%>/login.jsp">登入</a></li>
