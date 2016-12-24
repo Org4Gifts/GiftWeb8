@@ -54,7 +54,9 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at:
 		// ").append(request.getContextPath());
-				
+
+		request.setCharacterEncoding("UTF-8"); // 指定取得POST請求參數時使用的編碼。例如若瀏覽器以UTF-8來發送請求，則你接收時也要使用UTF-8編碼字串。記得，一定要在取得任何請求參數前執行。否則是沒有任何作用的。
+		
 		HttpSession session = request.getSession();
 		String username = request.getParameter("username") == null ? (String) session.getAttribute("username")
 				: request.getParameter("username");
@@ -73,12 +75,12 @@ public class LoginServlet extends HttpServlet {
 														// type="hidden"
 														// name="①action"
 														// value="②login">
-		//System.out.println("action=" + action);		
+		// System.out.println("action=" + action);
 
 		// 前端網頁 1.登入
 		if ("Login".equals(action)) {
 			String check = login.checkLogin();
-			//System.out.println("check = " + check);
+			// System.out.println("check = " + check);
 			if ("登入失敗".equals(check)) {
 				request.setAttribute("error", check);
 				request.getRequestDispatcher("/login.jsp").forward(request, response);
@@ -103,12 +105,12 @@ public class LoginServlet extends HttpServlet {
 
 			AUSER auser = login.getUser();
 
-//			System.out.println("login=" + login);
-//			System.out.println("auser=" + auser);
+			// System.out.println("login=" + login);
+			// System.out.println("auser=" + auser);
 
 			if (auser != null && auser.toMD5Pass(pass).equals(auser.getPass())) {
 				String info = login.changPassword(manager, pass, newpass, repass);
-				//System.out.println("info = " + info);
+				// System.out.println("info = " + info);
 				request.setAttribute("error", "ChangePwd-True-您的新密碼已修改完成，下次登入請使用新密碼，謝謝!");
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			} else {
