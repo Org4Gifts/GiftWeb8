@@ -42,7 +42,10 @@
 								<input type="hidden" name="action" value="ChangePwd">
 								<button type="submit" class="btn btn-primary btn-large">Modify
 								</button>
-								<button type="reset" class="btn btn-tertiary btn-large" onclick='location.reload();'>Cancel</button>
+								<button type="reset" class="btn btn-tertiary btn-large">Cancel</button>
+								<button type="reset" onclick='location.reload();' class="btn btn-tertiary btn-large">Cancel-reload</button>
+								<input type='button' onclick='location.reload();'
+									value='Refresh Page' />
 							</div>
 						</fieldset>
 					</form>

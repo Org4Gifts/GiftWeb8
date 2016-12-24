@@ -55,16 +55,20 @@ public class LoginServlet extends HttpServlet {
 		// response.getWriter().append("Served at:
 		// ").append(request.getContextPath());
 
+		// String username = session.getAttribute("username") == null ? "" :
+		// request.getParameter("username");
+
 		HttpSession session = request.getSession();
-		
-		System.out.println("(String)session.getAttribute(username) = " + (String)session.getAttribute("username"));
-		
-		String username = request.getParameter("username") == null ? (String)session.getAttribute("username") : request.getParameter("username");		
-		
-		//session.setAttribute("username", username);
-		//session.setAttribute("username", (username == null)?"":username);		
-		//String username = session.getAttribute("username") == null ? "" : request.getParameter("username");
-		String pass = request.getParameter("pass") == null ? "" : request.getParameter("pass");
+		String username = request.getParameter("username") == null ? (String) session.getAttribute("username")
+				: request.getParameter("username");
+		System.out.println("(String)session.getAttribute(username)=" + (String) session.getAttribute("username"));
+		// session.setAttribute("username", (username == null)?"":username);
+
+		// String pass = request.getParameter("pass") == null ? "" :
+		// request.getParameter("pass");
+		String pass = request.getParameter("pass") == null ? (String) session.getAttribute("pass")
+				: request.getParameter("pass");
+		System.out.println("(String)session.getAttribute(pass)=" + (String) session.getAttribute("pass"));
 
 		System.out.println("username = " + username);
 		System.out.println("pass = " + pass);
@@ -87,15 +91,18 @@ public class LoginServlet extends HttpServlet {
 				request.setAttribute("error", check);
 				request.getRequestDispatcher("/login.jsp").forward(request, response);
 			} else {
-				AUSER user = login.getUser();
-//				System.out.println("user.getEname() = " + user.getEname());
-//				request.setAttribute("user", user.getEname());
-//				System.out.println("request.setAttribute(user) = " + request.getAttribute("user"));
-//				request.setAttribute("username", username);				
-//				HttpSession session = request.getSession();
-				session.setAttribute("username", user.getEmpno());
-//				System.out.println("session.setAttribute(user) = " + session.getAttribute("user"));
-				
+				// AUSER user = login.getUser();
+				// System.out.println("user.getEname() = " + user.getEname());
+				// request.setAttribute("username", user.getEname());
+				// System.out.println("request.setAttribute(username) = " +
+				// request.getAttribute("username"));
+				// request.setAttribute("username", username);
+				// session.setAttribute("username", user.getEmpno());
+				// System.out.println("session.getAttribute(username) = " +
+				// session.getAttribute("username"));
+
+				session.setAttribute("username", username);
+				session.setAttribute("pass", pass);
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			}
 		}
@@ -120,20 +127,28 @@ public class LoginServlet extends HttpServlet {
 
 		// 前端網頁 3.修改密碼
 		if ("ChangePwd".equals(action)) {
-			String oldPasswd = request.getParameter("pass");
-			String newPasswd1 = request.getParameter("newpass");
-			String newPasswd2 = request.getParameter("repass");
-			
-			System.out.println("oldPasswd = " + oldPasswd);
-			System.out.println("newPasswd1 = " + newPasswd1);
-			System.out.println("newPasswd2 = " + newPasswd2);
+			String pass1 = request.getParameter("pass1");
+			String newpass = request.getParameter("newpass");
+			String repass = request.getParameter("repass");
 
-			String info = login.changPassword(manager, oldPasswd, newPasswd1, newPasswd2);
+			System.out.println("pass = " + pass);
+			System.out.println("pass1 = " + pass1);
+			System.out.println("newpass = " + newpass);
+			System.out.println("repass = " + repass);
 
-			System.out.println("info = " + info);
-			
-			request.setAttribute("error", info);
-			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			if (pass1.equals(pass)) {
+				String info = login.changPassword(manager, pass1, newpass, repass);
+				System.out.println("info = " + info);
+				if (info.equals(ConstValue.LOGIN_NOT_LOGIN)) {
+					request.setAttribute("error", info);
+					request.getRequestDispatcher("/FrontEnd/Staff/ChangePwd.jsp").forward(request, response);
+				} else {
+					request.getRequestDispatcher("/index.jsp").forward(request, response);
+				}
+			} else {
+				request.setAttribute("error", ConstValue.LOGIN_OLD_PASS_ERROR);
+				request.getRequestDispatcher("/FrontEnd/Staff/ChangePwd.jsp").forward(request, response);
+			}
 		}
 
 	}
