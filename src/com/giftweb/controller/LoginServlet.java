@@ -135,16 +135,27 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("pass1 = " + pass1);
 			System.out.println("newpass = " + newpass);
 			System.out.println("repass = " + repass);
+			
+			AUSER auser = login.getUser();
 
-			if (pass1.equals(pass)) {
+			System.out.println("login.getUser()!!");
+			System.out.println("login=" + login);
+			System.out.println("auser=" + auser);
+
+			//System.out.println("auser.getPass()=" + auser.getPass());
+			//System.out.println("auser.toMD5Pass(pass1)=" + auser.toMD5Pass(pass1));
+
+			// if (pass1.equals(pass)) {
+			if (auser != null && auser.toMD5Pass(pass).equals(auser.getPass())) {
 				String info = login.changPassword(manager, pass1, newpass, repass);
 				System.out.println("info = " + info);
-				if (info.equals(ConstValue.LOGIN_NOT_LOGIN)) {
+				//if (info.equals(ConstValue.LOGIN_NOT_LOGIN)) {
+				if (!info.equals("")) {				
 					request.setAttribute("error", info);
 					request.getRequestDispatcher("/FrontEnd/Staff/ChangePwd.jsp").forward(request, response);
 				} else {
 					request.getRequestDispatcher("/index.jsp").forward(request, response);
-				}
+				}				
 			} else {
 				request.setAttribute("error", ConstValue.LOGIN_OLD_PASS_ERROR);
 				request.getRequestDispatcher("/FrontEnd/Staff/ChangePwd.jsp").forward(request, response);

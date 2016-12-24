@@ -18,10 +18,10 @@
 						class="form-horizontal" onSubmit="return chkPwd()">
 						<fieldset>
 							<div class="control-group">
-								<label class="control-label" for="pass1">輸入舊密碼</label>
+								<label class="control-label" for="pass">輸入舊密碼</label>
 								<div class="controls">
-									<input type="password" class="input-large" name="pass1"
-										id="pass1" required>
+									<input type="password" class="input-large" name="pass"
+										id="pass" required>
 								</div>
 							</div>
 							<div class="control-group">
