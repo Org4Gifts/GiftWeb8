@@ -29,21 +29,40 @@
 
 <%
 	String key = request.getParameter("mailKey") != null ? request.getParameter("mailKey") : "";
+	Cookie[] cookies = request.getCookies();
+	String userCode = null;
+	for (Cookie cook : cookies) {
+		if (cook.getName().equals("userCode")) {
+			userCode = cook.getValue();
+			break;
+		}
+	}
 %>
 
 <body class="login">
 	<div class="account-container login stacked">
 		<div class="content clearfix">
-			<form action="Service.do" method="post" name="changePwd">
+			<form action="<%=application.getContextPath()%>/Service.do" method="post" name="changePwd">
 				<!-- <form action="ExampleLogin" method="post"> -->
 
 				<h1>公關禮品申請管理系統</h1>
 				<div class="login-fields">
 					<p>重設密碼：</p>
+					<%
+						if (userCode != null && !userCode.equals("")) {
+					%>
+					<div class="field">
+						<label for=password>舊 密 碼:</label> <input type="password"
+							id="oldpass" name="oldpass" value="" placeholder="舊密碼"
+							class="login password-field" />
+					</div>
+					<%
+						}
+					%>
 					<div class="field">
 						<label for=password>新設密碼:</label> <input type="password"
-							id="password" name="pass" value="" placeholder="密碼"
-							class="login username-field" />
+							id="password" name="newpass" value="" placeholder="新密碼"
+							class="login password-field" />
 					</div>
 					<!-- /field -->
 
@@ -80,12 +99,15 @@
 		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 		function chkPwd() {
-			if (changePwd.pass.value == changePwd.repass.value) {
+			if (changePwd.newpass.value == changePwd.repass.value) {
 				document.changePwd.submit();
-			} else {
-				alert("密碼輸入不一致");
-				changePwd.pass.value = "";
+			}else{
+				alert("新密碼輸入不一致");
+				changePwd.oldpass.value = "";
+				changePwd.newpass.value = "";
 				changePwd.repass.value = "";
+				document.changePwd.newpass.focus();
+				document.changePwd.newpass.select();
 			}
 		}
 	</script>

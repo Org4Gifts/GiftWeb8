@@ -59,7 +59,6 @@ public class MainServlet extends HttpServlet {
 
 		while (parameterNames.hasMoreElements()) {
 			String paramName = parameterNames.nextElement();
-			System.out.println(paramName);
 
 			switch (paramName) {
 			case "logout":
@@ -88,6 +87,9 @@ public class MainServlet extends HttpServlet {
 				chkLogin(request, response);
 				break;
 			case "mailKey":
+				if (request.getParameter(paramName).equals(""))
+					changePwd(request, response);
+				else
 				changePwdByMail(request, response);
 				break;
 			case "email":
@@ -167,9 +169,10 @@ public class MainServlet extends HttpServlet {
 	private void sendEmail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 發送電子郵件
-		Login login = new Login(manager, "username", "passwd");
+		Login login = new Login();
 		// 電子郵件的網址
-		String url = "http://localhost:8080/GiftWeb8/change_pwd.jsp?mailKey=";
+//		String url = "http://localhost:8080/GiftWeb8/change_pwd.jsp?mailKey=";
+		String url = "http://localhost:8080/GiftWeb8/FrontEnd/Staff/change_pwd.jsp?mailKey=";
 		Long time = System.currentTimeMillis();
 		// 設定亂碼供郵件修改密碼的驗證用途
 		String val = new AUSER().toMD5Pass((time + "").substring(9));
@@ -186,16 +189,36 @@ public class MainServlet extends HttpServlet {
 		}
 	}
 
+	private void changePwd(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 已登入的修改密碼功能
+		Cookie[] cookies = request.getCookies();
+		String userCode = null;
+		for (Cookie cook : cookies) {
+			if (cook.getName().equals("userCode")) {
+				userCode = cook.getValue();
+				break;
+			}
+		}
+
+		Login login = new Login();
+		String msg = login.changPassword(manager, (AUSER) userList.get(userCode)[1], request.getParameter("oldpass"),
+				request.getParameter("newpass"), request.getParameter("repass"));
+		msg = msg.equals("update true") ? "修改成功" : msg;
+		request.setAttribute("changePwd", msg);
+		request.getRequestDispatcher("/index.jsp").forward(request, response);
+	}
+
 	private void changePwdByMail(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 電子郵件的修改密碼功能
-		Login login = new Login(manager, "username", "passwd");
+		Login login = new Login();
 		String key = request.getParameter("mailKey");
 		String msg = "已超過允許修改時效，請重新使用";
 		Object[] obj = changePassList.get(key);
 		// 檢查時效 預設30分鐘，超過就不執行修改密碼功能
 		if (System.currentTimeMillis() - ((Long) obj[0]) < 1800 * 1000)
-			msg = login.changPasswordByMail(manager, (AUSER) obj[1], request.getParameter("pass"));
+			msg = login.changPasswordByMail(manager, (AUSER) obj[1], request.getParameter("newpass"));
 		changePassList.remove(key);
 		// 不論執行結果為何都跳回首頁
 		msg = msg.equals("update true") ? "修改成功" : msg;

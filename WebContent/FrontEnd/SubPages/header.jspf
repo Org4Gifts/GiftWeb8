@@ -15,13 +15,14 @@
 <%
 Cookie[] cookies = request.getCookies();
 String userCode = null;
+if(cookies != null){
 for (Cookie cook : cookies) {
 	if (cook.getName().equals("userCode")) {
 		userCode = cook.getValue();
 		break;
 	}
 }
-System.out.println("userCode = "+userCode);
+}
 %>
 <body id="top" data-spy="scroll">
 	<header id="home">
@@ -49,6 +50,9 @@ System.out.println("userCode = "+userCode);
 							<% if(userCode == null || userCode.equals("")){ %>
 							<li><a href="<%=application.getContextPath()%>/login.jsp">登入</a></li>
 							<% }else{ %>
+							<li><a
+								href="<%=application.getContextPath()%>/FrontEnd/Staff/change_pwd.jsp">修改密碼
+							</a></li>
 							<li><a href="<%=application.getContextPath()%>/Service.do?logout=<%=userCode%>">登出</a></li>
 							<% } %>
 						</ul>
