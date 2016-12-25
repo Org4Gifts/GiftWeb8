@@ -2,12 +2,15 @@
     pageEncoding="UTF-8"%>
 	
 	<!--footer-->
-	<div id="bottom-footer" class="navbar navbar-default navbar-fixed-bottom">
+	<div id="bottom-footer" class="hidden-xs navbar navbar-default navbar-fixed-bottom">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4">
 					<div class="footer-left">
-						&copy; 楊梅幼獅 Java 系統設計 A 期 練習網站
+						&copy; 楊梅幼獅練習網站
+						<div class="credits">
+							by <a href="https://bootstrapmade.com/">2016</a>
+						</div>
 					</div>
 				</div>
 

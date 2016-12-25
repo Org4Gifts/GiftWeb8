@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@include file="/FrontEnd/SubPages/header.jspf" %>
+<%@include file="/FrontEnd/SubPages/header-s.jspf" %>
 	<!--container-->
     <div>
     	<div class="container">
@@ -27,4 +27,4 @@
 			}
 		}
 	</script>
-<%@include file="/FrontEnd/SubPages/footer-s.jspf" %>    
+<%@include file="/FrontEnd/SubPages/footer.jspf" %>    
