@@ -109,9 +109,9 @@ public class LoginServlet extends HttpServlet {
 			// System.out.println("auser=" + auser);
 
 			if (auser != null && auser.toMD5Pass(pass).equals(auser.getPass())) {
-				String info = login.changPassword(manager, pass, newpass, repass);
+				String info = login.changPassword(manager, auser, pass, newpass, repass);
 				// System.out.println("info = " + info);
-				request.setAttribute("error", "ChangePwd-True-您的新密碼已修改完成，下次登入請使用新密碼，謝謝!");
+				request.setAttribute("error", "ChangePwd-True-您的密碼已修改完成，下次登入請使用新密碼，謝謝!");
 				request.getRequestDispatcher("/index.jsp").forward(request, response);
 			} else {
 				request.setAttribute("error", ConstValue.LOGIN_OLD_PASS_ERROR);
