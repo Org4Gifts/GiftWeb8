@@ -35,7 +35,4 @@
 		alert(changePwd);
 	}
 </script>
-<!--
 
-//-->
-</script>

@@ -1,7 +1,9 @@
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -90,7 +92,7 @@ public class MainServlet extends HttpServlet {
 				if (request.getParameter(paramName).equals(""))
 					changePwd(request, response);
 				else
-				changePwdByMail(request, response);
+					changePwdByMail(request, response);
 				break;
 			case "email":
 				sendEmail(request, response);
@@ -171,7 +173,8 @@ public class MainServlet extends HttpServlet {
 		// 發送電子郵件
 		Login login = new Login();
 		// 電子郵件的網址
-//		String url = "http://localhost:8080/GiftWeb8/change_pwd.jsp?mailKey=";
+		// String url =
+		// "http://localhost:8080/GiftWeb8/change_pwd.jsp?mailKey=";
 		String url = "http://localhost:8080/GiftWeb8/FrontEnd/Staff/change_pwd.jsp?mailKey=";
 		Long time = System.currentTimeMillis();
 		// 設定亂碼供郵件修改密碼的驗證用途

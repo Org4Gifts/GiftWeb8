@@ -34,7 +34,7 @@ for (Cookie cook : cookies) {
 				<div class="container">
 
 					<div class="navbar-header">
-						<a href="index.html" class="navbar-brand">Java Web </a>
+						<a href="index.jsp" class="navbar-brand">Java Web </a>
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ftheme">
 							<span class="sr-only">Toggle</span>
 							<span class="icon-bar"></span>
