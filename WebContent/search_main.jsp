@@ -9,37 +9,46 @@
 			<div class="col-xs-12 col-md-10">
 				<div>
 					<div>
-						<h1>公關禮品申請管理系統-所有任務</h1>
-						<h3 style="cursor:pointer; cursor:hand" onClick="expandit(this)">古文今讀</h3>
-<span style="display:none" style=&{head};>
 						<div class="TreeMenu">
-							<div class="section">
-								<ul>
-									<li><a href="#">上古神話</a></li>
-									<li><a href="#">詩經</a></li>
-									<li><a href="#">楚辭</a></li>
-									<li><a href="#">諸子散文</a></li>
-									<li><a href="#">漢賦選輯</a></li>
-									<li><a href="#">樂府</a></li>
-									<li><a href="#">駢文</a></li>
-									<li><a href="#">唐詩</a></li>
-									<li><a href="#">宋詞</a></li>
-									<li><a href="#">元曲</a></li>
-									<li><a href="#">章回小說</a></li>
-								</ul>
-							</div>
+							<h1>公關禮品申請管理系統-所有任務</h1>
+							<h3 style="cursor: pointer; cursor: hand"
+								onClick="expandit(this)">使用者個人工號</h3>
+							<span style="display: none" style=&{head};>
+								<div class="section1">
+									<ul>
+										<li><a href="#">這裡該展開的是接下來的年度</a></li>
+									</ul>
+
+								</div>
 							</span>
 							<!--.section-->
-							<div class="section">
-								<h1>現代文藝</h1>
-								<ul>
-									<li><a href="#">小說</a></li>
-									<li><a href="#">散文</a></li>
-									<li><a href="#">性靈小品</a></li>
-									<li><a href="#">新詩</a></li>
-									<li><a href="#">翻譯小說</a></li>
-								</ul>
-							</div>
+							<h3 style="cursor: pointer; cursor: hand"
+								onClick="expandit(this)">年度</h3>
+							<span style="display: none" style=&{head};>
+								<div class="section2">
+									<ul>
+										<li><a href="#">這裡該展開的是接下來的月份</a></li>
+									</ul>
+								</div>
+							</span>
+							<h3 style="cursor: pointer; cursor: hand"
+								onClick="expandit(this)">月份</h3>
+							<span style="display: none" style=&{head};>
+								<div class="section3">
+									<ul>
+										<li><a href="#">這裡該展開的是接下來的日期</a></li>
+									</ul>
+								</div>
+							</span>
+							<h3 style="cursor: pointer; cursor: hand"
+								onClick="expandit(this)">日期</h3>
+							<span style="display: none" style=&{head};>
+								<div class="section3">
+									<ul>
+										<li><a href="#">這裡該展開的是訂單/調撥單編號</a></li>
+									</ul>
+								</div>
+							</span>
 							<!--.section-->
 						</div>
 						<!--.TreeMenu-->

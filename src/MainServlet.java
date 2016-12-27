@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -227,6 +228,10 @@ public class MainServlet extends HttpServlet {
 		msg = msg.equals("update true") ? "修改成功" : msg;
 		request.setAttribute("changePwd", msg);
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
+	}
+	
+	public ArrayList<String> searchByUser(){
+		return null;
 	}
 
 }
