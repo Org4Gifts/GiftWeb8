@@ -16,12 +16,37 @@
 							<span style="display: none" style=&{head};>
 								<div class="section1">
 									<ul>
-										<li><a href="#">這裡該展開的是接下來的年度</a></li>
+										<li><h3 style="cursor: pointer; cursor: hand"
+								onClick="expandit(this)">年度</h3>
+							<span style="display: none" style=&{head};>
+							<div class="section2">
+									<ul>
+										<li><h3 style="cursor: pointer; cursor: hand"
+								onClick="expandit(this)">月份</h3>
+							<span style="display: none" style=&{head};>
+								<div class="section3">
+									<ul>
+										<li><h3 style="cursor: pointer; cursor: hand"
+								onClick="expandit(this)">日期</h3>
+							<span style="display: none" style=&{head};>
+								<div class="section3">
+									<ul>
+										<li><a href="#">這裡該展開的是訂單/調撥單編號</a></li>
 									</ul>
-
+								</div>
+							</span></li>
+									</ul>
+								</div>
+							</span></li>
+									</ul>
+								</div>
+							</span></li>
+									</ul>
 								</div>
 							</span>
 							<!--.section-->
+							<br>
+							<br>
 							<h3 style="cursor: pointer; cursor: hand"
 								onClick="expandit(this)">年度</h3>
 							<span style="display: none" style=&{head};>

@@ -2,6 +2,8 @@
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import tw.youth.project.gift2016.consts.ConstValue;
 import tw.youth.project.gift2016.func.Login;
+import tw.youth.project.gift2016.func.Querys;
 import tw.youth.project.gift2016.sql.DBManager;
 import tw.youth.project.gift2016.sql.SQLCmd;
+import tw.youth.project.gift2016.sql.aio.AIO;
+import tw.youth.project.gift2016.sql.aodr.AODR;
 import tw.youth.project.gift2016.sql.user.AUSER;
 
 /**
@@ -66,6 +71,9 @@ public class MainServlet extends HttpServlet {
 			switch (paramName) {
 			case "logout":
 				logout(request, response);
+				break;
+			case "queryType":
+				queryByUser(request, response);
 				break;
 			}
 		}
@@ -229,9 +237,26 @@ public class MainServlet extends HttpServlet {
 		request.setAttribute("changePwd", msg);
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
-	
-	public ArrayList<String> searchByUser(){
-		return null;
+
+	public void queryByUser(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Cookie[] cookies = request.getCookies();
+		String userCode = null;
+		for (Cookie cook : cookies) {
+			if (cook.getName().equals("userCode")) {
+				userCode = cook.getValue();
+				break;
+			}
+		}
+
+		String key = request.getParameter("queryType");
+
+		Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
+		ArrayList<Object> objs = new ArrayList<>();
+		objs.addAll(
+				key.equals("aodr") ? querys.getAodrs(manager) : querys.getAios(manager, new AIO().getKeys()[1], ""));
+		Collections.reverse(objs);
+		
 	}
 
 }
