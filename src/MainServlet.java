@@ -249,14 +249,18 @@ public class MainServlet extends HttpServlet {
 			}
 		}
 
-		String key = request.getParameter("queryType");
-
 		Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
 		ArrayList<Object> objs = new ArrayList<>();
-		objs.addAll(
-				key.equals("aodr") ? querys.getAodrs(manager) : querys.getAios(manager, new AIO().getKeys()[1], ""));
+		objs.addAll(querys.getAodrs(manager));
 		Collections.reverse(objs);
+		request.setAttribute("aodrs", objs);
 		
+		objs.clear();
+		objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
+		Collections.reverse(objs);
+		request.setAttribute("aois", objs);
+		
+		request.getRequestDispatcher("/search_main.jsp").forward(request, response);
 	}
 
 }

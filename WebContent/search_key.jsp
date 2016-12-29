@@ -10,8 +10,22 @@
                         <div>
                             <div>
                                 <h1>公關禮品申請管理系統-查詢功能</h1>
-								<a href="<%=application.getContextPath()%>/search_all.jsp">使用者查詢功能</a>
-								<a href="<%=application.getContextPath()%>/search_key.jsp">關鍵字查詢功能</a>
+                                <form action="Service.do" method="post" name="search">
+                                    <select name="search_option">
+                                        <option value="auser">使用者</option>
+                                        <option value="aemp">員工</option>
+                                        <option value="avdr">廠/客</option>
+                                        <option value="aqty">多廠進彙</option>
+                                        <option value="apresent">禮物</option>
+                                        <option value="aodr">訂單</option>
+                                        <option value="aio">調撥單</option>
+                                        <option value="ainventory">多廠別盤存檔</option>
+                                        <option value="afab">廠別</option>
+                                        <option value="adep">部門</option>
+                                    </select>
+                                    <input type="text" name="search_key" value=""/>
+                                    <button class="button btn btn-primary btn-large">查詢</button>
+                                </form>
                             </div>
 
                         </div>
