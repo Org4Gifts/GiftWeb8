@@ -1,12 +1,9 @@
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +21,6 @@ import tw.youth.project.gift2016.func.Querys;
 import tw.youth.project.gift2016.sql.DBManager;
 import tw.youth.project.gift2016.sql.SQLCmd;
 import tw.youth.project.gift2016.sql.aio.AIO;
-import tw.youth.project.gift2016.sql.aodr.AODR;
 import tw.youth.project.gift2016.sql.user.AUSER;
 
 /**
@@ -87,11 +83,16 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// doGet(request, response);
+
+		// 強制Servlet編碼為UTF-8
+		request.setCharacterEncoding("UTF-8");
+
+		// 取得所有的request名稱
 		Enumeration<String> parameterNames = request.getParameterNames();
 
+		// 將所有request的名稱一一提出來過濾
 		while (parameterNames.hasMoreElements()) {
 			String paramName = parameterNames.nextElement();
-			System.out.println("paramName = " + paramName);
 
 			switch (paramName) {
 			case "login_user":
@@ -105,6 +106,9 @@ public class MainServlet extends HttpServlet {
 				break;
 			case "email":
 				sendEmail(request, response);
+				break;
+			case "query_key":
+				queryByKey(request, response);
 				break;
 			}
 		}
@@ -254,13 +258,79 @@ public class MainServlet extends HttpServlet {
 		objs.addAll(querys.getAodrs(manager));
 		Collections.reverse(objs);
 		request.setAttribute("aodrs", objs);
-		
+
 		objs.clear();
 		objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
 		Collections.reverse(objs);
 		request.setAttribute("aois", objs);
+
+		request.getRequestDispatcher("/query_all.jsp").forward(request, response);
+	}
+
+	public void queryByKey(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Cookie[] cookies = request.getCookies();
+		String userCode = null;
+		for (Cookie cook : cookies) {
+			if (cook.getName().equals("userCode")) {
+				userCode = cook.getValue();
+				break;
+			}
+		}
 		
-		request.getRequestDispatcher("/search_main.jsp").forward(request, response);
+		ArrayList<Object> objs = new ArrayList<>();
+
+		Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
+		
+		String value = request.getParameter("query_option");
+		String key = request.getParameter("query_key");
+		
+
+		switch (key) {
+		case "auser":
+			objs.addAll(querys.getUsers(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		case "aemp":
+			objs.addAll(querys.getAemps(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		case "avdr":
+			objs.addAll(querys.getAvdrs(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		case "aqty":
+			objs.addAll(querys.getAqtys(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		case "apresent":
+			objs.addAll(querys.getApresents(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		case "aodr":
+			objs.addAll(querys.getAodrs(manager));
+			Collections.reverse(objs);
+			break;
+		case "aio":
+			objs.addAll(querys.getAios(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		case "ainventory":
+			objs.addAll(querys.getAinventorys(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		case "afab":
+			objs.addAll(querys.getAfabs(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		case "adep":
+			objs.addAll(querys.getAdeps(manager, key, value));
+			Collections.reverse(objs);
+			break;
+		}
+		request.setAttribute("result_key", key);
+		request.setAttribute("result_value", objs);
+		request.getRequestDispatcher("/query_key.jsp").forward(request, response);
 	}
 
 }
