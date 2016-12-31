@@ -1,0 +1,41 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<div id="bottom-footer"
+	class="navbar navbar-default navbar-fixed-bottom">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center copyright">
+				<p>
+					&copy; 2016 楊梅幼獅 Java 系統設計 A 期 練習網站
+					<!-- <small class="block">&copy; 2016 楊梅幼獅 Java系統設計 A期 練習網站</small> -->
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="footer-left">&copy; 楊梅幼獅練習網站</div>
+			</div>
+
+			<div class="col-md-8">
+				<div class="footer-right">
+					<a href="#">聯絡我們</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- </div> -->
+
+<!-- jQuery -->
+<script
+	src="<%=application.getContextPath()%>/FrontEnd/js/jquery.min.js"></script>
+<script
+	src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
+<script
+	src="<%=application.getContextPath()%>/FrontEnd/js/jquery.flexslider.js"></script>
+<script
+	src="<%=application.getContextPath()%>/FrontEnd/js/jquery.inview.js"></script>
+<script src="<%=application.getContextPath()%>/FrontEnd/js/script.js"></script>
+</body>
+</html>
