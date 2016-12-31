@@ -43,7 +43,7 @@
 							<%
 								} else {
 							%>
-							<li><a href="<%=application.getContextPath()%>/index_new2.jsp">Home</a></li>
+							<li><a href="<%=application.getContextPath()%>/index_new.jsp">Home</a></li>
 							<li><a
 								href="<%=application.getContextPath()%>/FrontEnd/Staff/ChangePwd.jsp">修改密碼(<%=username%>)
 							</a></li>
