@@ -75,30 +75,31 @@
 						</ul>
 					</div>
 				</div>
-
 			</div>
 		</nav>
+	</div>
 
-		<!--container-->
-		<div>
-			<div class="container">
-				<div class="row">
-					<div class="col-xs-12 hidden-sm col-md-1"></div>
-					<div class="col-xs-12 col-md-10">
+	<!--container-->
+	<div>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 hidden-sm col-md-1"></div>
+				<div class="col-xs-12 col-md-10">
+					<div>
 						<div>
-							<div>
-								<h1>歡迎來到 公關禮品申請管理系統</h1>
-							</div>
-
+							<h1>歡迎來到 公關禮品申請管理系統</h1>
 						</div>
+
 					</div>
-					<div class="col-xs-12 hidden-sm col-md-1"></div>
 				</div>
+				<div class="col-xs-12 hidden-sm col-md-1"></div>
 			</div>
 		</div>
-		
-		<!--footer-->
-	<div id="bottom-footer" class="hidden-xs navbar navbar-default navbar-fixed-bottom">
+	</div>
+
+	<!--footer-->
+	<div id="bottom-footer"
+		class="hidden-xs navbar navbar-default navbar-fixed-bottom">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-4">
@@ -120,13 +121,17 @@
 			</div>
 		</div>
 	</div>
-        
+
 	<!-- jQuery -->
-    <script src="<%=application.getContextPath()%>/FrontEnd/js/jquery.min.js"></script>
-    <script src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
-    <script src="<%=application.getContextPath()%>/FrontEnd/js/jquery.flexslider.js"></script>
-    <script src="<%=application.getContextPath()%>/FrontEnd/js/jquery.inview.js"></script>
-    <script src="<%=application.getContextPath()%>/FrontEnd/js/script.js"></script>
-    
+	<script
+		src="<%=application.getContextPath()%>/FrontEnd/js/jquery.min.js"></script>
+	<script
+		src="<%=application.getContextPath()%>/FrontEnd/js/bootstrap.min.js"></script>
+	<script
+		src="<%=application.getContextPath()%>/FrontEnd/js/jquery.flexslider.js"></script>
+	<script
+		src="<%=application.getContextPath()%>/FrontEnd/js/jquery.inview.js"></script>
+	<script src="<%=application.getContextPath()%>/FrontEnd/js/script.js"></script>
+
 </body>
 </html>

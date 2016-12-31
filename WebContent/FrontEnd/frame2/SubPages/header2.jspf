@@ -1,0 +1,109 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+	
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>公關禮品申請管理系统</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="<%=application.getContextPath()%>/FrontEnd/frame2/css/bootstrap.css" />
+<link rel="stylesheet" href="<%=application.getContextPath()%>/FrontEnd/frame2/css/css.css" />
+<script type="text/javascript" src="<%=application.getContextPath()%>/FrontEnd/frame2/js/jquery1.9.0.min.js"></script>
+<script type="text/javascript" src="<%=application.getContextPath()%>/FrontEnd/frame2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=application.getContextPath()%>/FrontEnd/frame2/js/sdmenu.js"></script>
+<script type="text/javascript" src="<%=application.getContextPath()%>/FrontEnd/frame2/js/laydate/laydate.js"></script>
+</head>
+
+<body>
+	<div class="header">
+		<div class="logo">
+			<img src="<%=application.getContextPath()%>/FrontEnd/frame2/img/logo.png" />
+		</div>
+		<div class="header-right">
+			<i class="icon-question-sign icon-white"></i> <a href="#">關於系統</a> <i
+				class="icon-off icon-white"></i> <a id="modal-973558"
+				href="#modal-container-973558" role="button" data-toggle="modal">登出</a>
+			<i class="icon-user icon-white"></i> <a href="<%=application.getContextPath()%>/FrontEnd/Staff/ChangePwd.jsp">修改密碼</a> <i
+				class="icon-envelope icon-white"></i> <a href="#">聯絡我們</a>
+
+			<div id="modal-container-973558" class="modal hide fade"
+				role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+				style="width: 300px; margin-left: -150px; top: 30%">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h3 id="myModalLabel">登出系统</h3>
+				</div>
+				<div class="modal-body">
+					<p>您確定要登出系統嗎？</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">關閉</button>
+					<a class="btn btn-primary" style="line-height: 20px;"
+						href="<%=application.getContextPath()%>/login.jsp">確定登出</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 顶部 -->
+
+	<div id="middle">
+		<div class="left">
+			<script type="text/javascript">
+				var myMenu;
+				window.onload = function() {
+					myMenu = new SDMenu("my_menu");
+					myMenu.init();
+				};
+			</script>
+
+			<div id="my_menu" class="sdmenu">
+				<div>
+					<span>申請單/查詢(全體同仁)</span>
+					<a style="margin-top: 6px; color: red; font-weight: bold; background: url(<%=application.getContextPath()%>/FrontEnd/frame2/img/171.png) no-repeat 30px 9px; line-height: 26px;"
+						href="<%=application.getContextPath()%>/FrontEnd/Orders/add_order.jsp">新增申請單</a>
+					<a href="#">Employee No</a>
+					<a href="#">Date</a>
+					<a href="<%=application.getContextPath()%>/index_new2.jsp">Department</a>
+					<a href="#">廠區</a>
+					<a href="#">目前簽核者</a>
+					<a style="margin-bottom: 6px;" href="#">文件狀態</a>
+				</div>
+				<div class="collapsed">
+					<span>禮品資料(管理部)</span>
+					<a style="margin-top: 6px; color: blue; font-weight: bold; background: url(<%=application.getContextPath()%>/FrontEnd/frame2/img/171.png) no-repeat 30px 9px; line-height: 26px;"
+						href="查询页面.html">新增禮品項目</a>
+					<a href="#">可申請項目</a>
+					<a href="#">停止申請項目</a>
+					<a style="margin-bottom: 6px;" href="#">低於安全庫存項目</a>
+				</div>
+				<div class="collapsed">
+					<span>調撥單/查詢(管理部)</span>
+					<a style="margin-top: 6px; color: #f60; font-weight: bold; background: url(<%=application.getContextPath()%>/FrontEnd/frame2/img/171.png) no-repeat 30px 9px; line-height: 26px;"
+						href="查询页面.html">新增調撥單</a>
+					<a href="#">Date</a>
+					<a href="#">目前簽核者</a>
+					<a style="margin-bottom: 6px;" href="#">文件狀態</a>
+				</div>
+				<div class="collapsed">
+					<span>統計(管理部)</span>
+					<a href="#">每月各類申請量</a>
+					<a href="#">每月各類調撥量</a>
+				</div>
+				<div class="collapsed">
+					<span>庫存報表</span>
+					<a href="#">各廠明細表</a>
+					<a href="#">全廠總表</a>
+				</div>
+			</div>
+		</div>
+		<div class="Switch"></div>
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".Switch").click(function() {
+					$(".left").toggle();
+				});
+			});
+		</script>

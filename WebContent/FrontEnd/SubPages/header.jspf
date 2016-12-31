@@ -35,15 +35,15 @@
 					</div>
 					<div class="navbar-collapse collapse" id="ftheme">
 						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#">Home</a></li>
 							<%
 								String username = (String)session.getAttribute("username");
 								if (username == null) {
-							%>
+							%>							
 							<li><a href="<%=application.getContextPath()%>/login.jsp">登入</a></li>
 							<%
 								} else {
 							%>
+							<li><a href="<%=application.getContextPath()%>/index_new2.jsp">Home</a></li>
 							<li><a
 								href="<%=application.getContextPath()%>/FrontEnd/Staff/ChangePwd.jsp">修改密碼(<%=username%>)
 							</a></li>
