@@ -56,7 +56,6 @@ public class MainServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at:
 		// ").append(request.getContextPath());
-		
 		Enumeration<String> parameterNames = request.getParameterNames();
 
 		while (parameterNames.hasMoreElements()) {
@@ -92,7 +91,7 @@ public class MainServlet extends HttpServlet {
 				if (request.getParameter(paramName).equals(""))
 					changePwd(request, response);
 				else
-				changePwdByMail(request, response);
+					changePwdByMail(request, response);
 				break;
 			case "email":
 				sendEmail(request, response);
@@ -165,6 +164,7 @@ public class MainServlet extends HttpServlet {
 		}
 		request.setAttribute("logout", "您已登出，歡迎再次登入使用");
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
+
 	}
 
 	private void sendEmail(HttpServletRequest request, HttpServletResponse response)
@@ -172,7 +172,8 @@ public class MainServlet extends HttpServlet {
 		// 發送電子郵件
 		Login login = new Login();
 		// 電子郵件的網址
-//		String url = "http://localhost:8080/GiftWeb8/change_pwd.jsp?mailKey=";
+		// String url =
+		// "http://localhost:8080/GiftWeb8/change_pwd.jsp?mailKey=";
 		String url = "http://localhost:8080/GiftWeb8/FrontEnd/Staff/change_pwd.jsp?mailKey=";
 		Long time = System.currentTimeMillis();
 		// 設定亂碼供郵件修改密碼的驗證用途
@@ -185,6 +186,8 @@ public class MainServlet extends HttpServlet {
 		} else {
 			info[0] = time;
 			changePassList.put(val, info);
+			System.out.println("sendEmail: changePassList:val = " + val);
+			System.out.println("sendEmail: changePassList:info = " + info);
 			request.setAttribute("mail_success", "已發送忘記密碼郵件至您的信箱");
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
@@ -215,16 +218,19 @@ public class MainServlet extends HttpServlet {
 		// 電子郵件的修改密碼功能
 		Login login = new Login();
 		String key = request.getParameter("mailKey");
-		String msg = "已超過允許修改時效，請重新使用";
+		String msg = "已超過允許修改時效，請重新傳送確認郵件";
+		System.out.println("changePwdByMail: key = " + key);
 		Object[] obj = changePassList.get(key);
-		// 檢查時效 預設30分鐘，超過就不執行修改密碼功能
-		if (System.currentTimeMillis() - ((Long) obj[0]) < 1800 * 1000)
-			msg = login.changPasswordByMail(manager, (AUSER) obj[1], request.getParameter("newpass"));
-		changePassList.remove(key);
-		// 不論執行結果為何都跳回首頁
-		msg = msg.equals("update true") ? "修改成功" : msg;
+		if (obj != null) {
+			System.out.println("changePwdByMail: obj[0] = " + obj[0]);
+			// 檢查時效 預設30分鐘，超過就不執行修改密碼功能
+			if (System.currentTimeMillis() - ((Long) obj[0]) < 1800 * 1000)
+				msg = login.changPasswordByMail(manager, (AUSER) obj[1], request.getParameter("newpass"));
+			changePassList.remove(key);
+			// 不論執行結果為何都跳回首頁
+			msg = msg.equals("update true") ? "修改成功" : msg;
+		}
 		request.setAttribute("changePwd", msg);
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
-
 }
