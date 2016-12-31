@@ -20,7 +20,7 @@
 		</ul>
 
 		<div class="title_right">
-			<span class="pull-right margin-bottom-5"> <a
+			<span class="pull-right margin-bottom-5"><a
 				class="btn btn-info btn-small" id="modal-9735581"
 				href="#modal-container-9735581" role="button" data-toggle="modal"><i
 					class="icon-plus icon-white"></i>新增禮品項目</a></span><strong>新增申請單</strong>
@@ -61,57 +61,7 @@
 						<tr>
 							<td align="middle">申請品名:</td>
 							<td align="left"><input name="TextBox1" type="text"
-								value="0" id="giftTextBox" class="span1-1" /> %
-								
-								<span
-								class="pull-right margin-bottom-5"> <a
-									class="btn btn-info btn-small" id="modal-9735582"
-									href="#modal-container-9735582" role="button"
-									data-toggle="modal"><i class="icon-plus icon-white"></i>禮品清單</a></span>
-
-
-								<div id="modal-container-9735582" class="modal hide fade"
-									role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"
-									style="width: 300px; margin-left: -300px; top: 20%">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"
-											aria-hidden="true">×</button>
-										<h3 id="myModalLabel2">禮品清單</h3>
-									</div>
-									<div class="modal-body">
-										<table class="table table-bordered">
-											<tbody>
-
-												<tr>
-													<td width="30%" align="middle">拜訪公司名稱:</td>
-													<td width="70%" align="left"><input name="endTextBox"
-														type="text" id="compTextBox" class="span1-1" required /></td>
-												</tr>
-												<tr>
-													<td align="middle">拜訪對象姓名:</td>
-													<td align="left"><input name="manTextBox" type="text"
-														id="manTextBox" class="span1-1" /></td>
-												</tr>
-												<tr>
-													<td align="right">職稱類別:</td>
-													<td align="left"><select name="title_opt">
-															<option value="4">1. 副總級以上</option>
-															<option value="3">2. 高階主管(處長級)</option>
-															<option value="2">3. 中階主管(經理級)</option>
-															<option value="1">4. 基層主管(課級以下)</option>
-															<option value="5">5. HR Only</option>
-													</select></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div class="modal-footer">
-										<button class="btn btn-info" data-dismiss="modal"
-											aria-hidden="true" style="width: 80px">確定</button>
-										<button class="btn btn-info" data-dismiss="modal"
-											aria-hidden="true" style="width: 80px">取消</button>
-									</div>
-								</div></td>
+								value="0" id="giftTextBox" class="span1-1" /> %</td>
 						</tr>
 						<tr>
 							<td align="middle">數量:</td>

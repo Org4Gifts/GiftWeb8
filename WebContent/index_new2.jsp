@@ -59,6 +59,9 @@
 						String pass = request.getParameter("pass") == null
 								? (String) session.getAttribute("pass")
 								: request.getParameter("pass");
+						if (username == null || pass == null) {
+							request.getRequestDispatcher("/login.jsp").forward(request, response);
+						}
 						DBManager manager;
 						manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
 						Login login = new Login(manager, username, pass);
