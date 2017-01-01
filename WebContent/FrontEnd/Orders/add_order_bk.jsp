@@ -9,17 +9,6 @@
 	pageEncoding="UTF-8"%>
 <%@include file="/FrontEnd/frame2/SubPages/header2.jspf"%>
 
-<script type="text/javascript">
-	$(function() {
-		$('#m1').on("click", function() {
-			$('#firstmodal').modal();
-		});
-		$('#m2').on("click", function() {
-			$('#secondmodal').modal();
-		});
-	});
-</script>
-
 <div class="right" id="mainFrame">
 	<div class="right_cont">
 		<ul class="breadcrumb">
@@ -31,14 +20,14 @@
 		</ul>
 
 		<div class="title_right">
-			<span class="pull-right margin-bottom-5">
-				<button class="btn btn-primary btn-lg" id="m1">打開第一層 Modal
-					視窗</button>
-			</span> <strong>新增申請單</strong>
+			<span class="pull-right margin-bottom-5"> <a
+				class="btn btn-info btn-small" id="modal-9735581"
+				href="#modal-container-9735581" role="button" data-toggle="modal"><i
+					class="icon-plus icon-white"></i>新增禮品項目</a></span><strong>新增申請單</strong>
 		</div>
 
-		<div id="firstmodal" class="modal hide fade" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true"
+		<div id="modal-container-9735581" class="modal hide fade"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
 			style="width: 600px; margin-left: -300px; top: 20%">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
@@ -48,6 +37,7 @@
 			<div class="modal-body">
 				<table class="table table-bordered">
 					<tbody>
+
 						<tr>
 							<td width="30%" align="middle">拜訪公司名稱:</td>
 							<td width="70%" align="left"><input name="endTextBox"
@@ -71,13 +61,17 @@
 						<tr>
 							<td align="middle">申請品名:</td>
 							<td align="left"><input name="TextBox1" type="text"
-								value="0" id="giftTextBox" class="span1-1" /> % <span
-								class="pull-right margin-bottom-5">
-									<button class="btn btn-primary btn-lg" id="m2">打開第二層
-										Modal 視窗</button>
-							</span>
-								<div id="secondmodal" class="modal hide fade" role="dialog"
-									aria-labelledby="myModalLabel2" aria-hidden="true"
+								value="0" id="giftTextBox" class="span1-1" /> %
+								
+								<span
+								class="pull-right margin-bottom-5"> <a
+									class="btn btn-info btn-small" id="modal-9735582"
+									href="#modal-container-9735582" role="button"
+									data-toggle="modal"><i class="icon-plus icon-white"></i>禮品清單</a></span>
+
+
+								<div id="modal-container-9735582" class="modal hide fade"
+									role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"
 									style="width: 300px; margin-left: -300px; top: 20%">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal"
@@ -87,6 +81,17 @@
 									<div class="modal-body">
 										<table class="table table-bordered">
 											<tbody>
+
+												<tr>
+													<td width="30%" align="middle">拜訪公司名稱:</td>
+													<td width="70%" align="left"><input name="endTextBox"
+														type="text" id="compTextBox" class="span1-1" required /></td>
+												</tr>
+												<tr>
+													<td align="middle">拜訪對象姓名:</td>
+													<td align="left"><input name="manTextBox" type="text"
+														id="manTextBox" class="span1-1" /></td>
+												</tr>
 												<tr>
 													<td align="right">職稱類別:</td>
 													<td align="left"><select name="title_opt">
@@ -105,8 +110,6 @@
 											aria-hidden="true" style="width: 80px">確定</button>
 										<button class="btn btn-info" data-dismiss="modal"
 											aria-hidden="true" style="width: 80px">取消</button>
-										<button type="button" data-dismiss="modal"
-											class="btn btn-default">關閉2</button>
 									</div>
 								</div></td>
 						</tr>
@@ -123,7 +126,6 @@
 					style="width: 80px">確定</button>
 				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
 					style="width: 80px">取消</button>
-				<button type="button" data-dismiss="modal" class="btn btn-default">關閉1</button>
 			</div>
 		</div>
 
@@ -195,6 +197,5 @@
 		</div>
 	</div>
 </div>
-
 
 <%@include file="/FrontEnd/frame2/SubPages/footer2.jspf"%>

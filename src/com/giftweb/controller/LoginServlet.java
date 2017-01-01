@@ -105,7 +105,7 @@ public class LoginServlet extends HttpServlet {
 				
 				//request.getRequestDispatcher("/index.jsp").forward(request, response);
 				//request.getRequestDispatcher("/FrontEnd/frame2/index_new2.jsp").forward(request, response);
-				request.getRequestDispatcher("/index_new2.jsp").forward(request, response);				
+				request.getRequestDispatcher("/index_new.jsp").forward(request, response);				
 			}
 		}
 
