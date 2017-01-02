@@ -14,8 +14,16 @@
 		$('#m1').on("click", function() {
 			$('#firstmodal').modal();
 		});
+
 		$('#m2').on("click", function() {
+			$('input[name="manTextBox1"]').val("333");
 			$('#secondmodal').modal();
+		});
+
+		$('#closeBtn').on("click", function() {
+			//$('input[name="giftTextBox"]').val($('select[name="gift_opt"]').val());			
+			var tmp = $('select[name="gift_opt"]').val();
+			$('input[name="giftTextBox"]').val(tmp);
 		});
 	});
 </script>
@@ -32,9 +40,10 @@
 
 		<div class="title_right">
 			<span class="pull-right margin-bottom-5">
-				<button class="btn btn-primary btn-lg" id="m1">打開第一層 Modal
-					視窗</button>
-			</span> <strong>新增申請單</strong>
+				<button class="btn btn-primary btn-lg" id="m1">
+					<i class="icon-plus icon-white"></i>新增禮品項目
+				</button>
+			</span><strong>新增申請單</strong>
 		</div>
 
 		<div id="firstmodal" class="modal hide fade" role="dialog"
@@ -43,7 +52,7 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>
-				<h3 id="myModalLabel">新增禮品項目</h3>
+				<h4 class="modal-title">新增禮品項目視窗</h4>
 			</div>
 			<div class="modal-body">
 				<table class="table table-bordered">
@@ -67,63 +76,69 @@
 									<option value="1">4. 基層主管(課級以下)</option>
 									<option value="5">5. HR Only</option>
 							</select></td>
+							<span class="pull-right margin-bottom-5">
+								<button class="btn btn-primary btn-lg" id="m2">挑選禮品清單</button>
+							</span>
 						</tr>
 						<tr>
 							<td align="middle">申請品名:</td>
-							<td align="left"><input name="TextBox1" type="text"
-								value="0" id="giftTextBox" class="span1-1" /> % <span
-								class="pull-right margin-bottom-5">
-									<button class="btn btn-primary btn-lg" id="m2">打開第二層
-										Modal 視窗</button>
-							</span>
-								<div id="secondmodal" class="modal hide fade" role="dialog"
-									aria-labelledby="myModalLabel2" aria-hidden="true"
-									style="width: 300px; margin-left: -300px; top: 20%">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"
-											aria-hidden="true">×</button>
-										<h3 id="myModalLabel2">禮品清單</h3>
-									</div>
-									<div class="modal-body">
-										<table class="table table-bordered">
-											<tbody>
-												<tr>
-													<td align="right">職稱類別:</td>
-													<td align="left"><select name="title_opt">
-															<option value="4">1. 副總級以上</option>
-															<option value="3">2. 高階主管(處長級)</option>
-															<option value="2">3. 中階主管(經理級)</option>
-															<option value="1">4. 基層主管(課級以下)</option>
-															<option value="5">5. HR Only</option>
-													</select></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-									<div class="modal-footer">
-										<button class="btn btn-info" data-dismiss="modal"
-											aria-hidden="true" style="width: 80px">確定</button>
-										<button class="btn btn-info" data-dismiss="modal"
-											aria-hidden="true" style="width: 80px">取消</button>
-										<button type="button" data-dismiss="modal"
-											class="btn btn-default">關閉2</button>
-									</div>
-								</div></td>
+							<td align="left"><input name="giftTextBox" type="text"
+								value="" id="giftTextBox" class="span1-1" /></td>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer" style="text-align: center;">
+				<button type="button" data-dismiss="modal" class="btn btn-default">關閉</button>
+			</div>
+			<input type="hidden" name="text1" id="text1" value="3">
+		</div>
+
+		<div id="secondmodal" class="modal container fade" tabindex="-1"
+			style="display: none;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h4 class="modal-title">禮品清單視窗</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<td align="middle">拜訪對象姓名1:</td>
+							<td align="left"><input name="manTextBox1" type="text"
+								id="manTextBox1" class="span1-1" /></td>
 						</tr>
 						<tr>
-							<td align="middle">數量:</td>
-							<td align="left"><input name="TextBox3" type="text"
-								value="0" id="QtyTextBox" class="span1-1" /> %</td>
+							<td align="right">申請禮品:</td>
+							<td align="left"><select name="gift_opt">
+									<%
+										System.out.println("111");
+										String title = request.getParameter("manTextBox1") == null ? "N/A111" : request.getParameter("manTextBox1");
+										System.out.println("manTextBox1 = " + title);
+										title = "2";
+										//if (title != null) {
+										if (title.equals("1")) {
+											for (int i = 0; i < 5; i++) {
+									%>
+									<option value=<%=i%>>1. 副總級以上</option>
+									<%
+											}
+										} else {
+											for (int i = 0; i < 3; i++) {
+									%>
+									<option value=<%=i%>>3. 中階主管(經理級)</option>
+									<%
+											}
+										}
+									%>
+							</select></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-			<div class="modal-footer">
-				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
-					style="width: 80px">確定</button>
-				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
-					style="width: 80px">取消</button>
-				<button type="button" data-dismiss="modal" class="btn btn-default">關閉1</button>
+			<div class="modal-footer" style="text-align: center;">
+				<button type="button" data-dismiss="modal" class="btn btn-default"
+					id="closeBtn">關閉</button>
 			</div>
 		</div>
 
@@ -195,6 +210,5 @@
 		</div>
 	</div>
 </div>
-
 
 <%@include file="/FrontEnd/frame2/SubPages/footer2.jspf"%>

@@ -61,6 +61,7 @@
 								: request.getParameter("pass");
 						if (username == null || pass == null) {
 							request.getRequestDispatcher("/login.jsp").forward(request, response);
+							return;
 						}
 						DBManager manager;
 						manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
