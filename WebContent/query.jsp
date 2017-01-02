@@ -10,8 +10,8 @@
                         <div>
                             <div>
                                 <h1>公關禮品申請管理系統-查詢功能</h1>
-								<a href="<%=application.getContextPath()%>/query_all.jsp">使用者查詢功能</a>
-								<br><a href="<%=application.getContextPath()%>/query_key.jsp">關鍵字查詢功能</a>
+								<a href="<%=application.getContextPath()%>/query_all.jsp?queryAll=1">使用者查詢功能</a>
+								<br><a href="<%=application.getContextPath()%>/query_key.jsp?queryKey=1">關鍵字查詢功能</a>
                             </div>
 
                         </div>

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.bcel.Const;
+
 import tw.youth.project.gift2016.consts.ConstValue;
 import tw.youth.project.gift2016.func.Login;
 import tw.youth.project.gift2016.func.Querys;
@@ -59,6 +61,9 @@ public class MainServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		// response.getWriter().append("Served at:
 		// ").append(request.getContextPath());
+		// 強制Servlet編碼為UTF-8
+		request.setCharacterEncoding("UTF-8");
+		
 		Enumeration<String> parameterNames = request.getParameterNames();
 
 		while (parameterNames.hasMoreElements()) {
@@ -68,8 +73,14 @@ public class MainServlet extends HttpServlet {
 			case "logout":
 				logout(request, response);
 				break;
-			case "queryType":
+			case "queryAll":
 				queryByUser(request, response);
+				break;
+			case "query_option":
+				if(!request.getParameter("getKey").equals("true"))
+				queryByKey(request, response);
+				else
+					request.getRequestDispatcher("/query_key.jsp").forward(request, response);
 				break;
 			}
 		}
@@ -106,9 +117,6 @@ public class MainServlet extends HttpServlet {
 				break;
 			case "email":
 				sendEmail(request, response);
-				break;
-			case "query_key":
-				queryByKey(request, response);
 				break;
 			}
 		}
@@ -161,6 +169,10 @@ public class MainServlet extends HttpServlet {
 			if (currentTime - ((Long) entry.getValue()[0]) > 1800 * 1000)
 				userList.remove(entry.getKey());
 		}
+	}
+
+	private boolean chkLoginExist(String userCode) {
+		return userList.containsKey(userCode);
 	}
 
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -244,6 +256,8 @@ public class MainServlet extends HttpServlet {
 
 	public void queryByUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// 全查詢
+
 		Cookie[] cookies = request.getCookies();
 		String userCode = null;
 		for (Cookie cook : cookies) {
@@ -253,22 +267,30 @@ public class MainServlet extends HttpServlet {
 			}
 		}
 
-		Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
-		ArrayList<Object> objs = new ArrayList<>();
-		objs.addAll(querys.getAodrs(manager));
-		Collections.reverse(objs);
-		request.setAttribute("aodrs", objs);
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
+			ArrayList<Object> objs = new ArrayList<>();
+			objs.addAll(querys.getAodrs(manager));
+			Collections.reverse(objs);
+			request.setAttribute("aodrs", objs);
 
-		objs.clear();
-		objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
-		Collections.reverse(objs);
-		request.setAttribute("aois", objs);
+			objs.clear();
+			objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("aois", objs);
 
-		request.getRequestDispatcher("/query_all.jsp").forward(request, response);
+			request.getRequestDispatcher("/query_all.jsp").forward(request, response);
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+
 	}
 
 	public void queryByKey(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// 關鍵字查詢
+
 		Cookie[] cookies = request.getCookies();
 		String userCode = null;
 		for (Cookie cook : cookies) {
@@ -277,60 +299,64 @@ public class MainServlet extends HttpServlet {
 				break;
 			}
 		}
-		
-		ArrayList<Object> objs = new ArrayList<>();
+		// 檢查是否有登入?
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			ArrayList<Object> objs = new ArrayList<>();
+			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
 
-		Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
-		
-		String value = request.getParameter("query_option");
-		String key = request.getParameter("query_key");
-		
+			String option = request.getParameter("query_option");
+			String key = request.getParameter("query_key");
+			String value = request.getParameter("query_value");
 
-		switch (key) {
-		case "auser":
-			objs.addAll(querys.getUsers(manager, key, value));
-			Collections.reverse(objs);
-			break;
-		case "aemp":
-			objs.addAll(querys.getAemps(manager, key, value));
-			Collections.reverse(objs);
-			break;
-		case "avdr":
-			objs.addAll(querys.getAvdrs(manager, key, value));
-			Collections.reverse(objs);
-			break;
-		case "aqty":
-			objs.addAll(querys.getAqtys(manager, key, value));
-			Collections.reverse(objs);
-			break;
-		case "apresent":
-			objs.addAll(querys.getApresents(manager, key, value));
-			Collections.reverse(objs);
-			break;
-		case "aodr":
-			objs.addAll(querys.getAodrs(manager));
-			Collections.reverse(objs);
-			break;
-		case "aio":
-			objs.addAll(querys.getAios(manager, key, value));
-			Collections.reverse(objs);
-			break;
-		case "ainventory":
-			objs.addAll(querys.getAinventorys(manager, key, value));
-			Collections.reverse(objs);
-			break;
-		case "afab":
-			objs.addAll(querys.getAfabs(manager, key, value));
-			Collections.reverse(objs);
-			break;
-		case "adep":
-			objs.addAll(querys.getAdeps(manager, key, value));
-			Collections.reverse(objs);
-			break;
+			switch (option) {
+			case "auser":
+				objs.addAll(querys.getUsers(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			case "aemp":
+				objs.addAll(querys.getAemps(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			case "avdr":
+				objs.addAll(querys.getAvdrs(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			case "aqty":
+				objs.addAll(querys.getAqtys(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			case "apresent":
+				objs.addAll(querys.getApresents(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			case "aodr":
+				objs.addAll(querys.getAodrs(manager));
+				Collections.reverse(objs);
+				break;
+			case "aio":
+				objs.addAll(querys.getAios(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			case "ainventory":
+				objs.addAll(querys.getAinventorys(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			case "afab":
+				objs.addAll(querys.getAfabs(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			case "adep":
+				objs.addAll(querys.getAdeps(manager, key, value));
+				Collections.reverse(objs);
+				break;
+			}
+			request.setAttribute("result_key", key);
+			request.setAttribute("result_value", objs);
+			request.getRequestDispatcher("/query_key.jsp").forward(request, response);
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
-		request.setAttribute("result_key", key);
-		request.setAttribute("result_value", objs);
-		request.getRequestDispatcher("/query_key.jsp").forward(request, response);
 	}
 
 }

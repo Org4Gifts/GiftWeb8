@@ -124,6 +124,11 @@
 		if(errorLogin !=""){
 			alert(errorLogin);
 		}
+		
+		var notLogin = '${notLogin}';
+		if(notLogin !=""){
+			alert(notLogin);
+		}
 	</script>
 </body>
 </html>
