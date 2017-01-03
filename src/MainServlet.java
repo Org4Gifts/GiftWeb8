@@ -22,7 +22,15 @@ import tw.youth.project.gift2016.func.Login;
 import tw.youth.project.gift2016.func.Querys;
 import tw.youth.project.gift2016.sql.DBManager;
 import tw.youth.project.gift2016.sql.SQLCmd;
+import tw.youth.project.gift2016.sql.adep.ADEP;
+import tw.youth.project.gift2016.sql.afab.AFAB;
+import tw.youth.project.gift2016.sql.ainventory.AINVENTORY;
 import tw.youth.project.gift2016.sql.aio.AIO;
+import tw.youth.project.gift2016.sql.aodr.AODR;
+import tw.youth.project.gift2016.sql.apresent.APRESENT;
+import tw.youth.project.gift2016.sql.aqty.AQTY;
+import tw.youth.project.gift2016.sql.avdr.AVDR;
+import tw.youth.project.gift2016.sql.user.AEMP;
 import tw.youth.project.gift2016.sql.user.AUSER;
 
 /**
@@ -63,7 +71,7 @@ public class MainServlet extends HttpServlet {
 		// ").append(request.getContextPath());
 		// 強制Servlet編碼為UTF-8
 		request.setCharacterEncoding("UTF-8");
-		
+
 		Enumeration<String> parameterNames = request.getParameterNames();
 
 		while (parameterNames.hasMoreElements()) {
@@ -75,12 +83,6 @@ public class MainServlet extends HttpServlet {
 				break;
 			case "queryAll":
 				queryByUser(request, response);
-				break;
-			case "query_option":
-				if(!request.getParameter("getKey").equals("true"))
-				queryByKey(request, response);
-				else
-					request.getRequestDispatcher("/query_key.jsp").forward(request, response);
 				break;
 			}
 		}
@@ -117,6 +119,13 @@ public class MainServlet extends HttpServlet {
 				break;
 			case "email":
 				sendEmail(request, response);
+				break;
+			case "query_option":
+				System.out.println("query_type : " + request.getParameter("query_type"));
+				if (!request.getParameter("query_type").equals("change"))
+					queryByKey(request, response);
+				else
+					request.getRequestDispatcher("/query_key.jsp").forward(request, response);
 				break;
 			}
 		}
@@ -302,7 +311,7 @@ public class MainServlet extends HttpServlet {
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			ArrayList<Object> objs = new ArrayList<>();
-			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
+			Querys querys = new Querys(((AUSER) userList.get(userCode)[1]));
 
 			String option = request.getParameter("query_option");
 			String key = request.getParameter("query_key");
@@ -310,44 +319,75 @@ public class MainServlet extends HttpServlet {
 
 			switch (option) {
 			case "auser":
-				objs.addAll(querys.getUsers(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<AUSER> query1 = querys.getUsers(manager, key, value);
+				if (query1 != null) {
+					// objs.addAll(querys.getUsers(manager, key, value));
+					objs.addAll(query1);
+					Collections.reverse(objs);
+				}
 				break;
 			case "aemp":
-				objs.addAll(querys.getAemps(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<AEMP> query2 = querys.getAemps(manager, key, value);
+				if (query2 != null) {
+					objs.addAll(query2);
+					Collections.reverse(objs);
+				}
 				break;
 			case "avdr":
-				objs.addAll(querys.getAvdrs(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<AVDR> query3 = querys.getAvdrs(manager, key, value);
+				if (query3 != null) {
+					objs.addAll(querys.getAvdrs(manager, key, value));
+					Collections.reverse(objs);
+				}
 				break;
 			case "aqty":
-				objs.addAll(querys.getAqtys(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<AQTY> query4 = querys.getAqtys(manager, key, value);
+				if (query4 != null) {
+					objs.addAll(query4);
+					Collections.reverse(objs);
+				}
 				break;
 			case "apresent":
-				objs.addAll(querys.getApresents(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<APRESENT> query5 = querys.getApresents(manager, key, value);
+				if (query5 != null) {
+					objs.addAll(query5);
+					Collections.reverse(objs);
+				}
 				break;
 			case "aodr":
-				objs.addAll(querys.getAodrs(manager));
-				Collections.reverse(objs);
+				ArrayList<AODR> query6 = querys.getAodrs(manager);
+				if (query6 != null) {
+					objs.addAll(query6);
+					Collections.reverse(objs);
+				}
 				break;
 			case "aio":
-				objs.addAll(querys.getAios(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<AIO> query7 = querys.getAios(manager, key, value);
+				if (query7 != null) {
+					objs.addAll(query7);
+					Collections.reverse(objs);
+				}
 				break;
 			case "ainventory":
-				objs.addAll(querys.getAinventorys(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<AINVENTORY> query8 = querys.getAinventorys(manager, key, value);
+				if (query8 != null) {
+					objs.addAll(query8);
+					Collections.reverse(objs);
+				}
 				break;
 			case "afab":
-				objs.addAll(querys.getAfabs(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<AFAB> query9 = querys.getAfabs(manager, key, value);
+				if (query9 != null) {
+					objs.addAll(query9);
+					Collections.reverse(objs);
+				}
 				break;
 			case "adep":
-				objs.addAll(querys.getAdeps(manager, key, value));
-				Collections.reverse(objs);
+				ArrayList<ADEP> query0 = querys.getAdeps(manager, key, value);
+				if (query0 != null) {
+					objs.addAll(query0);
+					Collections.reverse(objs);
+				}
 				break;
 			}
 			request.setAttribute("result_key", key);

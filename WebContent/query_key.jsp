@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="tw.youth.project.gift2016.sql.adep.ADEP"%>
 <%@page import="tw.youth.project.gift2016.sql.afab.AFAB"%>
 <%@page import="tw.youth.project.gift2016.sql.ainventory.AINVENTORY"%>
@@ -9,6 +10,7 @@
 <%@page import="tw.youth.project.gift2016.sql.user.AEMP"%>
 <%@page import="tw.youth.project.gift2016.sql.user.AUSER"%>
 <%@page import="tw.youth.project.gift2016.consts.GeneralValue"%>
+<%@page import="tw.youth.project.gift2016.tools.GetSqlValue"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/FrontEnd/SubPages/header.jspf"%>
@@ -22,10 +24,10 @@
 					<div>
 						<%
 							String option = request.getParameter("query_option");
-							option = option!=null? option : "auser";
+							option = option != null ? option : "auser";
 						%>
 						<h1>公關禮品申請管理系統-查詢功能</h1>
-						<form action="Service.do" method="get" name="query" id="query">
+						<form action="Service.do" method="post" name="query" id="query">
 							<select id=select name="query_option" onchange="getKey()">
 								<option value="auser" <%if (option.equals("auser")) {%>
 									selected="selected" <%}%>>使用者</option>
@@ -85,16 +87,57 @@
 									}
 									for (String key : keys) {
 										String value = GeneralValue.getQueryKey(key);
-										if(value !=null){
+										if (value != null) {
 								%>
 								<option value="<%=key%>"><%=value%></option>
 								<%
-										}
+									}
 									}
 								%>
-							</select> <input type="text" name="query_value" value="" />
+							</select> <input type="text" name="query_value" value="" /> <input
+								type="hidden" name="query_type" id="query_type" value="" />
 							<button class="button btn btn-primary btn-large">查詢</button>
 						</form>
+					</div>
+
+					<div>
+						<%
+							String result_key = (String)request.getAttribute("result_key");
+							if (result_key != null) {
+								ArrayList<Object> result_value = (ArrayList<Object>) request.getAttribute("result_value");
+								if(result_value!=null && result_value.size()>0){
+						%>
+						<table>
+
+							<%
+								for (Object obj : result_value) {
+							%>
+							<tr>
+								<%
+								Object[] objss = new GetSqlValue(result_key, obj).getValues();
+								System.out.println(objss);
+											for (Object object : objss) {
+								%>
+								<td><%=object%></td>
+								<%
+									}
+								%>
+
+							</tr>
+							<%
+								}
+							%>
+
+						</table>
+						<%
+							}else{
+								System.out.println("查詢不到任何資料");
+								%>
+						<br>查詢不到任何資料<br>
+						<%
+							}
+							}
+						%>
 					</div>
 
 				</div>
@@ -114,7 +157,8 @@
 		var form = document.getElementById("select");
 		var key = form.options[form.selectedIndex].value;
 		alert(key);
-		document.getElementsByTagName("form")[0].setAttribute("getKey","true");
+		var type = document.getElementById("query_type");
+		type.value = "change";
 		document.getElementById("query").submit();
 	}
 </script>
