@@ -121,7 +121,6 @@ public class MainServlet extends HttpServlet {
 				sendEmail(request, response);
 				break;
 			case "query_option":
-				System.out.println("query_type : " + request.getParameter("query_type"));
 				if (!request.getParameter("query_type").equals("change"))
 					queryByKey(request, response);
 				else
@@ -390,7 +389,7 @@ public class MainServlet extends HttpServlet {
 				}
 				break;
 			}
-			request.setAttribute("result_key", key);
+			request.setAttribute("result_option", option);
 			request.setAttribute("result_value", objs);
 			request.getRequestDispatcher("/query_key.jsp").forward(request, response);
 		} else {

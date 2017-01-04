@@ -102,21 +102,23 @@
 
 					<div>
 						<%
-							String result_key = (String)request.getAttribute("result_key");
-							if (result_key != null) {
+							String result_option = (String) request.getAttribute("result_option");
+							if (result_option != null) {
 								ArrayList<Object> result_value = (ArrayList<Object>) request.getAttribute("result_value");
-								if(result_value!=null && result_value.size()>0){
+								if (result_value != null && result_value.size() > 0) {
 						%>
-						<table>
+						<table border="1">
 
 							<%
 								for (Object obj : result_value) {
+											int i = 1;
 							%>
 							<tr>
+								<td><%=i++%></td>
 								<%
-								Object[] objss = new GetSqlValue(result_key, obj).getValues();
-								System.out.println(objss);
-											for (Object object : objss) {
+									Object[] objss = new GetSqlValue(result_option, obj).getValues();
+
+												for (Object object : objss) {
 								%>
 								<td><%=object%></td>
 								<%
@@ -130,9 +132,9 @@
 
 						</table>
 						<%
-							}else{
-								System.out.println("查詢不到任何資料");
-								%>
+							} else {
+									System.out.println("查詢不到任何資料");
+						%>
 						<br>查詢不到任何資料<br>
 						<%
 							}
