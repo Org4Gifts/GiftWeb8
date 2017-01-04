@@ -155,12 +155,16 @@
 		alert(result_key);
 	}
 
+    var locations = window.location.href;
+    locations = locations.substring(0,locations.indexOf("?"));
+//    alert(locations);
 	function getKey() {
 		var form = document.getElementById("select");
 		var key = form.options[form.selectedIndex].value;
-		alert(key);
+//		alert(key);
 		var type = document.getElementById("query_type");
 		type.value = "change";
-		document.getElementById("query").submit();
+//		document.getElementById("query").submit(); 透過發送給servlet來達成換值
+        location.href= locations+"?query_option="+key; //直接透過給參數的轉址來達成換值
 	}
 </script>
