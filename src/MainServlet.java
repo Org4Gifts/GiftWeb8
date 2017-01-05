@@ -282,10 +282,65 @@ public class MainServlet extends HttpServlet {
 			Collections.reverse(objs);
 			request.setAttribute("aodrs", objs);
 
-			objs.clear();
+			objs = new ArrayList<>();
 			objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("aois", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAemps(manager, new AEMP().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("aemps", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAdeps(manager, new ADEP().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("adeps", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAfabs(manager, new AFAB().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("afabs", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAinventorys(manager, new AINVENTORY().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("ainventorys", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAiodts(manager, ""));
+			Collections.reverse(objs);
+			request.setAttribute("aiodts", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAodrdts(manager, ""));
+			Collections.reverse(objs);
+			request.setAttribute("aodrdts", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getApresents(manager, new APRESENT().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("apresents", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAqtys(manager, new AQTY().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("aqtys", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAsignlogs(manager, ""));
+			Collections.reverse(objs);
+			request.setAttribute("asignlogs", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getAvdrs(manager, new AVDR().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("avdrs", objs);
+			
+			objs = new ArrayList<>();
+			objs.addAll(querys.getUsers(manager, new AUSER().getKeys()[1], ""));
+			Collections.reverse(objs);
+			request.setAttribute("ausers", objs);
 
 			request.getRequestDispatcher("/query_all.jsp").forward(request, response);
 		} else {
