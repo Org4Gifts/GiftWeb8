@@ -53,20 +53,45 @@
 					</tr>
 					<%
 						System.out.println("查詢訂單");
-						String username = request.getParameter("username") == null
-								? (String) session.getAttribute("username")
-								: request.getParameter("username");
-						String pass = request.getParameter("pass") == null
-								? (String) session.getAttribute("pass")
-								: request.getParameter("pass");
-						if (username == null || pass == null) {
-							request.getRequestDispatcher("/login.jsp").forward(request, response);
-							return;
+						//	String username = request.getParameter("username") == null
+						//			? (String) session.getAttribute("username")
+						//			: request.getParameter("username");
+						//	String pass = request.getParameter("pass") == null
+						//			? (String) session.getAttribute("pass")
+						//			: request.getParameter("pass");
+						//	if (username == null || pass == null) {
+						//		request.getRequestDispatcher("/login.jsp").forward(request, response);
+						//		return;
+						//	}
+						Cookie[] cookies = request.getCookies();
+						String userCode = null;
+						if (cookies != null) {
+							for (Cookie cook : cookies) {
+								if (cook.getName().equals("userCode")) {
+									userCode = cook.getValue();
+									break;
+								}
+							}
 						}
-						DBManager manager;
-						manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
-						Login login = new Login(manager, username, pass);
-						AUSER auser = login.getUser();
+						
+						if(userCode == null || userCode.equals("")){
+							request.getRequestDispatcher("/login.jsp").forward(request, response);
+									return;
+						}
+						
+
+						//DBManager manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
+						//Login login = new Login(manager, username, pass);
+						//AUSER auser = login.getUser();
+						String option = request.getParameter("result_option");
+						if(option.equals(null)){%>
+							<form action="/Service.do" method="post">
+							<input type="hidden" name="query_option" value="auser" />
+							<input type="hidden" name="query_key" value="auser" />
+							<input type="hidden" name="query_type" value="" />
+							</form>
+						<%}
+						
 						Orders orders = new Orders(manager, auser);
 						AODR aodr = new AODR();
 						int i = 0;

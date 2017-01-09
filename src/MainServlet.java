@@ -144,7 +144,8 @@ public class MainServlet extends HttpServlet {
 			Cookie cookie = new Cookie("userCode", userCode);
 			cookie.setMaxAge(60 * 60); // 7*24*60*60 = 7天時間 現在設定1小時
 			response.addCookie(cookie);// 儲存Cookie
-			response.sendRedirect(this.getServletContext().getContextPath() + "/index.jsp");
+//			response.sendRedirect(this.getServletContext().getContextPath() + "/index.jsp");
+			response.sendRedirect(this.getServletContext().getContextPath() + "/index_new.jsp");
 			// request.getRequestDispatcher("/index.jsp").forward(request,
 			// response);
 		} else {
@@ -262,7 +263,7 @@ public class MainServlet extends HttpServlet {
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 
-	public void queryByUser(HttpServletRequest request, HttpServletResponse response)
+	private void queryByUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 全查詢
 
@@ -350,7 +351,7 @@ public class MainServlet extends HttpServlet {
 
 	}
 
-	public void queryByKey(HttpServletRequest request, HttpServletResponse response)
+	private void queryByKey(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 關鍵字查詢
 
@@ -452,5 +453,4 @@ public class MainServlet extends HttpServlet {
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
-
 }
