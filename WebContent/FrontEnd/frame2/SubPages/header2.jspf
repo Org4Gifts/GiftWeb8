@@ -18,7 +18,23 @@
 <script type="text/javascript" src="<%=application.getContextPath()%>/FrontEnd/frame2/js/sdmenu.js"></script>
 <script type="text/javascript" src="<%=application.getContextPath()%>/FrontEnd/frame2/js/laydate/laydate.js"></script>
 </head>
+<%
+Cookie[] cookies = request.getCookies();
+String userCode = null;
+if(cookies != null){
+for (Cookie cook : cookies) {
+	if (cook.getName().equals("userCode")) {
+		userCode = cook.getValue();
+		break;
+	}
+}
+}
 
+if(userCode == null || userCode.equals("")){
+	request.getRequestDispatcher("/login.jsp").forward(request, response);
+			return;
+}
+%>
 <body>
 	<div class="header">
 		<div class="logo">

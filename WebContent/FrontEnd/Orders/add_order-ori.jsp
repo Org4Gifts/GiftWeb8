@@ -118,7 +118,6 @@
 			</div>
 		</div>
 
-<!-- 
 		<div style="width: 900px; margin: auto">
 			<table class="table table-bordered">
 				<tr>
@@ -183,10 +182,9 @@
 						class="btn btn-info " style="width: 80px;" /></td>
 				</tr>
 			</table>
- -->
+
 		</div>
 	</div>
 </div>
-
 
 <%@include file="/FrontEnd/frame2/SubPages/footer2.jspf"%>

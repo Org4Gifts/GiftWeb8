@@ -144,7 +144,8 @@ public class MainServlet extends HttpServlet {
 			Cookie cookie = new Cookie("userCode", userCode);
 			cookie.setMaxAge(60 * 60); // 7*24*60*60 = 7天時間 現在設定1小時
 			response.addCookie(cookie);// 儲存Cookie
-//			response.sendRedirect(this.getServletContext().getContextPath() + "/index.jsp");
+			// response.sendRedirect(this.getServletContext().getContextPath() +
+			// "/index.jsp");
 			response.sendRedirect(this.getServletContext().getContextPath() + "/index_new.jsp");
 			// request.getRequestDispatcher("/index.jsp").forward(request,
 			// response);
@@ -287,57 +288,57 @@ public class MainServlet extends HttpServlet {
 			objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("aois", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAemps(manager, new AEMP().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("aemps", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAdeps(manager, new ADEP().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("adeps", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAfabs(manager, new AFAB().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("afabs", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAinventorys(manager, new AINVENTORY().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("ainventorys", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAiodts(manager, ""));
 			Collections.reverse(objs);
 			request.setAttribute("aiodts", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAodrdts(manager, ""));
 			Collections.reverse(objs);
 			request.setAttribute("aodrdts", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getApresents(manager, new APRESENT().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("apresents", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAqtys(manager, new AQTY().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("aqtys", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAsignlogs(manager, ""));
 			Collections.reverse(objs);
 			request.setAttribute("asignlogs", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAvdrs(manager, new AVDR().getKeys()[1], ""));
 			Collections.reverse(objs);
 			request.setAttribute("avdrs", objs);
-			
+
 			objs = new ArrayList<>();
 			objs.addAll(querys.getUsers(manager, new AUSER().getKeys()[1], ""));
 			Collections.reverse(objs);
@@ -371,7 +372,8 @@ public class MainServlet extends HttpServlet {
 			String option = request.getParameter("query_option");
 			String key = request.getParameter("query_key");
 			String value = request.getParameter("query_value");
-
+			if(key !=null)
+				value = value!=null ? value : "";
 			switch (option) {
 			case "auser":
 				ArrayList<AUSER> query1 = querys.getUsers(manager, key, value);
@@ -447,7 +449,9 @@ public class MainServlet extends HttpServlet {
 			}
 			request.setAttribute("result_option", option);
 			request.setAttribute("result_value", objs);
-			request.getRequestDispatcher("/query_key.jsp").forward(request, response);
+			// request.getRequestDispatcher("/query_key.jsp").forward(request,
+			// response);
+			request.getRequestDispatcher("/index_new.jsp").forward(request, response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
