@@ -45,7 +45,7 @@ if(userCode == null || userCode.equals("")){
 				class="icon-off icon-white"></i> <a id="modal-973558"
 				href="#modal-container-973558" role="button" data-toggle="modal">登出</a>
 			<i class="icon-user icon-white"></i> <a href="<%=application.getContextPath()%>/FrontEnd/Staff/ChangePwd.jsp">修改密碼</a> <i
-				class="icon-envelope icon-white"></i> <a href="#">聯絡我們</a>
+				class="icon-envelope icon-white"></i> <a href="mailto:odise7380@gmail.com">聯絡我們</a>
 
 			<div id="modal-container-973558" class="modal hide fade"
 				role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
@@ -83,12 +83,12 @@ if(userCode == null || userCode.equals("")){
 					<span>申請單/查詢(全體同仁)</span>
 					<a style="margin-top: 6px; color: red; font-weight: bold; background: url(<%=application.getContextPath()%>/FrontEnd/frame2/img/171.png) no-repeat 30px 9px; line-height: 26px;"
 						href="<%=application.getContextPath()%>/FrontEnd/Orders/add_order.jsp">新增申請單</a>
-					<a href="#">Employee No</a>
-					<a href="#">Date</a>
-					<a href="<%=application.getContextPath()%>/index_new2.jsp">Department</a>
-					<a href="#">廠區</a>
-					<a href="#">目前簽核者</a>
-					<a style="margin-bottom: 6px;" href="#">文件狀態</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_empno.jsp">Employee No</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_date.jsp">Date</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_deps.jsp">Department</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_fabs">廠區</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_signers">目前簽核者</a>
+					<a style="margin-bottom: 6px;" href="<%=application.getContextPath()%>/FrontEnd/Orders/query_status">文件狀態</a>
 				</div>
 				<div class="collapsed">
 					<span>禮品資料(管理部)</span>
