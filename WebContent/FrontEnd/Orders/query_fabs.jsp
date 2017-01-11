@@ -9,7 +9,7 @@
 			<a href="#">首頁</a>
 			<span class="divider">/</span>
 			<a href="#">申請單/查詢</a>
-			<span class="divider">/</span> 使用工號查詢
+			<span class="divider">/</span> 依廠區查詢
 		</ul>
 				<div class="title_right">
 			<span class="pull-right margin-bottom-5"> <a
