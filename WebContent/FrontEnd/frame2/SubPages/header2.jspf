@@ -79,8 +79,13 @@ if(userCode == null || userCode.equals("")){
 			</script>
 
 			<div id="my_menu" class="sdmenu">
-				<div>
-					<span>申請單/查詢(全體同仁)</span>
+			<div>
+					<span>查詢功能</span>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_empno.jsp">依使用者查詢</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_empno.jsp">依關鍵字查詢</a>
+				</div>
+				<div class="collapsed">
+					<span>申請單功能(全體同仁)</span>
 					<a style="margin-top: 6px; color: red; font-weight: bold; background: url(<%=application.getContextPath()%>/FrontEnd/frame2/img/171.png) no-repeat 30px 9px; line-height: 26px;"
 						href="<%=application.getContextPath()%>/FrontEnd/Orders/add_order.jsp">新增申請單</a>
 					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_empno.jsp">依工號查詢</a>
@@ -99,7 +104,7 @@ if(userCode == null || userCode.equals("")){
 					<a style="margin-bottom: 6px;" href="#">低於安全庫存項目</a>
 				</div>
 				<div class="collapsed">
-					<span>調撥單/查詢(管理部)</span>
+					<span>調撥單功能(管理部)</span>
 					<a style="margin-top: 6px; color: #f60; font-weight: bold; background: url(<%=application.getContextPath()%>/FrontEnd/frame2/img/171.png) no-repeat 30px 9px; line-height: 26px;"
 						href="查询页面.html">新增調撥單</a>
 					<a href="#">Date</a>

@@ -118,27 +118,27 @@
 			</div>
 		</div>
 
-<!-- 
+
 		<div style="width: 900px; margin: auto">
 			<table class="table table-bordered">
 				<tr>
-					<td width="12%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">票号：</td>
+					<td width="12%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">廠區：</td>
 					<td width="38%"><input type="text" name="input" id="input"
 						class="span1-1" /></td>
-					<td width="12%" align="right" bgcolor="#f1f1f1">发货日期：</td>
+					<td width="12%" align="right" bgcolor="#f1f1f1">申請日期：</td>
 					<td><input type="text" class="laydate-icon span1-1"
-						id="Calendar" value="2015-08-25" /></td>
+						id="Calendar" value="2017-01-01" /></td>
 				</tr>
 				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">客户姓名：</td>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">部門：</td>
 					<td><input type="text" name="input3" id="input3"
 						class="span1-1" /></td>
-					<td align="right" bgcolor="#f1f1f1">客户电话：</td>
+					<td align="right" bgcolor="#f1f1f1">員工編號：</td>
 					<td><input type="text" name="input4" id="input4"
 						class="span1-1" /></td>
 				</tr>
 				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">运费：</td>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">訂單金額：</td>
 					<td><input type="text" name="input2" id="input2"
 						class="span1-1" /></td>
 					<td align="right" bgcolor="#f1f1f1">货款：</td>
@@ -146,7 +146,7 @@
 						class="span1-1" /></td>
 				</tr>
 				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">投诉内容：</td>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求目的：</td>
 					<td colspan="3"><textarea name="input9" id="input9"
 							class="span10"></textarea></td>
 				</tr>
@@ -183,7 +183,6 @@
 						class="btn btn-info " style="width: 80px;" /></td>
 				</tr>
 			</table>
- -->
 		</div>
 	</div>
 </div>
