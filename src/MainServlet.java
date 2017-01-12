@@ -30,6 +30,7 @@ import tw.youth.project.gift2016.sql.aodr.AODR;
 import tw.youth.project.gift2016.sql.apresent.APRESENT;
 import tw.youth.project.gift2016.sql.aqty.AQTY;
 import tw.youth.project.gift2016.sql.avdr.AVDR;
+import tw.youth.project.gift2016.sql.normal.Bulletin;
 import tw.youth.project.gift2016.sql.user.AEMP;
 import tw.youth.project.gift2016.sql.user.AUSER;
 
@@ -125,6 +126,9 @@ public class MainServlet extends HttpServlet {
 					queryByKey(request, response);
 				else
 					request.getRequestDispatcher("/query_key.jsp").forward(request, response);
+				break;
+			case "query_bulletin":
+				queryByBulletin(request, response);
 				break;
 			}
 		}
@@ -372,8 +376,8 @@ public class MainServlet extends HttpServlet {
 			String option = request.getParameter("query_option");
 			String key = request.getParameter("query_key");
 			String value = request.getParameter("query_value");
-			if(key !=null)
-				value = value!=null ? value : "";
+			if (key != null)
+				value = value != null ? value : "";
 			switch (option) {
 			case "auser":
 				ArrayList<AUSER> query1 = querys.getUsers(manager, key, value);
@@ -449,8 +453,39 @@ public class MainServlet extends HttpServlet {
 			}
 			request.setAttribute("result_option", option);
 			request.setAttribute("result_value", objs);
-			// request.getRequestDispatcher("/query_key.jsp").forward(request,
-			// response);
+			 request.getRequestDispatcher("/query_key.jsp").forward(request,
+			 response);
+			request.getRequestDispatcher("/index_new.jsp").forward(request, response);
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+	}
+
+	private void queryByBulletin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//查詢公告事項
+		Cookie[] cookies = request.getCookies();
+		String userCode = null;
+		for (Cookie cook : cookies) {
+			if (cook.getName().equals("userCode")) {
+				userCode = cook.getValue();
+				break;
+			}
+		}
+		// 檢查是否有登入?
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			ArrayList<Bulletin> objs = new ArrayList<>();
+
+			Bulletin bull = new Bulletin();
+			for (Object[] obj : manager.query(bull.getTableName(), bull.getKeys()[1], "", bull.getLength())) {
+				bull.setValuesFull(obj);
+				objs.add(bull);
+				bull = new Bulletin();
+			}
+			
+			request.setAttribute("result_option", request.getParameter("query_bulletin"));
+			request.setAttribute("result_value", objs);
 			request.getRequestDispatcher("/index_new.jsp").forward(request, response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
