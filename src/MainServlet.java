@@ -453,9 +453,17 @@ public class MainServlet extends HttpServlet {
 			}
 			request.setAttribute("result_option", option);
 			request.setAttribute("result_value", objs);
-			 request.getRequestDispatcher("/query_key.jsp").forward(request,
-			 response);
-			request.getRequestDispatcher("/index_new.jsp").forward(request, response);
+
+			switch (request.getParameter("query_res")) {
+			case "add_order":
+				request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+				break;
+			default:
+				request.getRequestDispatcher("/FrontEnd/Querys/query_key.jsp").forward(request, response);
+			}
+
+			// request.getRequestDispatcher("/index_new.jsp").forward(request,
+			// response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
@@ -464,7 +472,7 @@ public class MainServlet extends HttpServlet {
 
 	private void queryByBulletin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//查詢公告事項
+		// 查詢公告事項
 		Cookie[] cookies = request.getCookies();
 		String userCode = null;
 		for (Cookie cook : cookies) {
@@ -483,7 +491,7 @@ public class MainServlet extends HttpServlet {
 				objs.add(bull);
 				bull = new Bulletin();
 			}
-			
+
 			request.setAttribute("result_option", request.getParameter("query_bulletin"));
 			request.setAttribute("result_value", objs);
 			request.getRequestDispatcher("/index_new.jsp").forward(request, response);

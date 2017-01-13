@@ -4,10 +4,15 @@
 <%@page import="tw.youth.project.gift2016.sql.*"%>
 <%@page import="tw.youth.project.gift2016.sql.aodr.AODR"%>
 <%@page import="tw.youth.project.gift2016.sql.user.AUSER"%>
+<%@page import="tw.youth.project.gift2016.sql.afab.AFAB"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="/FrontEnd/frame2/SubPages/header2.jspf"%>
+
+<%!
+	String docStatus = "Preparing";	
+%>
 
 <div class="right" id="mainFrame">
 	<div class="right_cont">
@@ -118,63 +123,99 @@
 			</div>
 		</div>
 
-
 		<div style="width: 900px; margin: auto">
-			<table class="table table-bordered">
+			目前簽核者(Reviewing by)：<div style = "display:inline;color:blue;"><%=docStatus%></div>
+			<div style="display:none;">發放日期：</div>
+			<div style="display:none;">S/N：</div>
+			<table class="table table-bordered" >
 				<tr>
-					<td width="12%" align="right" nowrap="nowrap" bgcolor="#f1f1f1">廠區：</td>
-					<td width="38%"><input type="text" name="input" id="input"
-						class="span1-1" /></td>
-					<td width="12%" align="right" bgcolor="#f1f1f1">申請日期：</td>
-					<td><input type="text" class="laydate-icon span1-1"
-						id="Calendar" value="2017-01-01" /></td>
-				</tr>
-				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">部門：</td>
-					<td><input type="text" name="input3" id="input3"
-						class="span1-1" /></td>
-					<td align="right" bgcolor="#f1f1f1">員工編號：</td>
-					<td><input type="text" name="input4" id="input4"
-						class="span1-1" /></td>
-				</tr>
-				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">訂單金額：</td>
-					<td><input type="text" name="input2" id="input2"
-						class="span1-1" /></td>
-					<td align="right" bgcolor="#f1f1f1">货款：</td>
-					<td><input type="text" name="input5" id="input5"
-						class="span1-1" /></td>
-				</tr>
-				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求目的：</td>
-					<td colspan="3"><textarea name="input9" id="input9"
-							class="span10"></textarea></td>
-				</tr>
-				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">客户要求：</td>
-					<td colspan="3"><textarea name="input11" id="input11"
-							class="span10"></textarea></td>
-				</tr>
-				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">客户建议：</td>
-					<td colspan="3"><textarea name="input12" id="input12"
-							class="span10"></textarea></td>
-				</tr>
-				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">被投诉部门：</td>
-					<td><input type="text" name="input6" id="input6"
-						class="span1-1" /></td>
-					<td align="right" bgcolor="#f1f1f1">被投诉人：</td>
-					<td><input type="text" name="input8" id="input8"
-						class="span1-1" /></td>
-				</tr>
-				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">受理人：</td>
-					<td><input type="text" name="input7" id="input7"
-						class="span1-1" /></td>
-					<td align="right" bgcolor="#f1f1f1">受理日期：</td>
-					<td><input type="text" class="laydate-icon span1-1"
-						id="Calendar2" value="2015-08-25" /></td>
+			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">員工工號：</td>
+			        <td width="20%"><input type="text" name="input1" id="input1" class="span1-1" /></td>
+			        <td width="8%" align="right" bgcolor="#f1f1f1">員工姓名：</td>
+			        <td width="20%"><input type="text" name="input2" id="input2" class="span1-1" /></td>
+			    </tr>
+			    <tr>
+			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">部門代號：</td>
+			        <td><input type="text" name="input3" id="input3" class="span1-1" /></td>
+			        <td align="right" bgcolor="#f1f1f1">部門名稱：</td>
+			        <td><input type="text" name="input4" id="input4" class="span1-1" /></td>
+			    </tr>
+			    <tr>
+			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">職稱：</td>
+			        <td><input type="text" name="input5" id="input5" class="span1-1" /></td>
+			        <td align="right" bgcolor="#f1f1f1">分機：</td>
+			        <td><input type="text" name="input6" id="input6" class="span1-1" /></td>
+			    </tr>
+			    <tr>
+			        <td align="right" bgcolor="#f1f1f1">需求部門：</td>
+			        <td><input type="text" name="input7" id="input7" class="span1-1" /></td>		     
+				    <td align="right" bgcolor="#f1f1f1">需求日期：</td>
+				    <td colspan="3"><input type="text"  class="laydate-icon span1-1" id="Calendar" value="2015-08-25" /></td>			   
+			    </tr>
+			    <tr>
+			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求廠別：</td>     
+			    	<td colspan="3">
+			       
+			       					<%		
+						System.out.println("查詢 AFAB");
+						String option = (String)request.getAttribute("result_option");
+						System.out.println("option = "+option);
+						
+						if(option == null || option.equals("")){%>
+							<form action="<%=application.getContextPath()%>/Service.do" method="post" id="query_option">
+							<input type="hidden" name="query_res" value="add_order" />
+							<input type="hidden" name="query_option" value="afab" />
+							<input type="hidden" name="query_key" value="fno" />
+							<input type="hidden" name="query_type" value="" />
+							</form>
+							<script type="text/javascript">
+							document.getElementById("query_option").submit();
+							</script>
+						<%
+						return;
+						}
+						ArrayList<AFAB> afabs = (ArrayList<AFAB>)request.getAttribute("result_value");
+						
+						int i = 0;
+						if(afabs!=null && afabs.size()>0){
+							for(AFAB afab : afabs){
+							i++;
+
+			//			String username = request.getParameter("username") == null
+			//					? (String) session.getAttribute("username")
+			//					: request.getParameter("username");
+			//			String pass = request.getParameter("pass") == null
+			//					? (String) session.getAttribute("pass")
+			//					: request.getParameter("pass");
+			//			if (username == null || pass == null) {
+			//				request.getRequestDispatcher("/login.jsp").forward(request, response);
+			//				return;
+			//			}
+			//			DBManager manager;
+			//			manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
+			//			Login login = new Login(manager, username, pass);
+				//		AUSER auser = login.getUser();
+				//		Querys qry = new Querys(auser);
+				//		AFAB afab = new AFAB();
+				//		for (Object obj : qry.getAfabs(manager, afab.getKeys()[2], "")) {
+				//			afab = (AFAB) obj;
+				//			System.out.println(afab.getFno() + " ; " + afab.getFname());
+							
+					%>
+			       			<input type="radio" name="input8" value="<%=afab.getFno()%>" /><%=afab.getFname()%>&nbsp;&nbsp;&nbsp;
+					<%
+						}
+						}
+				   %>
+			        </td>
+			    </tr>		     
+			    <tr>
+			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求目的：</td>
+			        <td colspan="3"><textarea name="input9" id="input9" class="span10"></textarea></td>
+			    </tr>
+			    <tr>
+			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">備註：</td>
+			        <td colspan="3"><textarea name="input10" id="input10" class="span10"></textarea></td>
 				</tr>
 			</table>
 			<table class="margin-bottom-20 table  no-border">
@@ -183,9 +224,9 @@
 						class="btn btn-info " style="width: 80px;" /></td>
 				</tr>
 			</table>
+
 		</div>
 	</div>
 </div>
-
 
 <%@include file="/FrontEnd/frame2/SubPages/footer2.jspf"%>
