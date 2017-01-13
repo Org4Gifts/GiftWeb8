@@ -81,8 +81,8 @@ if(userCode == null || userCode.equals("")){
 			<div id="my_menu" class="sdmenu">
 			<div>
 					<span>查詢功能</span>
-					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_all.jsp">依使用者查詢</a>
-					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_key.jsp">依關鍵字查詢</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Querys/query_all.jsp">依使用者查詢</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Querys/query_key.jsp">依關鍵字查詢</a>
 				</div>
 				<div class="collapsed">
 					<span>申請單功能(全體同仁)</span>
