@@ -1,5 +1,7 @@
 
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -188,6 +190,19 @@ public class MainServlet extends HttpServlet {
 	private boolean chkLoginExist(String userCode) {
 		return userList.containsKey(userCode);
 	}
+	
+	
+	private String getUserCode(HttpServletRequest request){
+		Cookie[] cookies = request.getCookies();
+		String userCode = null;
+		for (Cookie cook : cookies) {
+			if (cook.getName().equals("userCode")) {
+				userCode = cook.getValue();
+				break;
+			}
+		}
+		return userCode;
+	}
 
 	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 登出功能
@@ -196,6 +211,7 @@ public class MainServlet extends HttpServlet {
 		for (Cookie cook : cookies) {
 			if (cook.getName().equals("userCode")) {
 				userCode = cook.getValue();
+				//非一般取得方法，不能使用上面的getUserCode;
 				userList.remove(userCode);
 				cook.setValue("");
 				response.addCookie(cook);
@@ -234,14 +250,7 @@ public class MainServlet extends HttpServlet {
 	private void changePwd(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 已登入的修改密碼功能
-		Cookie[] cookies = request.getCookies();
-		String userCode = null;
-		for (Cookie cook : cookies) {
-			if (cook.getName().equals("userCode")) {
-				userCode = cook.getValue();
-				break;
-			}
-		}
+		String userCode = getUserCode(request);
 
 		Login login = new Login();
 		String msg = login.changPassword(manager, (AUSER) userList.get(userCode)[1], request.getParameter("oldpass"),
@@ -272,14 +281,7 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// 全查詢
 
-		Cookie[] cookies = request.getCookies();
-		String userCode = null;
-		for (Cookie cook : cookies) {
-			if (cook.getName().equals("userCode")) {
-				userCode = cook.getValue();
-				break;
-			}
-		}
+		String userCode = getUserCode(request);
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
@@ -360,14 +362,7 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// 關鍵字查詢
 
-		Cookie[] cookies = request.getCookies();
-		String userCode = null;
-		for (Cookie cook : cookies) {
-			if (cook.getName().equals("userCode")) {
-				userCode = cook.getValue();
-				break;
-			}
-		}
+		String userCode = getUserCode(request);
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			ArrayList<Object> objs = new ArrayList<>();
@@ -376,8 +371,8 @@ public class MainServlet extends HttpServlet {
 			String option = request.getParameter("query_option");
 			String key = request.getParameter("query_key");
 			String value = request.getParameter("query_value");
-			if (key != null)
-				value = value != null ? value : "";
+			if (key != null) //如果有key的話
+				value = value != null ? value : "";//檢查value如果是null，則可能是全查詢，設定空白做全查詢
 			switch (option) {
 			case "auser":
 				ArrayList<AUSER> query1 = querys.getUsers(manager, key, value);
@@ -473,14 +468,7 @@ public class MainServlet extends HttpServlet {
 	private void queryByBulletin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 查詢公告事項
-		Cookie[] cookies = request.getCookies();
-		String userCode = null;
-		for (Cookie cook : cookies) {
-			if (cook.getName().equals("userCode")) {
-				userCode = cook.getValue();
-				break;
-			}
-		}
+		String userCode = getUserCode(request);
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			ArrayList<Bulletin> objs = new ArrayList<>();

@@ -30,7 +30,7 @@
 <body class="login">
 	<div class="account-container login stacked">
 		<div class="content clearfix">
-			<form action="Service.do" method="post"
+			<form action="<%=application.getContextPath()%>/Service.do" method="post"
 				name="login">
 				<!-- <form action="ExampleLogin" method="post"> -->
 

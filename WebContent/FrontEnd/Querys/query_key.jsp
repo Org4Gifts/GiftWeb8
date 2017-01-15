@@ -35,7 +35,7 @@
 							String option = request.getParameter("query_option");
 							option = option != null ? option : "auser";
 						%>
-						<form action="/GiftWeb8/Service.do" method="post" name="query" id="query">
+						<form action="<%=application.getContextPath()%>/Service.do" method="post" name="query" id="query">
 							<select id=select name="query_option" onchange="getKey()">
 								<option value="auser" <%if (option.equals("auser")) {%>
 									selected="selected" <%}%>>使用者</option>

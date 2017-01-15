@@ -1,3 +1,4 @@
+<%@page import="tw.youth.project.gift2016.sql.apresent.APRESENT"%>
 <%@page import="java.util.*"%>
 <%@page import="tw.youth.project.gift2016.consts.ConstValue"%>
 <%@page import="tw.youth.project.gift2016.func.*"%>
@@ -10,9 +11,7 @@
 	pageEncoding="UTF-8"%>
 <%@include file="/FrontEnd/frame2/SubPages/header2.jspf"%>
 
-<%!
-	String docStatus = "Preparing";	
-%>
+<%!String docStatus = "Preparing";%>
 
 <div class="right" id="mainFrame">
 	<div class="right_cont">
@@ -35,6 +34,7 @@
 			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
 			style="width: 600px; margin-left: -300px; top: 20%">
 			<div class="modal-header">
+
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">×</button>
 				<h3 id="myModalLabel">新增禮品項目</h3>
@@ -42,20 +42,39 @@
 			<div class="modal-body">
 				<table class="table table-bordered">
 					<tbody>
-
+						<%
+							ArrayList<APRESENT> apresents = (ArrayList<APRESENT>) request.getAttribute("result_value");
+							if (apresents == null) {
+						%>
+						<form action="<%=application.getContextPath()%>/Service.do"
+							method="post" id="query_apresent">
+							<input type="hidden" name="query_type" value="query_apresent" /> 
+							<input type="hidden" name="query_option" value="apresent" /> 
+							<input type="hidden" name="query_key" value="fgno" />
+							<input type="hidden" name="query_res" value="add_order" />
+						</form>
+						<script type="text/javascript">
+							document.getElementById("query_apresent").submit();
+						</script>
+						<%
+							return;
+							}
+						%>
 						<tr>
 							<td width="30%" align="middle">拜訪公司名稱:</td>
-							<td width="70%" align="left"><input name="endTextBox"
-								type="text" id="compTextBox" class="span1-1" required /></td>
+							<td width="70%" align="left"><input name="comname"
+								type="text" id="comname" class="span1-1" required /></td>
 						</tr>
+
+
 						<tr>
 							<td align="middle">拜訪對象姓名:</td>
-							<td align="left"><input name="manTextBox" type="text"
-								id="manTextBox" class="span1-1" /></td>
+							<td align="left"><input name="pername" type="text"
+								id="pername" class="span1-1" /></td>
 						</tr>
 						<tr>
 							<td align="right">職稱類別:</td>
-							<td align="left"><select name="title_opt">
+							<td align="left"><select name="authority">
 									<option value="4">1. 副總級以上</option>
 									<option value="3">2. 高階主管(處長級)</option>
 									<option value="2">3. 中階主管(經理級)</option>
@@ -65,10 +84,8 @@
 						</tr>
 						<tr>
 							<td align="middle">申請品名:</td>
-							<td align="left"><input name="TextBox1" type="text"
-								value="0" id="giftTextBox" class="span1-1" /> %
-								
-								<span
+							<td align="left"><input name="fgno" type="text" value="0"
+								id="fgno" class="span1-1" /> <span
 								class="pull-right margin-bottom-5"> <a
 									class="btn btn-info btn-small" id="modal-9735582"
 									href="#modal-container-9735582" role="button"
@@ -76,7 +93,8 @@
 
 
 								<div id="modal-container-9735582" class="modal hide fade"
-									role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"
+									role="dialog" aria-labelledby="myModalLabel2"
+									aria-hidden="true"
 									style="width: 300px; margin-left: -300px; top: 20%">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal"
@@ -88,12 +106,21 @@
 											<tbody>
 												<tr>
 													<td align="right">禮品清單:</td>
-													<td align="left"><select name="title_opt">
+													<td align="left"><select name="fgno">
+															<!--
 															<option value="A001">舒壓球</option>
 															<option value="B002">L型透明夾</option>
 															<option value="C001">三折手冊</option>
 															<option value="D001">多功能筆記本</option>
 															<option value="S001">高爾夫球具組</option>
+-->
+															<%
+																for (APRESENT apresent : apresents) {
+															%>
+															<option value="<%=apresent.getFgno()%>"><%=apresent.getFgname()%></option>
+															<%
+																}
+															%>
 													</select></td>
 												</tr>
 											</tbody>
@@ -109,8 +136,8 @@
 						</tr>
 						<tr>
 							<td align="middle">數量:</td>
-							<td align="left"><input name="TextBox3" type="text"
-								value="0" id="QtyTextBox" class="span1-1" /> %</td>
+							<td align="left"><input name="qty" type="number" value="0"
+								id="qty" class="span1-1" /> 單位</td>
 						</tr>
 					</tbody>
 				</table>
@@ -124,98 +151,86 @@
 		</div>
 
 		<div style="width: 900px; margin: auto">
-			目前簽核者(Reviewing by)：<div style = "display:inline;color:blue;"><%=docStatus%></div>
-			<div style="display:none;">發放日期：</div>
-			<div style="display:none;">S/N：</div>
-			<table class="table table-bordered" >
+			目前簽核者(Reviewing by)：
+			<div style="display: inline; color: blue;"><%=docStatus%></div>
+			<div style="display: none;">發放日期：</div>
+			<div style="display: none;">S/N：</div>
+			<table class="table table-bordered">
 				<tr>
-			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">員工工號：</td>
-			        <td width="20%"><input type="text" name="input1" id="input1" class="span1-1" /></td>
-			        <td width="8%" align="right" bgcolor="#f1f1f1">員工姓名：</td>
-			        <td width="20%"><input type="text" name="input2" id="input2" class="span1-1" /></td>
-			    </tr>
-			    <tr>
-			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">部門代號：</td>
-			        <td><input type="text" name="input3" id="input3" class="span1-1" /></td>
-			        <td align="right" bgcolor="#f1f1f1">部門名稱：</td>
-			        <td><input type="text" name="input4" id="input4" class="span1-1" /></td>
-			    </tr>
-			    <tr>
-			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">職稱：</td>
-			        <td><input type="text" name="input5" id="input5" class="span1-1" /></td>
-			        <td align="right" bgcolor="#f1f1f1">分機：</td>
-			        <td><input type="text" name="input6" id="input6" class="span1-1" /></td>
-			    </tr>
-			    <tr>
-			        <td align="right" bgcolor="#f1f1f1">需求部門：</td>
-			        <td><input type="text" name="input7" id="input7" class="span1-1" /></td>		     
-				    <td align="right" bgcolor="#f1f1f1">需求日期：</td>
-				    <td colspan="3"><input type="text"  class="laydate-icon span1-1" id="Calendar" value="2015-08-25" /></td>			   
-			    </tr>
-			    <tr>
-			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求廠別：</td>     
-			    	<td colspan="3">
-			       
-			       					<%		
-						System.out.println("查詢 AFAB");
-						String option = (String)request.getAttribute("result_option");
-						System.out.println("option = "+option);
-						
-						if(option == null || option.equals("")){%>
-							<form action="<%=application.getContextPath()%>/Service.do" method="post" id="query_option">
-							<input type="hidden" name="query_res" value="add_order" />
-							<input type="hidden" name="query_option" value="afab" />
-							<input type="hidden" name="query_key" value="fno" />
-							<input type="hidden" name="query_type" value="" />
-							</form>
-							<script type="text/javascript">
-							document.getElementById("query_option").submit();
-							</script>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">員工工號：</td>
+					<td width="20%"><input type="text" name="input1" id="input1"
+						class="span1-1" /></td>
+					<td width="8%" align="right" bgcolor="#f1f1f1">員工姓名：</td>
+					<td width="20%"><input type="text" name="input2" id="input2"
+						class="span1-1" /></td>
+				</tr>
+				<tr>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">部門代號：</td>
+					<td><input type="text" name="input3" id="input3"
+						class="span1-1" /></td>
+					<td align="right" bgcolor="#f1f1f1">部門名稱：</td>
+					<td><input type="text" name="input4" id="input4"
+						class="span1-1" /></td>
+				</tr>
+				<tr>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">職稱：</td>
+					<td><input type="text" name="input5" id="input5"
+						class="span1-1" /></td>
+					<td align="right" bgcolor="#f1f1f1">分機：</td>
+					<td><input type="text" name="input6" id="input6"
+						class="span1-1" /></td>
+				</tr>
+				<tr>
+					<td align="right" bgcolor="#f1f1f1">需求部門：</td>
+					<td><input type="text" name="input7" id="input7"
+						class="span1-1" /></td>
+					<td align="right" bgcolor="#f1f1f1">需求日期：</td>
+					<td colspan="3"><input type="text"
+						class="laydate-icon span1-1" id="Calendar" value="2015-08-25" /></td>
+				</tr>
+				<tr>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求廠別：</td>
+					<td colspan="3">
 						<%
-						return;
-						}
-						ArrayList<AFAB> afabs = (ArrayList<AFAB>)request.getAttribute("result_value");
-						
-						int i = 0;
-						if(afabs!=null && afabs.size()>0){
-							for(AFAB afab : afabs){
-							i++;
+							System.out.println("查詢 AFAB");
+							String option = (String) request.getAttribute("result_option");
+							System.out.println("option = " + option);
 
-			//			String username = request.getParameter("username") == null
-			//					? (String) session.getAttribute("username")
-			//					: request.getParameter("username");
-			//			String pass = request.getParameter("pass") == null
-			//					? (String) session.getAttribute("pass")
-			//					: request.getParameter("pass");
-			//			if (username == null || pass == null) {
-			//				request.getRequestDispatcher("/login.jsp").forward(request, response);
-			//				return;
-			//			}
-			//			DBManager manager;
-			//			manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
-			//			Login login = new Login(manager, username, pass);
-				//		AUSER auser = login.getUser();
-				//		Querys qry = new Querys(auser);
-				//		AFAB afab = new AFAB();
-				//		for (Object obj : qry.getAfabs(manager, afab.getKeys()[2], "")) {
-				//			afab = (AFAB) obj;
-				//			System.out.println(afab.getFno() + " ; " + afab.getFname());
-							
-					%>
-			       			<input type="radio" name="input8" value="<%=afab.getFno()%>" /><%=afab.getFname()%>&nbsp;&nbsp;&nbsp;
-					<%
-						}
-						}
-				   %>
-			        </td>
-			    </tr>		     
-			    <tr>
-			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求目的：</td>
-			        <td colspan="3"><textarea name="input9" id="input9" class="span10"></textarea></td>
-			    </tr>
-			    <tr>
-			        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">備註：</td>
-			        <td colspan="3"><textarea name="input10" id="input10" class="span10"></textarea></td>
+							if (option == null || option.equals("")) {
+						%>
+						<form action="<%=application.getContextPath()%>/Service.do"
+							method="post" id="query_option">
+							<input type="hidden" name="query_res" value="add_order" /> <input
+								type="hidden" name="query_option" value="afab" /> <input
+								type="hidden" name="query_key" value="fno" /> <input
+								type="hidden" name="query_type" value="" />
+						</form> <script type="text/javascript">
+							document.getElementById("query_option").submit();
+						</script> <%
+ 	return;
+ 	}
+ 	ArrayList<AFAB> afabs = (ArrayList<AFAB>) request.getAttribute("result_value");
+
+ 	int i = 0;
+ 	if (afabs != null && afabs.size() > 0) {
+ 		for (AFAB afab : afabs) {
+ 			i++;
+ %> <input type="radio" name="input8" value="<%=afab.getFno()%>" /><%=afab.getFname()%>&nbsp;&nbsp;&nbsp;
+						<%
+							}
+							}
+						%>
+					</td>
+				</tr>
+				<tr>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求目的：</td>
+					<td colspan="3"><textarea name="input9" id="input9"
+							class="span10"></textarea></td>
+				</tr>
+				<tr>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">備註：</td>
+					<td colspan="3"><textarea name="input10" id="input10"
+							class="span10"></textarea></td>
 				</tr>
 			</table>
 			<table class="margin-bottom-20 table  no-border">
@@ -230,3 +245,19 @@
 </div>
 
 <%@include file="/FrontEnd/frame2/SubPages/footer2.jspf"%>
+<script type="text/javascript">
+	var result_key = '${result_key}';
+	if (result_key != "") {
+		alert(result_key);
+	}
+
+	var locations = window.location.href;
+	locations = locations.substring(0, locations.indexOf("?"));
+	function getKey() {
+		var form = document.getElementById("select");
+		var key = form.options[form.selectedIndex].value;
+		var type = document.getElementById("query_type");
+		type.value = "change";
+		location.href = locations + "?query_option=" + key; //直接透過給參數的轉址來達成換值
+	}
+</script>
