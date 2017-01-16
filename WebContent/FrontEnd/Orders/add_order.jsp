@@ -1,3 +1,4 @@
+<%@page import="tw.youth.project.gift2016.sql.aodr.AODRDT"%>
 <%@page import="tw.youth.project.gift2016.sql.apresent.APRESENT"%>
 <%@page import="java.util.*"%>
 <%@page import="tw.youth.project.gift2016.consts.ConstValue"%>
@@ -43,18 +44,16 @@
 				<table class="table table-bordered">
 					<tbody>
 						<%
-							ArrayList<APRESENT> apresents = (ArrayList<APRESENT>) request.getAttribute("result_value");
+							ArrayList<APRESENT> apresents = (ArrayList<APRESENT>) request.getAttribute("result_apresent");
+							ArrayList<AFAB> afabs = (ArrayList<AFAB>) request.getAttribute("result_afab");
 							if (apresents == null) {
 						%>
 						<form action="<%=application.getContextPath()%>/Service.do"
-							method="post" id="query_apresent">
-							<input type="hidden" name="query_type" value="query_apresent" /> 
-							<input type="hidden" name="query_option" value="apresent" /> 
-							<input type="hidden" name="query_key" value="fgno" />
-							<input type="hidden" name="query_res" value="add_order" />
+							method="post" id="query_order">
+							<input type="hidden" name="query_order" value="query_order" />
 						</form>
 						<script type="text/javascript">
-							document.getElementById("query_apresent").submit();
+							document.getElementById("query_order").submit();
 						</script>
 						<%
 							return;
@@ -84,7 +83,7 @@
 						</tr>
 						<tr>
 							<td align="middle">申請品名:</td>
-							<td align="left"><input name="fgno" type="text" value="0"
+							<td align="left"><input name="fgno" type="text"
 								id="fgno" class="span1-1" /> <span
 								class="pull-right margin-bottom-5"> <a
 									class="btn btn-info btn-small" id="modal-9735582"
@@ -139,12 +138,17 @@
 							<td align="left"><input name="qty" type="number" value="0"
 								id="qty" class="span1-1" /> 單位</td>
 						</tr>
+						<tr>
+							<td align="middle">備註:</td>
+							<td align="left"><input name="note1" type="text"
+								id="note1" class="span1-1" /></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
-					style="width: 80px">確定</button>
+					style="width: 80px" onclick="click()">確定</button>
 				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
 					style="width: 80px">取消</button>
 			</div>
@@ -192,30 +196,9 @@
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求廠別：</td>
 					<td colspan="3">
 						<%
-							System.out.println("查詢 AFAB");
-							String option = (String) request.getAttribute("result_option");
-							System.out.println("option = " + option);
-
-							if (option == null || option.equals("")) {
-						%>
-						<form action="<%=application.getContextPath()%>/Service.do"
-							method="post" id="query_option">
-							<input type="hidden" name="query_res" value="add_order" /> <input
-								type="hidden" name="query_option" value="afab" /> <input
-								type="hidden" name="query_key" value="fno" /> <input
-								type="hidden" name="query_type" value="" />
-						</form> <script type="text/javascript">
-							document.getElementById("query_option").submit();
-						</script> <%
- 	return;
- 	}
- 	ArrayList<AFAB> afabs = (ArrayList<AFAB>) request.getAttribute("result_value");
-
- 	int i = 0;
- 	if (afabs != null && afabs.size() > 0) {
- 		for (AFAB afab : afabs) {
- 			i++;
- %> <input type="radio" name="input8" value="<%=afab.getFno()%>" /><%=afab.getFname()%>&nbsp;&nbsp;&nbsp;
+							if (afabs != null && afabs.size() > 0) {
+								for (AFAB afab : afabs) {
+						%> <input type="radio" name="input8" value="<%=afab.getFno()%>" /><%=afab.getFname()%>&nbsp;&nbsp;&nbsp;
 						<%
 							}
 							}
@@ -234,6 +217,34 @@
 				</tr>
 			</table>
 			<table class="margin-bottom-20 table  no-border">
+			<%
+			ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
+			if(aodrdts!=null){
+			%>
+			<tr>
+			<td>拜訪公司</td>
+			<td>拜訪對象</td>
+			<td>拜訪職稱</td>
+			<td>禮品代號</td>
+			<td>禮品數量</td>
+			<td>禮品單價</td>
+			<td>備註</td>
+			</tr>
+			<%for(AODRDT aodrdt:aodrdts){ %>
+			<tr>
+			<td><%=aodrdt.getComname() %></td>
+			<td><%=aodrdt.getPername() %></td>
+			<td><%=aodrdt.getAuthority() %></td>
+			<td><%=aodrdt.getFgno() %></td>
+			<td><%=aodrdt.getQty() %></td>
+			<td><%=aodrdt.getPrc() %></td>
+			<td><%=aodrdt.getNote1() %></td>
+			<td><a href="<%=aodrdt.getAodrdt_id() %>">修改</a></td>
+			</tr>
+			<% 
+			}
+			}
+			%>
 				<tr>
 					<td class="text-center"><input type="button" value="確定"
 						class="btn btn-info " style="width: 80px;" /></td>
@@ -260,4 +271,8 @@
 		type.value = "change";
 		location.href = locations + "?query_option=" + key; //直接透過給參數的轉址來達成換值
 	}
+	function click(){
+		alert("test");
+	}
+	
 </script>

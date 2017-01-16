@@ -132,6 +132,9 @@ public class MainServlet extends HttpServlet {
 			case "query_bulletin":
 				queryByBulletin(request, response);
 				break;
+			case "query_order":
+				queryByOrder(request, response);
+				break;
 			}
 		}
 	}
@@ -190,9 +193,8 @@ public class MainServlet extends HttpServlet {
 	private boolean chkLoginExist(String userCode) {
 		return userList.containsKey(userCode);
 	}
-	
-	
-	private String getUserCode(HttpServletRequest request){
+
+	private String getUserCode(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		String userCode = null;
 		for (Cookie cook : cookies) {
@@ -211,7 +213,7 @@ public class MainServlet extends HttpServlet {
 		for (Cookie cook : cookies) {
 			if (cook.getName().equals("userCode")) {
 				userCode = cook.getValue();
-				//非一般取得方法，不能使用上面的getUserCode;
+				// 非一般取得方法，不能使用上面的getUserCode;
 				userList.remove(userCode);
 				cook.setValue("");
 				response.addCookie(cook);
@@ -350,7 +352,7 @@ public class MainServlet extends HttpServlet {
 			Collections.reverse(objs);
 			request.setAttribute("ausers", objs);
 
-			request.getRequestDispatcher("/query_all.jsp").forward(request, response);
+			request.getRequestDispatcher("/FrontEnd/Querys/query_all.jsp").forward(request, response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
@@ -371,8 +373,8 @@ public class MainServlet extends HttpServlet {
 			String option = request.getParameter("query_option");
 			String key = request.getParameter("query_key");
 			String value = request.getParameter("query_value");
-			if (key != null) //如果有key的話
-				value = value != null ? value : "";//檢查value如果是null，則可能是全查詢，設定空白做全查詢
+			if (key != null) // 如果有key的話
+				value = value != null ? value : "";// 檢查value如果是null，則可能是全查詢，設定空白做全查詢
 			switch (option) {
 			case "auser":
 				ArrayList<AUSER> query1 = querys.getUsers(manager, key, value);
@@ -449,13 +451,7 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("result_option", option);
 			request.setAttribute("result_value", objs);
 
-			switch (request.getParameter("query_res")) {
-			case "add_order":
-				request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
-				break;
-			default:
-				request.getRequestDispatcher("/FrontEnd/Querys/query_key.jsp").forward(request, response);
-			}
+			request.getRequestDispatcher("/FrontEnd/Querys/query_key.jsp").forward(request, response);
 
 			// request.getRequestDispatcher("/index_new.jsp").forward(request,
 			// response);
@@ -483,6 +479,24 @@ public class MainServlet extends HttpServlet {
 			request.setAttribute("result_option", request.getParameter("query_bulletin"));
 			request.setAttribute("result_value", objs);
 			request.getRequestDispatcher("/index_new.jsp").forward(request, response);
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+	}
+
+	private void queryByOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 查詢公告事項
+		String userCode = getUserCode(request);
+		// 檢查是否有登入?
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			Querys querys = new Querys(((AUSER) userList.get(userCode)[1]));
+			ArrayList<AFAB> query1 = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
+			ArrayList<APRESENT> query2 = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
+			request.setAttribute("result_afab", query1);
+			request.setAttribute("result_apresent", query2);
+			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
