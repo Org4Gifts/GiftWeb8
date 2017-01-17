@@ -162,13 +162,26 @@
 		alert(result_key);
 	}
 
-    var locations = window.location.href;
-    locations = locations.substring(0,locations.indexOf("?"));
+//    var locations = window.location.href;
+//    locations = locations.substring(0,locations.indexOf("?"));
 	function getKey() {
 		var form = document.getElementById("select");
 		var key = form.options[form.selectedIndex].value;
 		var type = document.getElementById("query_type");
 		type.value = "change";
-        location.href= locations+"?query_option="+key; //直接透過給參數的轉址來達成換值
+        
+//        if(locations.includes("Service.do")){
+//        alert(locations);
+//    	locations = locations.substring(0,locations.indexOf("S"))+"FrontEnd/Querys/query_key.jsp";
+//        alert(locations);
+//    }
+//        alert(location.href);
+//        location.href= locations+"?query_option="+key; //直接透過給參數的轉址來達成換值
+                if(window.location.toString.indexOf("Service.do")!=-1){
+                    window.location("http://localhost:8080/GiftWeb8/FrontEnd/Querys/query_key.jsp?query_option="+key);
+                }else{
+                location.href= "?query_option="+key; //直接透過給參數的轉址來達成換值
+                    }
+            
 	}
 </script>
