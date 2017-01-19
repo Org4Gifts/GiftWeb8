@@ -119,6 +119,51 @@
 	<tr>
 	<%
 	//這裡放查詢結果的標題
+	String keys2[] = {};
+									switch (result_option) {
+										case "auser" :
+											keys2 = new AUSER().getKeys();
+											break;
+										case "aemp" :
+											keys2 = new AEMP().getKeys();
+											break;
+										case "avdr" :
+											keys2 = new AVDR().getKeys();
+											break;
+										case "aqty" :
+											keys2 = new AQTY().getKeys();
+											break;
+										case "apresent" :
+											keys2 = new APRESENT().getKeys();
+											break;
+										case "aodr" :
+											keys2 = new AODR().getKeys();
+											break;
+										case "aio" :
+											keys2 = new AIO().getKeys();
+											break;
+										case "ainventory" :
+											keys2 = new AINVENTORY().getKeys();
+											break;
+										case "afab" :
+											keys2 = new AFAB().getKeys();
+											break;
+										case "adep" :
+											keys2 = new ADEP().getKeys();
+											break;
+									}
+									for (String key : keys2) {
+										String value = GeneralValue.getQueryKey(key);
+										if(value==null){
+											%>
+											<td>序號</td>
+											<%
+											}else{
+										%>
+										<td align="center"><%=value %></td>
+										<%
+											}
+									}
 	%>
 	</tr>
 							<%
