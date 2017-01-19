@@ -50,7 +50,7 @@
 						%>
 						<form action="<%=application.getContextPath()%>/Service.do"
 							method="post" id="query_order">
-							<input type="hidden" name="query_order" value="query_order" />
+							<input type="hidden" name="queryAll" value="queryAll" />
 						</form>
 						<script type="text/javascript">
 							document.getElementById("query_order").submit();

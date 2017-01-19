@@ -28,7 +28,7 @@
 			<span class="pull-right margin-bottom-5"> <a
 				class="btn btn-info btn-small" id="modal-9735581"
 				href="#modal-container-9735581" role="button" data-toggle="modal"><i
-					class="icon-plus icon-white"></i>新增禮品項目</a></span><strong>使用工號查詢</strong>
+					class="icon-plus icon-white"></i>功能按鈕</a></span><strong>使用工號查詢</strong>
 					
 					<div>
 						<%

@@ -43,9 +43,13 @@ import tw.youth.project.gift2016.sql.user.AUSER;
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static DBManager manager;
+	//資料庫功能
 	private static Map<String, Object[]> userList;
+	//目前登入的使用者名單
 	private static Map<String, Object[]> changePassList;
-	private Timer timer;
+	// 修改密碼時候的暫存名單
+	private Timer timer; 
+	//定時器，用來清除上面兩個名單用
 	private long time = 30 * 60 * 1000;
 	// 30分
 
@@ -57,10 +61,12 @@ public class MainServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 		manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
 		manager.starup();
+		//啟動資料庫
 		userList = new HashMap<>();
 		changePassList = new HashMap<>();
 
 		startTimer();
+		//啟動定時器
 	}
 
 	/**
@@ -134,6 +140,9 @@ public class MainServlet extends HttpServlet {
 				break;
 			case "query_order":
 				queryByOrder(request, response);
+				break;
+			case "queryAll":
+				queryByUser(request, response);
 				break;
 			}
 		}
@@ -288,69 +297,70 @@ public class MainServlet extends HttpServlet {
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
 			ArrayList<Object> objs = new ArrayList<>();
+			
 			objs.addAll(querys.getAodrs(manager));
 			Collections.reverse(objs);
-			request.setAttribute("aodrs", objs);
+			request.setAttribute("aodr", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("aois", objs);
+			request.setAttribute("aio", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAemps(manager, new AEMP().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("aemps", objs);
+			request.setAttribute("aemp", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAdeps(manager, new ADEP().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("adeps", objs);
+			request.setAttribute("adep", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAfabs(manager, new AFAB().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("afabs", objs);
+			request.setAttribute("afab", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAinventorys(manager, new AINVENTORY().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("ainventorys", objs);
+			request.setAttribute("ainventory", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAiodts(manager, ""));
 			Collections.reverse(objs);
-			request.setAttribute("aiodts", objs);
+			request.setAttribute("aiodt", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAodrdts(manager, ""));
 			Collections.reverse(objs);
-			request.setAttribute("aodrdts", objs);
+			request.setAttribute("aodrdt", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getApresents(manager, new APRESENT().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("apresents", objs);
+			request.setAttribute("apresent", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAqtys(manager, new AQTY().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("aqtys", objs);
+			request.setAttribute("aqty", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAsignlogs(manager, ""));
 			Collections.reverse(objs);
-			request.setAttribute("asignlogs", objs);
+			request.setAttribute("asignlog", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAvdrs(manager, new AVDR().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("avdrs", objs);
+			request.setAttribute("avdr", objs);
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getUsers(manager, new AUSER().getKeys()[1], ""));
 			Collections.reverse(objs);
-			request.setAttribute("ausers", objs);
+			request.setAttribute("auser", objs);
 
 			request.getRequestDispatcher("/FrontEnd/Querys/query_all.jsp").forward(request, response);
 		} else {
