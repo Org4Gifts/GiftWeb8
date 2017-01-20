@@ -1,3 +1,13 @@
+<%@page import="tw.youth.project.gift2016.sql.adep.ADEP"%>
+<%@page import="tw.youth.project.gift2016.sql.afab.AFAB"%>
+<%@page import="tw.youth.project.gift2016.sql.ainventory.AINVENTORY"%>
+<%@page import="tw.youth.project.gift2016.sql.aio.AIO"%>
+<%@page import="tw.youth.project.gift2016.sql.aodr.AODR"%>
+<%@page import="tw.youth.project.gift2016.sql.apresent.APRESENT"%>
+<%@page import="tw.youth.project.gift2016.sql.aqty.AQTY"%>
+<%@page import="tw.youth.project.gift2016.sql.avdr.AVDR"%>
+<%@page import="tw.youth.project.gift2016.sql.user.AEMP"%>
+<%@page import="tw.youth.project.gift2016.sql.user.AUSER"%>
 <%@page import="tw.youth.project.gift2016.sql.SQLCmd"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
@@ -15,121 +25,143 @@
 			<a href="#">申請單/查詢</a>
 			<span class="divider">/</span> 依狀態查詢
 		</ul>
-				<div class="title_right">
+		<div class="title_right">
 			<span class="pull-right margin-bottom-5"> <a
 				class="btn btn-info btn-small" id="modal-9735581"
 				href="#modal-container-9735581" role="button" data-toggle="modal"><i
 					class="icon-plus icon-white"></i>功能按鈕</a></span><strong>使用工號查詢</strong>
-					<div>
-					<div>
-						<%
-						if(request.getAttribute("aodr")!=null){
-							Map<String, ArrayList<Object>> maps = new HashMap<>();
+			<div>
+				<div>
+					<%
+						Map<String, ArrayList<Object>> maps = new HashMap<>();
+						if(request.getAttribute("aodr")!=null){							
 							for (String table : SQLCmd.TABLES) {
 								maps.put(table, (ArrayList<Object>) request.getAttribute(table));
 							}
 							}else{
 								%>
-								<form action="<%=application.getContextPath()%>/Service.do"
-										method="post" id="queryAll">
-										<input type="hidden" name="queryAll" value="queryAll" />
-									</form>
-									<script type="text/javascript">
-										document.getElementById("queryAll").submit();
-									</script>
-									<%
+					<form action="<%=application.getContextPath()%>/Service.do"
+						method="post" id="queryAll">
+						<input type="hidden" name="queryAll" value="queryAll" />
+					</form>
+					<script type="text/javascript">
+						document.getElementById("queryAll").submit();
+					</script>
+					<%
 										return;
 										}
 							
 						%>
-						<div class="TreeMenu">
-							<h1>公關禮品申請管理系統-所有任務</h1>
-							<h2 style="cursor: pointer; cursor: hand"
-								onClick="expandit(this)">使用者個人工號</h2>
-							<span style="display: none" style=&{head};>
-								<div class="section1">
-									<ul>
-										<li><h3 style="cursor: pointer; cursor: hand"
-												onClick="expandit(this)">類別</h3> <span style="display: none"
-											style=&{head};> <%
+					<div class="TreeMenu">
+						<h1>公關禮品申請管理系統-所有任務</h1>
+						<h2 style="cursor: pointer; cursor: hand" onClick="expandit(this)">使用者個人工號</h2>
+						<span style="display: none" style=&{head};>
+							<div class="section1">
+								<ul>
+									<li><h3 style="cursor: pointer; cursor: hand"
+											onClick="expandit(this)">類別</h3> <span style="display: none"
+										style=&{head};> <%
  	for (String table : SQLCmd.TABLES) {
  %>
-												<div class="section2">
-													<ul>
-														<li><h4 style="cursor: pointer; cursor: hand"
-																onClick="expandit(this)"><%=table%></h4> <span
-															style="display: none" style=&{head};>
-																<div class="section3">
-																	<ul>
-																		<li><h5 style="cursor: pointer; cursor: hand"
-																				onClick="expandit(this)">年度</h5> <span
-																			style="display: none" style=&{head};>
-																				<div class="section4">
-																					<ul>
-																						<div class="section5">
-																							<ul>
-																								<li><h6
-																										style="cursor: pointer; cursor: hand"
-																										onClick="expandit(this)">月份</h6> <span
-																									style="display: none" style=&{head};>
-																										<div class="section6">
-																											<ul>
-																												<div class="section7">
-																													<ul>
-																														<li><h7
-																																style="cursor: pointer; cursor: hand"
-																																onClick="expandit(this)">日期</h7> <span
-																															style="display: none" style=&{head};>
-																																<div class="section8">
-																																	<ul>
-																																		<li><a href="#">這裡該展開的是訂單/調撥單編號</a></li>
-																																	</ul>
-																																</div>
-																														</span></li>
-																													</ul>
-																												</div>
-																											</ul>
-																										</div>
-																								</span></li>
-																							</ul>
-																						</div>
-																					</ul>
-																				</div>
-																		</span></li>
-																	</ul>
-																</div>
-														</span></li>
-													</ul>
-												</div> <%
+											<div class="section2">
+												<ul>
+													<li><h4 style="cursor: pointer; cursor: hand"
+															onClick="expandit(this)"><%=table%></h4> <span
+														style="display: none" style=&{head};>
+															<div class="section3">
+																<ul>
+																	<% 
+																	int startYear = 2016;
+																	int endYear = 2016;
+																	Map<String, ArrayList<Object>> subMaps = new HashMap<>();
+																	ArrayList<Object> arrs = new ArrayList<>();
+																	Object objs[] = {};
+																	for(Object table_value : maps.get(table)){
+																		switch (table) {
+																			case "auser" :
+																				objs = ((AUSER)table_value).getValuesFull();
+																				break;
+																			case "aemp" :
+																				objs = ((AEMP)table_value).getValuesFull();
+																				break;
+																			case "avdr" :
+																				objs = ((AVDR)table_value).getValuesFull();
+																				break;
+																			case "aqty" :
+																				objs = ((AQTY)table_value).getValuesFull();
+																				break;
+																			case "apresent" :																				
+																				objs = ((APRESENT)table_value).getValuesFull();
+																				break;
+																			case "aodr" :
+																				objs = ((AODR)table_value).getValuesFull();
+																				break;
+																			case "aio" :
+																				objs = ((AIO)table_value).getValuesFull();
+																				break;
+																			case "ainventory" :
+																				objs = ((AINVENTORY)table_value).getValuesFull();
+																				break;
+																			case "afab" :
+																				objs = ((AFAB)table_value).getValuesFull();
+																				break;
+																			case "adep" :
+																				objs = ((ADEP)table_value).getValuesFull();
+																				break;
+																		}
+																		if(objs[objs.length-2].toString().contains(startYear+""))
+																			arrs.add(objs);
+																		else{
+																			subMaps.put(endYear++ +"", arrs);
+																			arrs = new ArrayList<>();
+																		}
+																	}
+																	for(int i = startYear;i<=endYear;i++){																		
+																	%>
+																	<li><h5 style="cursor: pointer; cursor: hand"
+																			onClick="expandit(this)">i</h5> <span
+																		style="display: none" style=&{head};>
+																			<div class="section4">
+																				<ul>
+																					<div class="section5">
+																						<ul>
+																							<li><h6
+																									style="cursor: pointer; cursor: hand"
+																									onClick="expandit(this)">月份</h6> <span
+																								style="display: none" style=&{head};>
+																									<div class="section6">
+																										<ul>
+																											<div class="section7">
+																												<ul>
+																													<li><h7
+																															style="cursor: pointer; cursor: hand"
+																															onClick="expandit(this)">日期</h7> <span
+																														style="display: none" style=&{head};>
+																															<div class="section8">
+																																<ul>
+																																	<li><a href="#">這裡該展開的是訂單/調撥單編號</a></li>
+																																</ul>
+																															</div>
+																													</span></li>
+																												</ul>
+																											</div>
+																										</ul>
+																									</div>
+																							</span></li>
+																						</ul>
+																					</div>
+																				</ul>
+																			</div>
+																	</span></li>
+																	<%}%>
+																</ul>
+															</div>
+													</span></li>
+												</ul>
+											</div> <%
  	}
  %>
-										</span></li>
-							</ul>
-						</div>
-						</span>
-						<!--.section-->
-						<br> <br> <br>原始碼部分
-						<h3 style="cursor: pointer; cursor: hand" onClick="expandit(this)">年度</h3>
-						<span style="display: none" style=&{head};>
-							<div class="section2">
-								<ul>
-									<li><a href="#">這裡該展開的是接下來的月份</a></li>
-								</ul>
-							</div>
-						</span>
-						<h3 style="cursor: pointer; cursor: hand" onClick="expandit(this)">月份</h3>
-						<span style="display: none" style=&{head};>
-							<div class="section3">
-								<ul>
-									<li><a href="#">這裡該展開的是接下來的日期</a></li>
-								</ul>
-							</div>
-						</span>
-						<h3 style="cursor: pointer; cursor: hand" onClick="expandit(this)">日期</h3>
-						<span style="display: none" style=&{head};>
-							<div class="section3">
-								<ul>
-									<li><a href="#">這裡該展開的是訂單/調撥單編號</a></li>
+									</span></li>
 								</ul>
 							</div>
 						</span>
@@ -144,3 +176,18 @@
 </div>
 
 <%@include file="/FrontEnd/frame2/SubPages/footer2.jspf"%>
+<script type="text/javascript">
+	var ns6 = document.getElementById && !document.all ? 1 : 0
+
+	var head = "display:''"
+	var folder = ''
+
+	function expandit(curobj) {
+		folder = ns6 ? curobj.nextSibling.nextSibling.style
+				: document.all[curobj.sourceIndex + 1].style
+		if (folder.display == "none")
+			folder.display = ""
+		else
+			folder.display = "none"
+	}
+</script>
