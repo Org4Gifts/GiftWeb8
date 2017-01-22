@@ -296,11 +296,23 @@ public class MainServlet extends HttpServlet {
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
-			ArrayList<Object> objs = new ArrayList<>();
-			
-			objs.addAll(querys.getAodrs(manager));
+			ArrayList<ArrayList<Object>> objs = new ArrayList<>();
+			ArrayList<Object> objs2 = new ArrayList<>();
+			int startDate = 2016;
+			ArrayList<AODR> aodrs = querys.getAodrs(manager);
+			if(aodrs!=null){
+				for(AODR aodr : aodrs){
+					if(aodr.getCreated().toString().contains(startDate+""))
+						objs2.add(null); //修改中
+					else{
+						startDate++;
+						objs2 = new ArrayList<>();
+					}
+				}
+			objs.add(objs2);
 			Collections.reverse(objs);
 			request.setAttribute("aodr", objs);
+			}
 
 			objs = new ArrayList<>();
 			objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
