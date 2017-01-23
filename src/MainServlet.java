@@ -3,7 +3,9 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,13 +45,13 @@ import tw.youth.project.gift2016.sql.user.AUSER;
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static DBManager manager;
-	//資料庫功能
+	// 資料庫功能
 	private static Map<String, Object[]> userList;
-	//目前登入的使用者名單
+	// 目前登入的使用者名單
 	private static Map<String, Object[]> changePassList;
 	// 修改密碼時候的暫存名單
-	private Timer timer; 
-	//定時器，用來清除上面兩個名單用
+	private Timer timer;
+	// 定時器，用來清除上面兩個名單用
 	private long time = 30 * 60 * 1000;
 	// 30分
 
@@ -61,12 +63,12 @@ public class MainServlet extends HttpServlet {
 		// TODO Auto-generated constructor stub
 		manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
 		manager.starup();
-		//啟動資料庫
+		// 啟動資料庫
 		userList = new HashMap<>();
 		changePassList = new HashMap<>();
 
 		startTimer();
-		//啟動定時器
+		// 啟動定時器
 	}
 
 	/**
@@ -296,22 +298,43 @@ public class MainServlet extends HttpServlet {
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
-			ArrayList<ArrayList<Object>> objs = new ArrayList<>();
-			ArrayList<Object> objs2 = new ArrayList<>();
-			int startDate = 2016;
+			// ArrayList<ArrayList<Object>> objs = new ArrayList<>();
+			// ArrayList<Object> objs2 = new ArrayList<>();
+			HashMap<Integer, HashMap<Integer, HashMap<Integer, Object>>> mapsYear = new HashMap<>();
+			HashMap<Integer, HashMap<Integer, Object>> mapsMonth = new HashMap<>();
+			HashMap<Integer, Object> mapsDate = new HashMap<>();
+			int startYear = 2016;
+			int endYear = Calendar.getInstance().get(Calendar.YEAR);
+			int startMonth = 1;
+			int endMonth = 12;
+			int startDate = 1;
+			int endDate = 31;
 			ArrayList<AODR> aodrs = querys.getAodrs(manager);
-			if(aodrs!=null){
-				for(AODR aodr : aodrs){
-					if(aodr.getCreated().toString().contains(startDate+""))
-						objs2.add(null); //修改中
-					else{
-						startDate++;
-						objs2 = new ArrayList<>();
+			if (aodrs != null) {
+				for (AODR aodr : aodrs) {
+					String[] yymmdd = aodr.getCreated().toString().substring(0, 10).split("-");
+					if (yymmdd[0].equals(startYear + "") && startYear <= endYear) {
+						if (yymmdd[1].equals(startMonth + "") && startMonth <= endMonth) {
+							if (yymmdd[2].equals(startDate + "") && startDate <= endDate) {
+								mapsDate.put(startDate, aodr);
+							}else{
+								startDate++;
+							}
+							mapsMonth.put(startMonth, mapsDate);
+						} else {
+							startMonth++;
+						}
+						mapsYear.put(startYear, mapsMonth);
+					} else {
+						startYear++;
 					}
 				}
-			objs.add(objs2);
-			Collections.reverse(objs);
-			request.setAttribute("aodr", objs);
+				startYear = 2016;
+				startMonth = 1;
+				startDate = 1;
+				objs.add(objs2);
+				Collections.reverse(objs);
+				request.setAttribute("aodr", objs);
 			}
 
 			objs = new ArrayList<>();
