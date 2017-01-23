@@ -289,6 +289,33 @@ public class MainServlet extends HttpServlet {
 		request.setAttribute("changePwd", msg);
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
+	
+	private void setMaps(String[] yymmdd,HashMap<Integer, HashMap<Integer, HashMap<Integer, Object>>> mapsYear,
+	HashMap<Integer, HashMap<Integer, Object>> mapsMonth,
+	HashMap<Integer, Object> mapsDate){
+		int startYear = 2016;
+		int endYear = Calendar.getInstance().get(Calendar.YEAR);
+		int startMonth = 1;
+		int endMonth = 12;
+		int startDate = 1;
+		int endDate = 31;
+		if (yymmdd[0].equals(startYear + "") && startYear <= endYear) {
+			if (yymmdd[1].equals(startMonth + "") && startMonth <= endMonth) {
+				if (yymmdd[2].equals(startDate + "") && startDate <= endDate) {
+					mapsDate.put(startDate, aodr);
+				}else{
+					startDate++;
+				}
+				mapsMonth.put(startMonth, mapsDate);
+			} else {
+				startMonth++;
+			}
+			mapsYear.put(startYear, mapsMonth);
+		} else {
+			startYear++;
+		}
+	}
+	}
 
 	private void queryByUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -303,12 +330,12 @@ public class MainServlet extends HttpServlet {
 			HashMap<Integer, HashMap<Integer, HashMap<Integer, Object>>> mapsYear = new HashMap<>();
 			HashMap<Integer, HashMap<Integer, Object>> mapsMonth = new HashMap<>();
 			HashMap<Integer, Object> mapsDate = new HashMap<>();
-			int startYear = 2016;
-			int endYear = Calendar.getInstance().get(Calendar.YEAR);
-			int startMonth = 1;
-			int endMonth = 12;
-			int startDate = 1;
-			int endDate = 31;
+//			int startYear = 2016;
+//			int endYear = Calendar.getInstance().get(Calendar.YEAR);
+//			int startMonth = 1;
+//			int endMonth = 12;
+//			int startDate = 1;
+//			int endDate = 31;
 			ArrayList<AODR> aodrs = querys.getAodrs(manager);
 			if (aodrs != null) {
 				for (AODR aodr : aodrs) {
