@@ -30,9 +30,12 @@ import tw.youth.project.gift2016.sql.adep.ADEP;
 import tw.youth.project.gift2016.sql.afab.AFAB;
 import tw.youth.project.gift2016.sql.ainventory.AINVENTORY;
 import tw.youth.project.gift2016.sql.aio.AIO;
+import tw.youth.project.gift2016.sql.aio.AIODT;
 import tw.youth.project.gift2016.sql.aodr.AODR;
+import tw.youth.project.gift2016.sql.aodr.AODRDT;
 import tw.youth.project.gift2016.sql.apresent.APRESENT;
 import tw.youth.project.gift2016.sql.aqty.AQTY;
+import tw.youth.project.gift2016.sql.asignlog.ASIGNLOG;
 import tw.youth.project.gift2016.sql.avdr.AVDR;
 import tw.youth.project.gift2016.sql.normal.Bulletin;
 import tw.youth.project.gift2016.sql.user.AEMP;
@@ -290,31 +293,28 @@ public class MainServlet extends HttpServlet {
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 	
-	private void setMaps(String[] yymmdd,HashMap<Integer, HashMap<Integer, HashMap<Integer, Object>>> mapsYear,
-	HashMap<Integer, HashMap<Integer, Object>> mapsMonth,
-	HashMap<Integer, Object> mapsDate){
-		int startYear = 2016;
-		int endYear = Calendar.getInstance().get(Calendar.YEAR);
-		int startMonth = 1;
-		int endMonth = 12;
-		int startDate = 1;
-		int endDate = 31;
-		if (yymmdd[0].equals(startYear + "") && startYear <= endYear) {
-			if (yymmdd[1].equals(startMonth + "") && startMonth <= endMonth) {
-				if (yymmdd[2].equals(startDate + "") && startDate <= endDate) {
-					mapsDate.put(startDate, aodr);
+	private void setMaps(String[] yymmdd,HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear,
+	HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth,
+	HashMap<String, ArrayList<Object>> mapsDate,
+	ArrayList<Object> days,Object obj){
+		if(!mapsYear.containsKey(yymmdd[0])){
+			mapsYear.put(yymmdd[0], mapsMonth);
+			mapsMonth = new HashMap<>();
+		}else{
+			if(!mapsMonth.containsKey(yymmdd[1])){
+				mapsMonth.put(yymmdd[1], mapsDate);
+				mapsDate = new HashMap<>();
+			}else{
+				if(!mapsDate.containsKey(yymmdd[2])){
+					mapsDate.put(yymmdd[2], days);
+					days = new ArrayList<>();
 				}else{
-					startDate++;
+					days.add(obj);
 				}
-				mapsMonth.put(startMonth, mapsDate);
-			} else {
-				startMonth++;
 			}
-			mapsYear.put(startYear, mapsMonth);
-		} else {
-			startYear++;
 		}
-	}
+			
+	
 	}
 
 	private void queryByUser(HttpServletRequest request, HttpServletResponse response)
@@ -327,102 +327,141 @@ public class MainServlet extends HttpServlet {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
 			// ArrayList<ArrayList<Object>> objs = new ArrayList<>();
 			// ArrayList<Object> objs2 = new ArrayList<>();
-			HashMap<Integer, HashMap<Integer, HashMap<Integer, Object>>> mapsYear = new HashMap<>();
-			HashMap<Integer, HashMap<Integer, Object>> mapsMonth = new HashMap<>();
-			HashMap<Integer, Object> mapsDate = new HashMap<>();
-//			int startYear = 2016;
-//			int endYear = Calendar.getInstance().get(Calendar.YEAR);
-//			int startMonth = 1;
-//			int endMonth = 12;
-//			int startDate = 1;
-//			int endDate = 31;
+			HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear = new HashMap<>();
+			HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth = new HashMap<>();
+			HashMap<String, ArrayList<Object>> mapsDate = new HashMap<>();
+			ArrayList<Object> days = new ArrayList<>();
+			
 			ArrayList<AODR> aodrs = querys.getAodrs(manager);
 			if (aodrs != null) {
 				for (AODR aodr : aodrs) {
 					String[] yymmdd = aodr.getCreated().toString().substring(0, 10).split("-");
-					if (yymmdd[0].equals(startYear + "") && startYear <= endYear) {
-						if (yymmdd[1].equals(startMonth + "") && startMonth <= endMonth) {
-							if (yymmdd[2].equals(startDate + "") && startDate <= endDate) {
-								mapsDate.put(startDate, aodr);
-							}else{
-								startDate++;
-							}
-							mapsMonth.put(startMonth, mapsDate);
-						} else {
-							startMonth++;
-						}
-						mapsYear.put(startYear, mapsMonth);
-					} else {
-						startYear++;
-					}
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodr);
 				}
-				startYear = 2016;
-				startMonth = 1;
-				startDate = 1;
-				objs.add(objs2);
-				Collections.reverse(objs);
-				request.setAttribute("aodr", objs);
+				request.setAttribute("aodr", mapsYear);
+				mapsYear = new HashMap<>();
+			}
+			
+			ArrayList<AIO> aios = querys.getAios(manager, new AIO().getKeys()[1], "");
+			if(aios != null){
+				for (AIO aio : aios) {
+					String[] yymmdd = aio.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aio);
+				}
+				request.setAttribute("aio", mapsYear);
+				mapsYear = new HashMap<>();
+			}
+			
+			ArrayList<AEMP> aemps = querys.getAemps(manager, new AEMP().getKeys()[1], "");
+			if(aemps != null){
+				for (AEMP aemp : aemps) {
+					String[] yymmdd = aemp.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aemp);
+				}
+				request.setAttribute("aemp", mapsYear);
+				mapsYear = new HashMap<>();
+			}
+			
+			
+			ArrayList<ADEP> adeps = querys.getAdeps(manager, new ADEP().getKeys()[1], "");
+			if(adeps != null){
+				for (ADEP adep : adeps) {
+					String[] yymmdd = adep.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,adep);
+				}
+				request.setAttribute("adep", mapsYear);
+				mapsYear = new HashMap<>();
+			}
+			
+			ArrayList<AFAB> afabs = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
+			if(afabs != null){
+				for (AFAB afab : afabs) {
+					String[] yymmdd = afab.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,afab);
+				}
+				request.setAttribute("afab", mapsYear);
+				mapsYear = new HashMap<>();
+			}
+			
+			ArrayList<AINVENTORY> ainventorys = querys.getAinventorys(manager, new AINVENTORY().getKeys()[1], "");
+			if(ainventorys != null){
+				for (AINVENTORY ainventory : ainventorys) {
+					String[] yymmdd = ainventory.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,ainventory);
+				}
+				request.setAttribute("ainventory", mapsYear);
+				mapsYear = new HashMap<>();
 			}
 
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAios(manager, new AIO().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("aio", objs);
+			ArrayList<AIODT> aiodts = querys.getAiodts(manager, "");
+			if(aiodts != null){
+				for (AIODT aiodt : aiodts) {
+					String[] yymmdd = aiodt.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aiodt);
+				}
+				request.setAttribute("aiodt", mapsYear);
+				mapsYear = new HashMap<>();
+			}
+			
+			ArrayList<AODRDT> aodrdts = querys.getAodrdts(manager, "");
+			if(aodrdts != null){
+				for (AODRDT aodrdt : aodrdts) {
+					String[] yymmdd = aodrdt.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodrdt);
+				}
+				request.setAttribute("aodrdt", mapsYear);
+				mapsYear = new HashMap<>();
+			}
 
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAemps(manager, new AEMP().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("aemp", objs);
+			ArrayList<APRESENT> apresents = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
+			if(apresents != null){
+				for (APRESENT apresent : apresents) {
+					String[] yymmdd = apresent.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,apresent);
+				}
+				request.setAttribute("apresent", mapsYear);
+				mapsYear = new HashMap<>();
+			}
 
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAdeps(manager, new ADEP().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("adep", objs);
+			ArrayList<AQTY> aqtys = querys.getAqtys(manager, new AQTY().getKeys()[1], "");
+			if(aqtys != null){
+				for (AQTY aqty : aqtys) {
+					String[] yymmdd = aqty.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aqty);
+				}
+				request.setAttribute("aqty", mapsYear);
+				mapsYear = new HashMap<>();
+			}
 
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAfabs(manager, new AFAB().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("afab", objs);
-
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAinventorys(manager, new AINVENTORY().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("ainventory", objs);
-
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAiodts(manager, ""));
-			Collections.reverse(objs);
-			request.setAttribute("aiodt", objs);
-
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAodrdts(manager, ""));
-			Collections.reverse(objs);
-			request.setAttribute("aodrdt", objs);
-
-			objs = new ArrayList<>();
-			objs.addAll(querys.getApresents(manager, new APRESENT().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("apresent", objs);
-
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAqtys(manager, new AQTY().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("aqty", objs);
-
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAsignlogs(manager, ""));
-			Collections.reverse(objs);
-			request.setAttribute("asignlog", objs);
-
-			objs = new ArrayList<>();
-			objs.addAll(querys.getAvdrs(manager, new AVDR().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("avdr", objs);
-
-			objs = new ArrayList<>();
-			objs.addAll(querys.getUsers(manager, new AUSER().getKeys()[1], ""));
-			Collections.reverse(objs);
-			request.setAttribute("auser", objs);
+			ArrayList<ASIGNLOG> asignlogs = querys.getAsignlogs(manager, "");
+			if(asignlogs != null){
+				for (ASIGNLOG asignlog : asignlogs) {
+					String[] yymmdd = asignlog.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,asignlog);
+				}
+				request.setAttribute("asignlog", mapsYear);
+				mapsYear = new HashMap<>();
+			}
+			
+			ArrayList<AVDR> avdrs = querys.getAvdrs(manager, new AVDR().getKeys()[1], "");
+			if(avdrs != null){
+				for (AVDR avdr : avdrs) {
+					String[] yymmdd = avdr.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,avdr);
+				}
+				request.setAttribute("avdr", mapsYear);
+				mapsYear = new HashMap<>();
+			}
+			
+			ArrayList<AUSER> ausers = querys.getUsers(manager, new AUSER().getKeys()[1], "");
+			if(ausers != null){
+				for (AUSER auser : ausers) {
+					String[] yymmdd = auser.getCreated().toString().substring(0, 10).split("-");
+					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,auser);
+				}
+				request.setAttribute("auser", mapsYear);
+				mapsYear = new HashMap<>();
+			}
 
 			request.getRequestDispatcher("/FrontEnd/Querys/query_all.jsp").forward(request, response);
 		} else {
