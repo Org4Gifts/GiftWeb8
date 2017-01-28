@@ -325,8 +325,6 @@ public class MainServlet extends HttpServlet {
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
-			// ArrayList<ArrayList<Object>> objs = new ArrayList<>();
-			// ArrayList<Object> objs2 = new ArrayList<>();
 			HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear = new HashMap<>();
 			HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth = new HashMap<>();
 			HashMap<String, ArrayList<Object>> mapsDate = new HashMap<>();
@@ -490,7 +488,6 @@ public class MainServlet extends HttpServlet {
 			case "auser":
 				ArrayList<AUSER> query1 = querys.getUsers(manager, key, value);
 				if (query1 != null) {
-					// objs.addAll(querys.getUsers(manager, key, value));
 					objs.addAll(query1);
 					Collections.reverse(objs);
 				}
@@ -564,8 +561,6 @@ public class MainServlet extends HttpServlet {
 
 			request.getRequestDispatcher("/FrontEnd/Querys/query_key.jsp").forward(request, response);
 
-			// request.getRequestDispatcher("/index_new.jsp").forward(request,
-			// response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);

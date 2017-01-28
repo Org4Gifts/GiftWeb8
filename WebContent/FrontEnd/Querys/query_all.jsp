@@ -1,3 +1,5 @@
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Set"%>
 <%@page import="tw.youth.project.gift2016.sql.adep.ADEP"%>
 <%@page import="tw.youth.project.gift2016.sql.afab.AFAB"%>
 <%@page import="tw.youth.project.gift2016.sql.ainventory.AINVENTORY"%>
@@ -33,12 +35,18 @@
 			<div>
 				<div>
 					<%
-						Map<String, ArrayList<Object>> maps = new HashMap<>();
-						if(request.getAttribute("aodr")!=null){							
+					Map<String,HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>>> maps = new HashMap<>();
+						boolean exist = false;
 							for (String table : SQLCmd.TABLES) {
-								maps.put(table, (ArrayList<Object>) request.getAttribute(table));
+								Object obj = request.getAttribute(table);
+								exist=obj!=null;
+								if(exist){
+								maps.put(table, (HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>>) obj);
+								}
 							}
-							}else{
+							exist = maps.size()>0;
+							System.out.println(exist+" ; "+maps.size());
+							if(!exist){
 								%>
 					<form action="<%=application.getContextPath()%>/Service.do"
 						method="post" id="queryAll">
@@ -50,12 +58,12 @@
 					<%
 										return;
 										}
-							
 						%>
 					<div class="TreeMenu">
-						<h1>公關禮品申請管理系統-所有任務</h1>
+						<h1>所有任務</h1>
 						<h2 style="cursor: pointer; cursor: hand" onClick="expandit(this)">使用者個人工號</h2>
 						<span style="display: none" style=&{head};>
+						<%if(exist){%>
 							<div class="section1">
 								<ul>
 									<li><h3 style="cursor: pointer; cursor: hand"
@@ -71,71 +79,51 @@
 															<div class="section3">
 																<ul>
 																	<% 
-																	int startYear = 2016;
-																	int endYear = 2016;
-																	Map<String, ArrayList<Object>> subMaps = new HashMap<>();
-																	ArrayList<Object> arrs = new ArrayList<>();
-																	Object objs[] = {};
-																	for(Object table_value : maps.get(table)){
-																		switch (table) {
-																			case "auser" :
-																				objs = ((AUSER)table_value).getValuesFull();
-																				break;
-																			case "aemp" :
-																				objs = ((AEMP)table_value).getValuesFull();
-																				break;
-																			case "avdr" :
-																				objs = ((AVDR)table_value).getValuesFull();
-																				break;
-																			case "aqty" :
-																				objs = ((AQTY)table_value).getValuesFull();
-																				break;
-																			case "apresent" :																				
-																				objs = ((APRESENT)table_value).getValuesFull();
-																				break;
-																			case "aodr" :
-																				objs = ((AODR)table_value).getValuesFull();
-																				break;
-																			case "aio" :
-																				objs = ((AIO)table_value).getValuesFull();
-																				break;
-																			case "ainventory" :
-																				objs = ((AINVENTORY)table_value).getValuesFull();
-																				break;
-																			case "afab" :
-																				objs = ((AFAB)table_value).getValuesFull();
-																				break;
-																			case "adep" :
-																				objs = ((ADEP)table_value).getValuesFull();
-																				break;
-																		}
-																		if(objs[objs.length-2].toString().contains(startYear+""))
-																			arrs.add(objs);
-																		else{
-																			subMaps.put(endYear++ +"", arrs);
-																			arrs = new ArrayList<>();
-																		}
-																	}
-																	for(int i = startYear;i<=endYear;i++){																		
+																	HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear = maps.get(table);
+																	System.out.println(mapsYear);
+																	if(mapsYear!=null){
+																	Iterator<String> itYear = mapsYear.keySet().iterator();
+																	while(itYear.hasNext()){
+																		String year = itYear.next();
 																	%>
 																	<li><h5 style="cursor: pointer; cursor: hand"
-																			onClick="expandit(this)">i</h5> <span
+																			onClick="expandit(this)"><%=year%></h5> <span
 																		style="display: none" style=&{head};>
 																			<div class="section4">
 																				<ul>
 																					<div class="section5">
-																						<ul>
+																						<ul><%
+																						HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth = mapsYear.get(year);
+																							Iterator<String> itMonth = mapsMonth.keySet().iterator();
+																						while(itMonth.hasNext()){
+																							String month = itMonth.next();
+																						%>
 																							<li><h6
 																									style="cursor: pointer; cursor: hand"
-																									onClick="expandit(this)">月份</h6> <span
+																									onClick="expandit(this)"><%=month%></h6> <span
 																								style="display: none" style=&{head};>
 																									<div class="section6">
 																										<ul>
 																											<div class="section7">
 																												<ul>
+																												<%
+																												HashMap<String, ArrayList<Object>> mapsDay = mapsMonth.get(month);
+																												Iterator<String> itDay = mapsDay.keySet().iterator();
+																												while(itDay.hasNext()){
+																													String day = itDay.next();
+																												%>
 																													<li><h7
 																															style="cursor: pointer; cursor: hand"
-																															onClick="expandit(this)">日期</h7> <span
+																															onClick="expandit(this)"><%=day%></h7> <span
+																														style="display: none" style=&{head};>
+																															<div class="section8">
+																																<ul>
+																																<%																																
+																																for(Object obj:mapsDay.get(day)){
+																																%>
+																																	<li><h8
+																															style="cursor: pointer; cursor: hand"
+																															onClick="expandit(this)"><%=obj%></h8> <span
 																														style="display: none" style=&{head};>
 																															<div class="section8">
 																																<ul>
@@ -143,24 +131,38 @@
 																																</ul>
 																															</div>
 																													</span></li>
+																													<%}%>
+																																</ul>
+																															</div>
+																													</span></li>
+																													<%}%>
 																												</ul>
 																											</div>
 																										</ul>
 																									</div>
 																							</span></li>
+																							<%}%>
 																						</ul>
 																					</div>
 																				</ul>
 																			</div>
 																	</span></li>
-																	<%}%>
+																	<%}
+																	}%>
 																</ul>
 															</div>
 													</span></li>
 												</ul>
-											</div> <%
- 	}
- %>
+											</div> 
+											<%
+											
+ 	}}else{
+
+		%>
+		<h3>查無資料</h3>
+		<%
+										}
+										%>
 									</span></li>
 								</ul>
 							</div>
