@@ -35,6 +35,7 @@
 			<div>
 				<div>
 					<%
+					System.out.println("query_all.jsp : "+System.currentTimeMillis());
 					Map<String,HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>>> maps = new HashMap<>();
 						boolean exist = false;
 							for (String table : SQLCmd.TABLES) {
@@ -45,7 +46,6 @@
 								}
 							}
 							exist = maps.size()>0;
-							System.out.println(exist+" ; "+maps.size());
 							if(!exist){
 								%>
 					<form action="<%=application.getContextPath()%>/Service.do"
@@ -80,7 +80,7 @@
 																<ul>
 																	<% 
 																	HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear = maps.get(table);
-																	System.out.println(mapsYear);
+																	//System.out.println(mapsYear);
 																	if(mapsYear!=null){
 																	Iterator<String> itYear = mapsYear.keySet().iterator();
 																	while(itYear.hasNext()){
@@ -94,7 +94,7 @@
 																					<div class="section5">
 																						<ul><%
 																						HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth = mapsYear.get(year);
-																							Iterator<String> itMonth = mapsMonth.keySet().iterator();
+																						Iterator<String> itMonth = mapsMonth.keySet().iterator();
 																						while(itMonth.hasNext()){
 																							String month = itMonth.next();
 																						%>
@@ -162,6 +162,7 @@
 		<h3>查無資料</h3>
 		<%
 										}
+						System.out.println("query_all.jsp : "+System.currentTimeMillis());
 										%>
 									</span></li>
 								</ul>

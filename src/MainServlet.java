@@ -320,7 +320,7 @@ public class MainServlet extends HttpServlet {
 	private void queryByUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 全查詢
-
+		System.out.println("MainServlet-queryByUser() : "+System.currentTimeMillis());
 		String userCode = getUserCode(request);
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
@@ -338,6 +338,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("aodr", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 			
 			ArrayList<AIO> aios = querys.getAios(manager, new AIO().getKeys()[1], "");
@@ -348,6 +350,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("aio", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 			
 			ArrayList<AEMP> aemps = querys.getAemps(manager, new AEMP().getKeys()[1], "");
@@ -358,6 +362,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("aemp", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 			
 			
@@ -369,6 +375,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("adep", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 			
 			ArrayList<AFAB> afabs = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
@@ -379,6 +387,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("afab", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 			
 			ArrayList<AINVENTORY> ainventorys = querys.getAinventorys(manager, new AINVENTORY().getKeys()[1], "");
@@ -389,6 +399,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("ainventory", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 
 			ArrayList<AIODT> aiodts = querys.getAiodts(manager, "");
@@ -399,6 +411,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("aiodt", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 			
 			ArrayList<AODRDT> aodrdts = querys.getAodrdts(manager, "");
@@ -409,6 +423,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("aodrdt", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 
 			ArrayList<APRESENT> apresents = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
@@ -419,6 +435,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("apresent", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 
 			ArrayList<AQTY> aqtys = querys.getAqtys(manager, new AQTY().getKeys()[1], "");
@@ -429,6 +447,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("aqty", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 
 			ArrayList<ASIGNLOG> asignlogs = querys.getAsignlogs(manager, "");
@@ -439,6 +459,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("asignlog", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 			
 			ArrayList<AVDR> avdrs = querys.getAvdrs(manager, new AVDR().getKeys()[1], "");
@@ -449,6 +471,8 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("avdr", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
 			
 			ArrayList<AUSER> ausers = querys.getUsers(manager, new AUSER().getKeys()[1], "");
@@ -459,8 +483,10 @@ public class MainServlet extends HttpServlet {
 				}
 				request.setAttribute("auser", mapsYear);
 				mapsYear = new HashMap<>();
+				mapsMonth = new HashMap<>();
+				mapsDate = new HashMap<>();
 			}
-
+			System.out.println("MainServlet-queryByUser() : "+System.currentTimeMillis());
 			request.getRequestDispatcher("/FrontEnd/Querys/query_all.jsp").forward(request, response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
