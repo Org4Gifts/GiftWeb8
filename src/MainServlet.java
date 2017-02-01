@@ -297,6 +297,7 @@ public class MainServlet extends HttpServlet {
 	HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth,
 	HashMap<String, ArrayList<Object>> mapsDate,
 	ArrayList<Object> days,Object obj){
+		System.out.println(obj);
 		if(!mapsYear.containsKey(yymmdd[0])){
 			mapsYear.put(yymmdd[0], mapsMonth);
 			mapsMonth = new HashMap<>();
@@ -308,6 +309,7 @@ public class MainServlet extends HttpServlet {
 				if(!mapsDate.containsKey(yymmdd[2])){
 					mapsDate.put(yymmdd[2], days);
 					days = new ArrayList<>();
+					days.add(obj);
 				}else{
 					days.add(obj);
 				}
