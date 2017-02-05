@@ -57,6 +57,12 @@ public class MainServlet extends HttpServlet {
 	// 定時器，用來清除上面兩個名單用
 	private long time = 30 * 60 * 1000;
 	// 30分
+	
+	private HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear;
+	private HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth;
+	private HashMap<String, ArrayList<Object>> mapsDate;
+	private ArrayList<Object> days;
+	//儲存全查詢用的功能
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -293,22 +299,33 @@ public class MainServlet extends HttpServlet {
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
 	
-	private void setMaps(String[] yymmdd,HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear,
-	HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth,
-	HashMap<String, ArrayList<Object>> mapsDate,
-	ArrayList<Object> days,Object obj){
-		System.out.println(obj);
+	private void setMaps(String[] yymmdd,
+//			HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear,
+//	HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth,
+//	HashMap<String, ArrayList<Object>> mapsDate,
+//	ArrayList<Object> days,
+	Object obj){
+		if(obj.toString().contains("aodr")){
+		}
 		if(!mapsYear.containsKey(yymmdd[0])){
-			mapsYear.put(yymmdd[0], mapsMonth);
 			mapsMonth = new HashMap<>();
+			mapsDate = new HashMap<>();
+			days = new ArrayList<>();
+			mapsYear.put(yymmdd[0], mapsMonth);
+			mapsMonth.put(yymmdd[1], mapsDate);
+			mapsDate.put(yymmdd[2], days);
+			days.add(obj);
 		}else{
 			if(!mapsMonth.containsKey(yymmdd[1])){
-				mapsMonth.put(yymmdd[1], mapsDate);
 				mapsDate = new HashMap<>();
+				days = new ArrayList<>();
+				mapsMonth.put(yymmdd[1], mapsDate);
+				mapsDate.put(yymmdd[2], days);
+				days.add(obj);
 			}else{
 				if(!mapsDate.containsKey(yymmdd[2])){
-					mapsDate.put(yymmdd[2], days);
 					days = new ArrayList<>();
+					mapsDate.put(yymmdd[2], days);
 					days.add(obj);
 				}else{
 					days.add(obj);
@@ -327,16 +344,21 @@ public class MainServlet extends HttpServlet {
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
-			HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear = new HashMap<>();
-			HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth = new HashMap<>();
-			HashMap<String, ArrayList<Object>> mapsDate = new HashMap<>();
-			ArrayList<Object> days = new ArrayList<>();
+//			HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear = new HashMap<>();
+//			HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth = new HashMap<>();
+//			HashMap<String, ArrayList<Object>> mapsDate = new HashMap<>();
+//			ArrayList<Object> days = new ArrayList<>();
+			mapsYear = new HashMap<>();
+			mapsMonth = new HashMap<>();
+			mapsDate = new HashMap<>();
+			days = new ArrayList<>();
 			
 			ArrayList<AODR> aodrs = querys.getAodrs(manager);
 			if (aodrs != null) {
 				for (AODR aodr : aodrs) {
 					String[] yymmdd = aodr.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodr);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodr);
+					setMaps(yymmdd, aodr);
 				}
 				request.setAttribute("aodr", mapsYear);
 				mapsYear = new HashMap<>();
@@ -348,7 +370,8 @@ public class MainServlet extends HttpServlet {
 			if(aios != null){
 				for (AIO aio : aios) {
 					String[] yymmdd = aio.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aio);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aio);
+					setMaps(yymmdd, aio);
 				}
 				request.setAttribute("aio", mapsYear);
 				mapsYear = new HashMap<>();
@@ -360,7 +383,8 @@ public class MainServlet extends HttpServlet {
 			if(aemps != null){
 				for (AEMP aemp : aemps) {
 					String[] yymmdd = aemp.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aemp);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aemp);
+					setMaps(yymmdd, aemp);
 				}
 				request.setAttribute("aemp", mapsYear);
 				mapsYear = new HashMap<>();
@@ -373,7 +397,8 @@ public class MainServlet extends HttpServlet {
 			if(adeps != null){
 				for (ADEP adep : adeps) {
 					String[] yymmdd = adep.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,adep);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,adep);
+					setMaps(yymmdd, adep);
 				}
 				request.setAttribute("adep", mapsYear);
 				mapsYear = new HashMap<>();
@@ -385,7 +410,8 @@ public class MainServlet extends HttpServlet {
 			if(afabs != null){
 				for (AFAB afab : afabs) {
 					String[] yymmdd = afab.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,afab);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,afab);
+					setMaps(yymmdd, afab);
 				}
 				request.setAttribute("afab", mapsYear);
 				mapsYear = new HashMap<>();
@@ -397,7 +423,8 @@ public class MainServlet extends HttpServlet {
 			if(ainventorys != null){
 				for (AINVENTORY ainventory : ainventorys) {
 					String[] yymmdd = ainventory.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,ainventory);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,ainventory);
+					setMaps(yymmdd, ainventory);
 				}
 				request.setAttribute("ainventory", mapsYear);
 				mapsYear = new HashMap<>();
@@ -409,7 +436,8 @@ public class MainServlet extends HttpServlet {
 			if(aiodts != null){
 				for (AIODT aiodt : aiodts) {
 					String[] yymmdd = aiodt.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aiodt);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aiodt);
+					setMaps(yymmdd, aiodt);
 				}
 				request.setAttribute("aiodt", mapsYear);
 				mapsYear = new HashMap<>();
@@ -421,7 +449,8 @@ public class MainServlet extends HttpServlet {
 			if(aodrdts != null){
 				for (AODRDT aodrdt : aodrdts) {
 					String[] yymmdd = aodrdt.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodrdt);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodrdt);
+					setMaps(yymmdd, aodrdt);
 				}
 				request.setAttribute("aodrdt", mapsYear);
 				mapsYear = new HashMap<>();
@@ -433,7 +462,8 @@ public class MainServlet extends HttpServlet {
 			if(apresents != null){
 				for (APRESENT apresent : apresents) {
 					String[] yymmdd = apresent.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,apresent);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,apresent);
+					setMaps(yymmdd, apresent);
 				}
 				request.setAttribute("apresent", mapsYear);
 				mapsYear = new HashMap<>();
@@ -445,7 +475,8 @@ public class MainServlet extends HttpServlet {
 			if(aqtys != null){
 				for (AQTY aqty : aqtys) {
 					String[] yymmdd = aqty.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aqty);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aqty);
+					setMaps(yymmdd, aqty);
 				}
 				request.setAttribute("aqty", mapsYear);
 				mapsYear = new HashMap<>();
@@ -457,7 +488,8 @@ public class MainServlet extends HttpServlet {
 			if(asignlogs != null){
 				for (ASIGNLOG asignlog : asignlogs) {
 					String[] yymmdd = asignlog.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,asignlog);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,asignlog);
+					setMaps(yymmdd, asignlog);
 				}
 				request.setAttribute("asignlog", mapsYear);
 				mapsYear = new HashMap<>();
@@ -469,7 +501,8 @@ public class MainServlet extends HttpServlet {
 			if(avdrs != null){
 				for (AVDR avdr : avdrs) {
 					String[] yymmdd = avdr.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,avdr);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,avdr);
+					setMaps(yymmdd, avdr);
 				}
 				request.setAttribute("avdr", mapsYear);
 				mapsYear = new HashMap<>();
@@ -481,7 +514,8 @@ public class MainServlet extends HttpServlet {
 			if(ausers != null){
 				for (AUSER auser : ausers) {
 					String[] yymmdd = auser.getCreated().toString().substring(0, 10).split("-");
-					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,auser);
+//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,auser);
+					setMaps(yymmdd, auser);
 				}
 				request.setAttribute("auser", mapsYear);
 				mapsYear = new HashMap<>();
