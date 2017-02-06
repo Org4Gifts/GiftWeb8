@@ -334,6 +334,7 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// 全查詢
 		System.out.println("MainServlet-queryByUser() : "+System.currentTimeMillis());
+		System.out.println(request.getParameter("sortKey"));
 		String userCode = getUserCode(request);
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {

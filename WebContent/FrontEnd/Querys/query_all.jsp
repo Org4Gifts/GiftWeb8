@@ -1,3 +1,5 @@
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.Collection"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.Set"%>
 <%@page import="tw.youth.project.gift2016.sql.adep.ADEP"%>
@@ -27,16 +29,31 @@
 			<a href="#">申請單/查詢</a>
 			<span class="divider">/</span> 依狀態查詢
 		</ul>
+		<%
+		System.out.println("query_all.jsp : "+System.currentTimeMillis());
+		boolean sortKey = false;
+		String sortString = request.getParameter("sortKey") ;
+		System.out.println("chk1 : "+sortKey+" ; "+sortString+" ; ");
+		if(sortString!=null){
+			if(sortString.equals("yes"))
+				sortKey = true;
+			else
+				sortString = "yes";
+		}else	
+			sortString = "no";
+		
+		System.out.println("chk2 : "+sortKey+" ; "+sortString+" ; ");
+		%>
 		<div class="title_right">
 			<span class="pull-right margin-bottom-5"> <a
 				class="btn btn-info btn-small" id="modal-9735581"
-				href="#modal-container-9735581" role="button" data-toggle="modal"><i
-					class="icon-plus icon-white"></i>功能按鈕</a></span><strong>使用工號查詢</strong>
+				onclick="sort()" role="button" data-toggle="modal"><i
+					class="icon-plus icon-white"></i>更改排序</a></span>
+					<strong>使用工號查詢</strong>
 			<div>
 				<div>
 					<%
-					System.out.println("query_all.jsp : "+System.currentTimeMillis());
-					Map<String,TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>>> maps = new TreeMap<>();
+				Map<String,TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>>> maps = new TreeMap<>();
 						boolean exist = false;
 							for (String table : SQLCmd.TABLES) {
 								Object obj = request.getAttribute(table);
@@ -51,6 +68,7 @@
 					<form action="<%=application.getContextPath()%>/Service.do"
 						method="post" id="queryAll">
 						<input type="hidden" name="queryAll" value="queryAll" />
+						<input type="hidden" name="sortKey" value="<%=sortString%>" />
 					</form>
 					<script type="text/javascript">
 						document.getElementById("queryAll").submit();
@@ -81,8 +99,9 @@
 																	<% 
 																	TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>> mapsYear = maps.get(table);
 																	//System.out.println(mapsYear);
+																		
 																	if(mapsYear!=null){
-																	Iterator<String> itYear = mapsYear.keySet().iterator();
+																	Iterator<String> itYear = sortKey ? mapsYear.descendingKeySet().iterator() : mapsYear.keySet().iterator();
 																	while(itYear.hasNext()){
 																		String year = itYear.next();
 																	%>
@@ -94,7 +113,7 @@
 																					<div class="section5">
 																						<ul><%
 																						TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth = mapsYear.get(year);
-																						Iterator<String> itMonth = mapsMonth.keySet().iterator();
+																						Iterator<String> itMonth = sortKey ? mapsMonth.descendingKeySet().iterator() : mapsMonth.keySet().iterator();
 																						while(itMonth.hasNext()){
 																							String month = itMonth.next();
 																						%>
@@ -108,7 +127,7 @@
 																												<ul>
 																												<%
 																												TreeMap<String, ArrayList<Object>> mapsDay = mapsMonth.get(month);
-																												Iterator<String> itDay = mapsDay.keySet().iterator();
+																												Iterator<String> itDay = sortKey ? mapsDay.descendingKeySet().iterator() : mapsDay.keySet().iterator() ;
 																												while(itDay.hasNext()){
 																													String day = itDay.next();
 																												%>
@@ -192,5 +211,21 @@
 			folder.display = ""
 		else
 			folder.display = "none"
+	}
+	
+	function sort(){
+		var sortKey = '${sortKey}';
+		var locations = window.location.toString();
+		alert(sortKey);
+		
+        if(locations.indexOf("?") != -1){
+            locations = locations.substring(0,locations.indexOf("?"));
+        }
+        
+        if(locations.indexOf(".do") != -1){
+            locations = locations.substring(0,locations.indexOf("S"))+"FrontEnd/Querys/query_all.jsp";
+        }         
+		
+			location.href= locations; //直接透過給參數的轉址來達成換值
 	}
 </script>
