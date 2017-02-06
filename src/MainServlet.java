@@ -1,13 +1,9 @@
 
 import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,8 +14,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tomcat.util.bcel.Const;
 
 import tw.youth.project.gift2016.consts.ConstValue;
 import tw.youth.project.gift2016.func.Login;
@@ -58,9 +52,9 @@ public class MainServlet extends HttpServlet {
 	private long time = 30 * 60 * 1000;
 	// 30分
 	
-	private HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear;
-	private HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth;
-	private HashMap<String, ArrayList<Object>> mapsDate;
+	private TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>> mapsYear;
+	private TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth;
+	private TreeMap<String, ArrayList<Object>> mapsDate;
 	private ArrayList<Object> days;
 	//儲存全查詢用的功能
 
@@ -73,8 +67,8 @@ public class MainServlet extends HttpServlet {
 		manager = new DBManager(SQLCmd.DB_URL, SQLCmd.DB_NAME, SQLCmd.DB_USER, SQLCmd.DB_PASS);
 		manager.starup();
 		// 啟動資料庫
-		userList = new HashMap<>();
-		changePassList = new HashMap<>();
+		userList = new TreeMap<>();
+		changePassList = new TreeMap<>();
 
 		startTimer();
 		// 啟動定時器
@@ -300,16 +294,16 @@ public class MainServlet extends HttpServlet {
 	}
 	
 	private void setMaps(String[] yymmdd,
-//			HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear,
-//	HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth,
-//	HashMap<String, ArrayList<Object>> mapsDate,
+//			TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>> mapsYear,
+//	TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth,
+//	TreeMap<String, ArrayList<Object>> mapsDate,
 //	ArrayList<Object> days,
 	Object obj){
 		if(obj.toString().contains("aodr")){
 		}
 		if(!mapsYear.containsKey(yymmdd[0])){
-			mapsMonth = new HashMap<>();
-			mapsDate = new HashMap<>();
+			mapsMonth = new TreeMap<>();
+			mapsDate = new TreeMap<>();
 			days = new ArrayList<>();
 			mapsYear.put(yymmdd[0], mapsMonth);
 			mapsMonth.put(yymmdd[1], mapsDate);
@@ -317,7 +311,7 @@ public class MainServlet extends HttpServlet {
 			days.add(obj);
 		}else{
 			if(!mapsMonth.containsKey(yymmdd[1])){
-				mapsDate = new HashMap<>();
+				mapsDate = new TreeMap<>();
 				days = new ArrayList<>();
 				mapsMonth.put(yymmdd[1], mapsDate);
 				mapsDate.put(yymmdd[2], days);
@@ -344,13 +338,13 @@ public class MainServlet extends HttpServlet {
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
-//			HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear = new HashMap<>();
-//			HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth = new HashMap<>();
-//			HashMap<String, ArrayList<Object>> mapsDate = new HashMap<>();
+//			TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>> mapsYear = new TreeMap<>();
+//			TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth = new TreeMap<>();
+//			TreeMap<String, ArrayList<Object>> mapsDate = new TreeMap<>();
 //			ArrayList<Object> days = new ArrayList<>();
-			mapsYear = new HashMap<>();
-			mapsMonth = new HashMap<>();
-			mapsDate = new HashMap<>();
+			mapsYear = new TreeMap<>();
+			mapsMonth = new TreeMap<>();
+			mapsDate = new TreeMap<>();
 			days = new ArrayList<>();
 			
 			ArrayList<AODR> aodrs = querys.getAodrs(manager);
@@ -361,9 +355,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, aodr);
 				}
 				request.setAttribute("aodr", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			
 			ArrayList<AIO> aios = querys.getAios(manager, new AIO().getKeys()[1], "");
@@ -374,9 +368,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, aio);
 				}
 				request.setAttribute("aio", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			
 			ArrayList<AEMP> aemps = querys.getAemps(manager, new AEMP().getKeys()[1], "");
@@ -387,9 +381,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, aemp);
 				}
 				request.setAttribute("aemp", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			
 			
@@ -401,9 +395,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, adep);
 				}
 				request.setAttribute("adep", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			
 			ArrayList<AFAB> afabs = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
@@ -414,9 +408,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, afab);
 				}
 				request.setAttribute("afab", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			
 			ArrayList<AINVENTORY> ainventorys = querys.getAinventorys(manager, new AINVENTORY().getKeys()[1], "");
@@ -427,9 +421,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, ainventory);
 				}
 				request.setAttribute("ainventory", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 
 			ArrayList<AIODT> aiodts = querys.getAiodts(manager, "");
@@ -440,9 +434,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, aiodt);
 				}
 				request.setAttribute("aiodt", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			
 			ArrayList<AODRDT> aodrdts = querys.getAodrdts(manager, "");
@@ -453,9 +447,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, aodrdt);
 				}
 				request.setAttribute("aodrdt", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 
 			ArrayList<APRESENT> apresents = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
@@ -466,9 +460,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, apresent);
 				}
 				request.setAttribute("apresent", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 
 			ArrayList<AQTY> aqtys = querys.getAqtys(manager, new AQTY().getKeys()[1], "");
@@ -479,9 +473,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, aqty);
 				}
 				request.setAttribute("aqty", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 
 			ArrayList<ASIGNLOG> asignlogs = querys.getAsignlogs(manager, "");
@@ -492,9 +486,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, asignlog);
 				}
 				request.setAttribute("asignlog", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			
 			ArrayList<AVDR> avdrs = querys.getAvdrs(manager, new AVDR().getKeys()[1], "");
@@ -505,9 +499,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, avdr);
 				}
 				request.setAttribute("avdr", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			
 			ArrayList<AUSER> ausers = querys.getUsers(manager, new AUSER().getKeys()[1], "");
@@ -518,9 +512,9 @@ public class MainServlet extends HttpServlet {
 					setMaps(yymmdd, auser);
 				}
 				request.setAttribute("auser", mapsYear);
-				mapsYear = new HashMap<>();
-				mapsMonth = new HashMap<>();
-				mapsDate = new HashMap<>();
+				mapsYear = new TreeMap<>();
+				mapsMonth = new TreeMap<>();
+				mapsDate = new TreeMap<>();
 			}
 			System.out.println("MainServlet-queryByUser() : "+System.currentTimeMillis());
 			request.getRequestDispatcher("/FrontEnd/Querys/query_all.jsp").forward(request, response);

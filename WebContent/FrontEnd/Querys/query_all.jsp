@@ -11,7 +11,7 @@
 <%@page import="tw.youth.project.gift2016.sql.user.AEMP"%>
 <%@page import="tw.youth.project.gift2016.sql.user.AUSER"%>
 <%@page import="tw.youth.project.gift2016.sql.SQLCmd"%>
-<%@page import="java.util.HashMap"%>
+<%@page import="java.util.TreeMap"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -36,13 +36,13 @@
 				<div>
 					<%
 					System.out.println("query_all.jsp : "+System.currentTimeMillis());
-					Map<String,HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>>> maps = new HashMap<>();
+					Map<String,TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>>> maps = new TreeMap<>();
 						boolean exist = false;
 							for (String table : SQLCmd.TABLES) {
 								Object obj = request.getAttribute(table);
 								exist=obj!=null;
 								if(exist){
-								maps.put(table, (HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>>) obj);
+								maps.put(table, (TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>>) obj);
 								}
 							}
 							exist = maps.size()>0;
@@ -79,7 +79,7 @@
 															<div class="section3">
 																<ul>
 																	<% 
-																	HashMap<String, HashMap<String, HashMap<String, ArrayList<Object>>>> mapsYear = maps.get(table);
+																	TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>> mapsYear = maps.get(table);
 																	//System.out.println(mapsYear);
 																	if(mapsYear!=null){
 																	Iterator<String> itYear = mapsYear.keySet().iterator();
@@ -93,7 +93,7 @@
 																				<ul>
 																					<div class="section5">
 																						<ul><%
-																						HashMap<String, HashMap<String, ArrayList<Object>>> mapsMonth = mapsYear.get(year);
+																						TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth = mapsYear.get(year);
 																						Iterator<String> itMonth = mapsMonth.keySet().iterator();
 																						while(itMonth.hasNext()){
 																							String month = itMonth.next();
@@ -107,7 +107,7 @@
 																											<div class="section7">
 																												<ul>
 																												<%
-																												HashMap<String, ArrayList<Object>> mapsDay = mapsMonth.get(month);
+																												TreeMap<String, ArrayList<Object>> mapsDay = mapsMonth.get(month);
 																												Iterator<String> itDay = mapsDay.keySet().iterator();
 																												while(itDay.hasNext()){
 																													String day = itDay.next();
