@@ -333,8 +333,6 @@ public class MainServlet extends HttpServlet {
 	private void queryByUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 全查詢
-		System.out.println("MainServlet-queryByUser() : "+System.currentTimeMillis());
-		System.out.println(request.getParameter("sortKey"));
 		String userCode = getUserCode(request);
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
@@ -517,7 +515,6 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			System.out.println("MainServlet-queryByUser() : "+System.currentTimeMillis());
 			request.getRequestDispatcher("/FrontEnd/Querys/query_all.jsp").forward(request, response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);

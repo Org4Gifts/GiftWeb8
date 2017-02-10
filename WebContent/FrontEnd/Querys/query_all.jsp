@@ -35,10 +35,12 @@
 		String sortString = request.getParameter("sortKey") ;
 		System.out.println("chk1 : "+sortKey+" ; "+sortString+" ; ");
 		if(sortString!=null){
-			if(sortString.equals("yes"))
+			if(sortString.equals("yes")){
 				sortKey = true;
-			else
+				sortString = "no";	
+			}else{
 				sortString = "yes";
+				}
 		}else	
 			sortString = "no";
 		
@@ -64,6 +66,7 @@
 							}
 							exist = maps.size()>0;
 							if(!exist){
+								sortString = sortString.equals("yes") ? "no":"yes" ;
 								%>
 					<form action="<%=application.getContextPath()%>/Service.do"
 						method="post" id="queryAll">
@@ -214,9 +217,10 @@
 	}
 	
 	function sort(){
-		var sortKey = '${sortKey}';
+		//var sortKey = '${sortKey}';
+		var sortString = '<%=sortString%>';
 		var locations = window.location.toString();
-		alert(sortKey);
+		alert(sortString);
 		
         if(locations.indexOf("?") != -1){
             locations = locations.substring(0,locations.indexOf("?"));
@@ -226,6 +230,6 @@
             locations = locations.substring(0,locations.indexOf("S"))+"FrontEnd/Querys/query_all.jsp";
         }         
 		
-			location.href= locations; //直接透過給參數的轉址來達成換值
+			location.href= locations+"?sortKey="+sortString; //直接透過給參數的轉址來達成換值
 	}
 </script>
