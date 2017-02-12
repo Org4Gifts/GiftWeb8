@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@include file="/FrontEnd/SubPages/header.jspf"%>
-<%@include file="/FrontEnd/SubPages/header-input-css.jspf"%>
 <!--container-->
 <div>
 	<div class="container">
@@ -12,18 +10,35 @@
 					<div>
 						<h1>修改密碼</h1>
 					</div>
-
-					<form action="<%=application.getContextPath()%>/Login.do"
+					<%
+	String key = request.getParameter("mailKey") != null ? request.getParameter("mailKey") : "";
+	Cookie[] cookies = request.getCookies();
+	String userCode = null;
+	for (Cookie cook : cookies) {
+		if (cook.getName().equals("userCode")) {
+			userCode = cook.getValue();
+			break;
+		}
+	}
+%>
+					<form action="<%=application.getContextPath()%>/Service.do"
 						method="post" name="changePwd" id="changePwd"
 						class="form-horizontal" onSubmit="return chkPwd()">
 						<fieldset>
+						<%
+						if (userCode != null && !userCode.equals("")) {
+					%>
 							<div class="control-group">
+							
 								<label class="control-label" for="pass">輸入舊密碼</label>
 								<div class="controls">
 									<input type="password" class="input-large" name="pass"
 										id="pass" required>
 								</div>
 							</div>
+							<%
+						}
+					%>
 							<div class="control-group">
 								<label class="control-label" for="newpass">輸入新密碼</label>
 								<div class="controls">
@@ -73,5 +88,3 @@
 		alert(error);
 	}
 </script>
-
-<%@include file="/FrontEnd/SubPages/footer-input-js.jspf"%>

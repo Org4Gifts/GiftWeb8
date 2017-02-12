@@ -39,14 +39,14 @@
 					<p>請輸入：</p>
 					<div class="field">
 						<label for="username">帳號:</label> <input type="text" id="username"
-							name="login_user" value="" placeholder="員工工號"
+							name="loginUser" value="" placeholder="員工工號"
 							class="login username-field" />
 					</div>
 					<!-- /field -->
 
 					<div class="field">
 						<label for="password">密碼:</label> <input type="password"
-							id="password" name="login_pass" value="" placeholder="密碼"
+							id="password" name="loginPass" value="" placeholder="密碼"
 							class="login password-field" />
 					</div>
 					<!-- /password -->

@@ -32,11 +32,11 @@
 					
 					<div>
 						<%
-							String option = request.getParameter("query_option");
+							String option = request.getParameter("queryOption");
 							option = option != null ? option : "auser";
 						%>
 						<form action="<%=application.getContextPath()%>/Service.do" method="post" name="query" id="query">
-							<select id=select name="query_option" onchange="getKey()">
+							<select id=select name="queryOption" onchange="getKey()">
 								<option value="auser" <%if (option.equals("auser")) {%>
 									selected="selected" <%}%>>使用者</option>
 								<option value="aemp" <%if (option.equals("aemp")) {%>
@@ -58,7 +58,7 @@
 									selected="selected" <%}%>>廠別</option>
 								<option value="adep" <%if (option.equals("adep")) {%>
 									selected="selected" <%}%>>部門</option>
-							</select> <select id=select name="query_key">
+							</select> <select id=select name="queryKey">
 								<%
 									String keys[] = {};
 									switch (option) {

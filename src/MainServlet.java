@@ -96,7 +96,7 @@ public class MainServlet extends HttpServlet {
 				logout(request, response);
 				break;
 			case "queryAll":
-				queryByUser(request, response);
+				queryUser(request, response);
 				break;
 			}
 		}
@@ -122,7 +122,7 @@ public class MainServlet extends HttpServlet {
 			String paramName = parameterNames.nextElement();
 
 			switch (paramName) {
-			case "login_user":
+			case "loginUser":
 				chkLogin(request, response);
 				break;
 			case "mailKey":
@@ -134,20 +134,20 @@ public class MainServlet extends HttpServlet {
 			case "email":
 				sendEmail(request, response);
 				break;
-			case "query_option":
-				if (!request.getParameter("query_type").equals("change"))
-					queryByKey(request, response);
+			case "queryOption":
+				if (!request.getParameter("queryType").equals("change"))
+					queryKey(request, response);
 				else
-					request.getRequestDispatcher("/query_key.jsp").forward(request, response);
+					request.getRequestDispatcher("/queryKey.jsp").forward(request, response);
 				break;
-			case "query_bulletin":
-				queryByBulletin(request, response);
+			case "queryBulletin":
+				queryBulletin(request, response);
 				break;
-			case "query_order":
-				queryByOrder(request, response);
+			case "queryOrder":
+				queryOrder(request, response);
 				break;
 			case "queryAll":
-				queryByUser(request, response);
+				queryUser(request, response);
 				break;
 			}
 		}
@@ -156,7 +156,7 @@ public class MainServlet extends HttpServlet {
 	private void chkLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 登入功能實作
-		Login login = new Login(manager, request.getParameter("login_user"), request.getParameter("login_pass"));
+		Login login = new Login(manager, request.getParameter("loginUser"), request.getParameter("loginPass"));
 		// 檢查登入成功否? 成功則用Cookie儲存使用者的userCode作驗證並返回首頁，失敗則回到登入頁面繼續登入動作
 		if (login.checkLogin().equals(ConstValue.LOGIN_SUCCESS)) {
 			AUSER user = login.getUser();
@@ -169,7 +169,7 @@ public class MainServlet extends HttpServlet {
 			response.addCookie(cookie);// 儲存Cookie
 			// response.sendRedirect(this.getServletContext().getContextPath() +
 			// "/index.jsp");
-			response.sendRedirect(this.getServletContext().getContextPath() + "/index_new.jsp");
+			response.sendRedirect(this.getServletContext().getContextPath() + "/index.jsp");
 			// request.getRequestDispatcher("/index.jsp").forward(request,
 			// response);
 		} else {
@@ -258,7 +258,7 @@ public class MainServlet extends HttpServlet {
 		} else {
 			info[0] = time;
 			changePassList.put(val, info);
-			request.setAttribute("mail_success", "已發送忘記密碼郵件至您的信箱");
+			request.setAttribute("mailSuccess", "已發送忘記密碼郵件至您的信箱");
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 	}
@@ -330,7 +330,7 @@ public class MainServlet extends HttpServlet {
 	
 	}
 
-	private void queryByUser(HttpServletRequest request, HttpServletResponse response)
+	private void queryUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 全查詢
 		String userCode = getUserCode(request);
@@ -523,7 +523,7 @@ public class MainServlet extends HttpServlet {
 
 	}
 
-	private void queryByKey(HttpServletRequest request, HttpServletResponse response)
+	private void queryKey(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 關鍵字查詢
 
@@ -533,9 +533,9 @@ public class MainServlet extends HttpServlet {
 			ArrayList<Object> objs = new ArrayList<>();
 			Querys querys = new Querys(((AUSER) userList.get(userCode)[1]));
 
-			String option = request.getParameter("query_option");
-			String key = request.getParameter("query_key");
-			String value = request.getParameter("query_value");
+			String option = request.getParameter("queryOption");
+			String key = request.getParameter("queryKey");
+			String value = request.getParameter("queryValue");
 			if (key != null) // 如果有key的話
 				value = value != null ? value : "";// 檢查value如果是null，則可能是全查詢，設定空白做全查詢
 			switch (option) {
@@ -610,8 +610,8 @@ public class MainServlet extends HttpServlet {
 				}
 				break;
 			}
-			request.setAttribute("result_option", option);
-			request.setAttribute("result_value", objs);
+			request.setAttribute("resultOption", option);
+			request.setAttribute("resultValue", objs);
 
 			request.getRequestDispatcher("/FrontEnd/Querys/query_key.jsp").forward(request, response);
 
@@ -621,7 +621,7 @@ public class MainServlet extends HttpServlet {
 		}
 	}
 
-	private void queryByBulletin(HttpServletRequest request, HttpServletResponse response)
+	private void queryBulletin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 查詢公告事項
 		String userCode = getUserCode(request);
@@ -636,26 +636,26 @@ public class MainServlet extends HttpServlet {
 				bull = new Bulletin();
 			}
 
-			request.setAttribute("result_option", request.getParameter("query_bulletin"));
-			request.setAttribute("result_value", objs);
-			request.getRequestDispatcher("/index_new.jsp").forward(request, response);
+			request.setAttribute("resultOption", request.getParameter("queryBulletin"));
+			request.setAttribute("resultValue", objs);
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
 
-	private void queryByOrder(HttpServletRequest request, HttpServletResponse response)
+	private void queryOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 查詢公告事項
+		// 查詢訂單
 		String userCode = getUserCode(request);
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys(((AUSER) userList.get(userCode)[1]));
 			ArrayList<AFAB> query1 = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
 			ArrayList<APRESENT> query2 = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
-			request.setAttribute("result_afab", query1);
-			request.setAttribute("result_apresent", query2);
+			request.setAttribute("resultAfab", query1);
+			request.setAttribute("resultApresent", query2);
 			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);

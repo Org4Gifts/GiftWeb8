@@ -49,11 +49,11 @@
 							if (apresents == null) {
 						%>
 						<form action="<%=application.getContextPath()%>/Service.do"
-							method="post" id="query_order">
-							<input type="hidden" name="queryAll" value="queryAll" />
+							method="post" id="queryOrder">
+							<input type="hidden" name="queryOrder" value="queryOrder" />
 						</form>
 						<script type="text/javascript">
-							document.getElementById("query_order").submit();
+							document.getElementById("queryOrder").submit();
 						</script>
 						<%
 							return;
@@ -257,9 +257,9 @@
 
 <%@include file="/FrontEnd/frame2/SubPages/footer2.jspf"%>
 <script type="text/javascript">
-	var result_key = '${result_key}';
-	if (result_key != "") {
-		alert(result_key);
+	var resultKey = '${resultKey}';
+	if (resultKey != "") {
+		alert(resultKey);
 	}
 
 	var locations = window.location.href;
@@ -267,9 +267,9 @@
 	function getKey() {
 		var form = document.getElementById("select");
 		var key = form.options[form.selectedIndex].value;
-		var type = document.getElementById("query_type");
+		var type = document.getElementById("queryType");
 		type.value = "change";
-		location.href = locations + "?query_option=" + key; //直接透過給參數的轉址來達成換值
+		location.href = locations + "?queryOption=" + key; //直接透過給參數的轉址來達成換值
 	}
 	function click(){
 		alert("test");
