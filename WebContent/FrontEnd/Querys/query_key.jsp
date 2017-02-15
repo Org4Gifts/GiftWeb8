@@ -102,17 +102,17 @@
 									}
 									}
 								%>
-							</select> <input type="text" name="query_value" value="" /> <input
-								type="hidden" name="query_type" id="query_type" value="" />
+							</select> <input type="text" name="queryValue" value="" /> <input
+								type="hidden" name="queryType" id="queryType" value="" />
 							<button class="button btn btn-primary btn-large">查詢</button>
 						</form>
 					</div>
 
 					<div>
 						<%
-							String result_option = (String) request.getAttribute("result_option");
+							String result_option = (String) request.getAttribute("resultOption");
 							if (result_option != null) {
-								ArrayList<Object> result_value = (ArrayList<Object>) request.getAttribute("result_value");
+								ArrayList<Object> result_value = (ArrayList<Object>) request.getAttribute("resultValue");
 								if (result_value != null && result_value.size() > 0) {
 						%>
 						<table border="1">

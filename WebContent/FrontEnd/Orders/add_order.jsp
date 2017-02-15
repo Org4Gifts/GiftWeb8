@@ -44,8 +44,8 @@
 				<table class="table table-bordered">
 					<tbody>
 						<%
-							ArrayList<APRESENT> apresents = (ArrayList<APRESENT>) request.getAttribute("result_apresent");
-							ArrayList<AFAB> afabs = (ArrayList<AFAB>) request.getAttribute("result_afab");
+							ArrayList<APRESENT> apresents = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
+							ArrayList<AFAB> afabs = (ArrayList<AFAB>) request.getAttribute("resultAfab");
 							if (apresents == null) {
 						%>
 						<form action="<%=application.getContextPath()%>/Service.do"
