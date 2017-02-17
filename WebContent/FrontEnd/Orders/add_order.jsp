@@ -30,7 +30,8 @@
 				href="#modal-container-9735581" role="button" data-toggle="modal"><i
 					class="icon-plus icon-white"></i>新增禮品項目</a></span><strong>新增申請單</strong>
 		</div>
-
+									<form action="<%=application.getContextPath()%>/Service.do"
+							method="post" id="addOrder">
 		<div id="modal-container-9735581" class="modal hide fade"
 			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
 			style="width: 600px; margin-left: -300px; top: 20%">
@@ -40,7 +41,7 @@
 					aria-hidden="true">×</button>
 				<h3 id="myModalLabel">新增禮品項目</h3>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body">			
 				<table class="table table-bordered">
 					<tbody>
 						<%
@@ -148,10 +149,12 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
-					style="width: 80px" onclick="click()">確定</button>
+					style="width: 80px" onclick="addfunc()">確定</button>
 				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
 					style="width: 80px">取消</button>
 			</div>
+									<input type="hidden" name="queryOrder" value="queryOrder" />
+						</form>
 		</div>
 
 		<div style="width: 900px; margin: auto">
@@ -271,8 +274,8 @@
 		type.value = "change";
 		location.href = locations + "?queryOption=" + key; //直接透過給參數的轉址來達成換值
 	}
-	function click(){
-		alert("test");
+	function addfunc(){
+		document.getElementById("addOrder").submit();
 	}
 	
 </script>
