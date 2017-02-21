@@ -30,8 +30,7 @@
 				href="#modal-container-9735581" role="button" data-toggle="modal"><i
 					class="icon-plus icon-white"></i>新增禮品項目</a></span><strong>新增申請單</strong>
 		</div>
-									<form action="<%=application.getContextPath()%>/Service.do"
-							method="post" id="addOrder">
+								
 		<div id="modal-container-9735581" class="modal hide fade"
 			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
 			style="width: 600px; margin-left: -300px; top: 20%">
@@ -41,13 +40,15 @@
 					aria-hidden="true">×</button>
 				<h3 id="myModalLabel">新增禮品項目</h3>
 			</div>
+							
 			<div class="modal-body">			
 				<table class="table table-bordered">
 					<tbody>
 						<%
-							ArrayList<APRESENT> apresents = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
-							ArrayList<AFAB> afabs = (ArrayList<AFAB>) request.getAttribute("resultAfab");
-							if (apresents == null) {
+							ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
+							ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
+							ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
+							if (resultApresent == null) {
 						%>
 						<form action="<%=application.getContextPath()%>/Service.do"
 							method="post" id="queryOrder">
@@ -60,6 +61,8 @@
 							return;
 							}
 						%>
+						<form action="<%=application.getContextPath()%>/Service.do"
+							method="post" id="addOrder"> 
 						<tr>
 							<td width="30%" align="middle">拜訪公司名稱:</td>
 							<td width="70%" align="left"><input name="comname"
@@ -115,7 +118,7 @@
 															<option value="S001">高爾夫球具組</option>
 -->
 															<%
-																for (APRESENT apresent : apresents) {
+																for (APRESENT apresent : resultApresent) {
 															%>
 															<option value="<%=apresent.getFgno()%>"><%=apresent.getFgname()%></option>
 															<%
@@ -144,6 +147,13 @@
 							<td align="left"><input name="note1" type="text"
 								id="note1" class="span1-1" /></td>
 						</tr>
+						<input type="hidden" name="queryOrder" value="queryOrder" />
+						<input type="hidden" name="resultApresent" value="<%=resultApresent%>" />
+						<input type="hidden" name="resultAfab" value="<%=resultAfab%>" />
+						<%if(aodrdts!=null){ %>
+						<input type="hidden" name="aodrdts" value="<%=aodrdts%>" />
+						<%} %>
+			</form>  
 					</tbody>
 				</table>
 			</div>
@@ -153,8 +163,9 @@
 				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
 					style="width: 80px">取消</button>
 			</div>
-									<input type="hidden" name="queryOrder" value="queryOrder" />
-						</form>
+			
+			
+			
 		</div>
 
 		<div style="width: 900px; margin: auto">
@@ -199,8 +210,8 @@
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">需求廠別：</td>
 					<td colspan="3">
 						<%
-							if (afabs != null && afabs.size() > 0) {
-								for (AFAB afab : afabs) {
+							if (resultAfab != null && resultAfab.size() > 0) {
+								for (AFAB afab : resultAfab) {
 						%> <input type="radio" name="input8" value="<%=afab.getFno()%>" /><%=afab.getFname()%>&nbsp;&nbsp;&nbsp;
 						<%
 							}
@@ -220,8 +231,7 @@
 				</tr>
 			</table>
 			<table class="margin-bottom-20 table  no-border">
-			<%
-			ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
+			<%			
 			if(aodrdts!=null){
 			%>
 			<tr>

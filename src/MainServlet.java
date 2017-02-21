@@ -662,4 +662,17 @@ public class MainServlet extends HttpServlet {
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
+	
+	private void addOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 查詢訂單
+				String userCode = getUserCode(request);
+				// 檢查是否有登入?
+				if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+					
+				} else {
+					request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+					request.getRequestDispatcher("/login.jsp").forward(request, response);
+				}
+	}
 }
