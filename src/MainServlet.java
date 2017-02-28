@@ -149,6 +149,8 @@ public class MainServlet extends HttpServlet {
 			case "queryAll":
 				queryUser(request, response);
 				break;
+			case "addOrderdt":
+				addOrderdt(request, response);
 			}
 		}
 	}
@@ -663,13 +665,28 @@ public class MainServlet extends HttpServlet {
 		}
 	}
 	
-	private void addOrder(HttpServletRequest request, HttpServletResponse response)
+	private void addOrderdt(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 查詢訂單
 				String userCode = getUserCode(request);
 				// 檢查是否有登入?
 				if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+//					ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
+//					ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
+					ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
+					AODRDT aodrdt = new AODRDT();
+					aodrdt.setComname(request.getAttribute("comname").toString());
+					aodrdt.setPername(request.getAttribute("pername").toString());
+					aodrdt.setAuthority(Integer.parseInt(request.getAttribute("authority").toString()));
+					aodrdt.setFgno(request.getAttribute("fgno").toString());
+					aodrdt.setQty(Integer.parseInt(request.getAttribute("qty").toString()));
+					aodrdt.setNote1(request.getAttribute("note1").toString());
+					if(aodrdts==null)
+						aodrdts = new ArrayList<>();
+					aodrdts.add(aodrdt);
 					
+					request.setAttribute("aodrdts", aodrdts);
+					request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
 				} else {
 					request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 					request.getRequestDispatcher("/login.jsp").forward(request, response);

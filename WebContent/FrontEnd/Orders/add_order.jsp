@@ -62,7 +62,7 @@
 							}
 						%>
 						<form action="<%=application.getContextPath()%>/Service.do"
-							method="post" id="addOrder"> 
+							method="post" id="addOrderdt">
 						<tr>
 							<td width="30%" align="middle">拜訪公司名稱:</td>
 							<td width="70%" align="left"><input name="comname"
@@ -147,13 +147,13 @@
 							<td align="left"><input name="note1" type="text"
 								id="note1" class="span1-1" /></td>
 						</tr>
-						<input type="hidden" name="queryOrder" value="queryOrder" />
+						<input type="hidden" name="addOrderdt" value="addOrderdt" />
 						<input type="hidden" name="resultApresent" value="<%=resultApresent%>" />
 						<input type="hidden" name="resultAfab" value="<%=resultAfab%>" />
 						<%if(aodrdts!=null){ %>
 						<input type="hidden" name="aodrdts" value="<%=aodrdts%>" />
 						<%} %>
-			</form>  
+			</form>
 					</tbody>
 				</table>
 			</div>
@@ -162,10 +162,7 @@
 					style="width: 80px" onclick="addfunc()">確定</button>
 				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
 					style="width: 80px">取消</button>
-			</div>
-			
-			
-			
+			</div>	
 		</div>
 
 		<div style="width: 900px; margin: auto">
@@ -285,7 +282,7 @@
 		location.href = locations + "?queryOption=" + key; //直接透過給參數的轉址來達成換值
 	}
 	function addfunc(){
-		document.getElementById("addOrder").submit();
+		document.getElementById("addOrderdt").submit();
 	}
 	
 </script>
