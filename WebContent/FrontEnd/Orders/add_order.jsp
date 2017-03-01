@@ -24,27 +24,7 @@
 			<span class="divider">/</span> 新增申請單
 		</ul>
 
-		<div class="title_right">
-			<span class="pull-right margin-bottom-5"> <a
-				class="btn btn-info btn-small" id="modal-9735581"
-				href="#modal-container-9735581" role="button" data-toggle="modal"><i
-					class="icon-plus icon-white"></i>新增禮品項目</a></span><strong>新增申請單</strong>
-		</div>
-								
-		<div id="modal-container-9735581" class="modal hide fade"
-			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-			style="width: 600px; margin-left: -300px; top: 20%">
-			<div class="modal-header">
-
-				<button type="button" class="close" data-dismiss="modal"
-					aria-hidden="true">×</button>
-				<h3 id="myModalLabel">新增禮品項目</h3>
-			</div>
-							
-			<div class="modal-body">			
-				<table class="table table-bordered">
-					<tbody>
-						<%
+		<%
 							ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
 							ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
 							ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
@@ -61,8 +41,28 @@
 							return;
 							}
 						%>
-						<form action="<%=application.getContextPath()%>/Service.do"
+		<div class="title_right">
+			<span class="pull-right margin-bottom-5"> <a
+				class="btn btn-info btn-small" id="modal-9735581"
+				href="#modal-container-9735581" role="button" data-toggle="modal"><i
+					class="icon-plus icon-white"></i>新增禮品項目</a></span><strong>新增申請單</strong>
+		</div>
+								
+		<div id="modal-container-9735581" class="modal hide fade"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+			style="width: 600px; margin-left: -300px; top: 20%">
+			<div class="modal-header">
+
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h3 id="myModalLabel">新增禮品項目</h3>
+			</div>
+					<form action="<%=application.getContextPath()%>/Service.do"
 							method="post" id="addOrderdt">
+			<div class="modal-body">			
+				<table class="table table-bordered">
+					<tbody>
+
 						<tr>
 							<td width="30%" align="middle">拜訪公司名稱:</td>
 							<td width="70%" align="left"><input name="comname"
@@ -153,7 +153,7 @@
 						<%if(aodrdts!=null){ %>
 						<input type="hidden" name="aodrdts" value="<%=aodrdts%>" />
 						<%} %>
-			</form>
+			
 					</tbody>
 				</table>
 			</div>
@@ -163,6 +163,7 @@
 				<button class="btn btn-info" data-dismiss="modal" aria-hidden="true"
 					style="width: 80px">取消</button>
 			</div>	
+			</form>
 		</div>
 
 		<div style="width: 900px; margin: auto">

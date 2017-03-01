@@ -675,12 +675,13 @@ public class MainServlet extends HttpServlet {
 //					ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
 					ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
 					AODRDT aodrdt = new AODRDT();
-					aodrdt.setComname(request.getAttribute("comname").toString());
-					aodrdt.setPername(request.getAttribute("pername").toString());
-					aodrdt.setAuthority(Integer.parseInt(request.getAttribute("authority").toString()));
-					aodrdt.setFgno(request.getAttribute("fgno").toString());
-					aodrdt.setQty(Integer.parseInt(request.getAttribute("qty").toString()));
-					aodrdt.setNote1(request.getAttribute("note1").toString());
+					aodrdt.setComname(request.getParameter("comname"));
+					System.out.println(aodrdt.getComname());
+					aodrdt.setPername(request.getParameter("pername"));
+					aodrdt.setAuthority(Integer.parseInt(request.getParameter("authority")));
+					aodrdt.setFgno(request.getParameter("fgno"));
+					aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
+					aodrdt.setNote1(request.getParameter("note1"));
 					if(aodrdts==null)
 						aodrdts = new ArrayList<>();
 					aodrdts.add(aodrdt);
