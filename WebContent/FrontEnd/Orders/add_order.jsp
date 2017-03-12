@@ -100,7 +100,7 @@
 									aria-hidden="true"
 									style="width: 300px; margin-left: -300px; top: 20%">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal"
+										<button type="button" class="close" data-dismiss="modal1" onclick="close()"
 											aria-hidden="true">×</button>
 										<h3 id="myModalLabel2">禮品清單</h3>
 									</div>
@@ -109,7 +109,7 @@
 											<tbody>
 												<tr>
 													<td align="right">禮品清單:</td>
-													<td align="left"><select name="fgno">
+													<td align="left"><select name="fgno" id="fgno-se">
 															<!--
 															<option value="A001">舒壓球</option>
 															<option value="B002">L型透明夾</option>
@@ -130,9 +130,9 @@
 										</table>
 									</div>
 									<div class="modal-footer">
-										<button class="btn btn-info" data-dismiss="modal"
+										<button class="btn btn-info" data-dismiss="modal1" onclick="choice()"
 											aria-hidden="true" style="width: 80px">確定</button>
-										<button class="btn btn-info" data-dismiss="modal"
+										<button class="btn btn-info" data-dismiss="modal1" onclick="close()"
 											aria-hidden="true" style="width: 80px">取消</button>
 									</div>
 								</div></td>
@@ -284,6 +284,18 @@
 	}
 	function addfunc(){
 		document.getElementById("addOrderdt").submit();
+	}
+	
+	function choice(){
+		var select = document.getElementById("fgno-se");
+        var select_val = select.options[select.selectedIndex].value;
+        var select_txt = select.options[select.selectedIndex].text;
+        alert(select_val +" "+ select_txt);
+        $('#modal-container-9735582').dialog('close');
+	}
+	
+	function close(){
+		
 	}
 	
 </script>
