@@ -87,7 +87,7 @@
 						</tr>
 						<tr>
 							<td align="middle">申請品名:</td>
-							<!-- <td align="left"><input name="fgno" type="text"
+							<td align="left"><input name="fgno" type="text"
 								id="fgno" class="span1-1" /> <span
 								class="pull-right margin-bottom-5"> <a
 									class="btn btn-info btn-small" id="modal-9735582"
@@ -108,9 +108,8 @@
 										<table class="table table-bordered">
 											<tbody>
 												<tr>
-													<td align="right">禮品清單:</td>-->
-													<td align="left"> 
-													<select name="fgno" id="fgno-se">
+													<td align="right">禮品清單:</td>
+													<td align="left"><select name="fgno" id="fgno-se">
 															<!--
 															<option value="A001">舒壓球</option>
 															<option value="B002">L型透明夾</option>
@@ -125,8 +124,7 @@
 															<%
 																}
 															%>
-													</select>
-													<!-- </td>
+													</select></td>
 												</tr>
 											</tbody>
 										</table>
@@ -138,7 +136,7 @@
 											aria-hidden="true" style="width: 80px">取消</button>
 									</div>
 								</div>
-								</td> -->
+								</td>
 						</tr>
 						<tr>
 							<td align="middle">數量:</td>
