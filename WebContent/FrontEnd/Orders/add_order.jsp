@@ -110,7 +110,8 @@
 												<tr>
 													<td align="right">禮品清單:</td>-->
 													<td align="left"> 
-													<select name="fgno" id="fgno-se">
+													<!--<select name="fgno" id="fgno-se">-->
+													<select name="fgno" id="fgno">
 															<!--
 															<option value="A001">舒壓球</option>
 															<option value="B002">L型透明夾</option>
@@ -150,6 +151,9 @@
 							<td align="left"><input name="note1" type="text"
 								id="note1" class="span1-1" /></td>
 						</tr>
+						<%
+						System.out.println("jsp "+resultApresent+" ; "+resultAfab);
+						%>
 						<input type="hidden" name="addOrderdt" value="addOrderdt" />
 						<input type="hidden" name="resultApresent" value="<%=resultApresent%>" />
 						<input type="hidden" name="resultAfab" value="<%=resultAfab%>" />
@@ -232,8 +236,10 @@
 				</tr>
 			</table>
 			<table class="margin-bottom-20 table  no-border">
-			<%			
+			<%
+			System.out.println(aodrdts);
 			if(aodrdts!=null){
+				System.out.println("jsp aodrdts = "+aodrdts.size());
 			%>
 			<tr>
 			<td>拜訪公司</td>

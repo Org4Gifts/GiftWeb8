@@ -671,12 +671,12 @@ public class MainServlet extends HttpServlet {
 				String userCode = getUserCode(request);
 				// 檢查是否有登入?
 				if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
-//					ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
-//					ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
+					ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
+					ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
 					ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
+					System.out.println(resultApresent+" ; "+resultAfab + " ; "+aodrdts);
 					AODRDT aodrdt = new AODRDT();
 					aodrdt.setComname(request.getParameter("comname"));
-					System.out.println(aodrdt.getComname());
 					aodrdt.setPername(request.getParameter("pername"));
 					aodrdt.setAuthority(Integer.parseInt(request.getParameter("authority")));
 					aodrdt.setFgno(request.getParameter("fgno"));
@@ -686,6 +686,8 @@ public class MainServlet extends HttpServlet {
 						aodrdts = new ArrayList<>();
 					aodrdts.add(aodrdt);
 					
+					request.setAttribute("resultApresent", resultApresent);
+					request.setAttribute("resultAfab", resultAfab);					
 					request.setAttribute("aodrdts", aodrdts);
 					request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
 				} else {
