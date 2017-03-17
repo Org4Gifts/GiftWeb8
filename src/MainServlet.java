@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.Map;
 import java.util.Timer;
@@ -57,6 +58,12 @@ public class MainServlet extends HttpServlet {
 	private TreeMap<String, ArrayList<Object>> mapsDate;
 	private ArrayList<Object> days;
 	//儲存全查詢用的功能
+	
+	private ArrayList<APRESENT> resultApresent;
+	private ArrayList<AFAB> resultAfab;
+	private HashMap<String,ArrayList<AODRDT>> aodrdts = new HashMap<>();
+	private ArrayList<AODRDT> temp = null;
+	//儲存訂單用的資料
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -653,12 +660,15 @@ public class MainServlet extends HttpServlet {
 		String userCode = getUserCode(request);
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			if(resultAfab == null || resultApresent == null){
 			Querys querys = new Querys(((AUSER) userList.get(userCode)[1]));
-			ArrayList<AFAB> query1 = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
-			ArrayList<APRESENT> query2 = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
-			request.setAttribute("resultAfab", query1);
-			request.setAttribute("resultApresent", query2);
+			resultAfab = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
+			resultApresent = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
+			}
+			request.setAttribute("resultAfab", resultAfab);
+			request.setAttribute("resultApresent", resultApresent);
 			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+			
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
@@ -671,10 +681,11 @@ public class MainServlet extends HttpServlet {
 				String userCode = getUserCode(request);
 				// 檢查是否有登入?
 				if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
-					ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
-					ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
-					ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
-					System.out.println(resultApresent+" ; "+resultAfab + " ; "+aodrdts);
+//					ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
+//					ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
+//					ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
+//					System.out.println(resultApresent+" ; "+resultAfab + " ; "+aodrdts);
+										
 					AODRDT aodrdt = new AODRDT();
 					aodrdt.setComname(request.getParameter("comname"));
 					aodrdt.setPername(request.getParameter("pername"));
@@ -682,13 +693,18 @@ public class MainServlet extends HttpServlet {
 					aodrdt.setFgno(request.getParameter("fgno"));
 					aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
 					aodrdt.setNote1(request.getParameter("note1"));
-					if(aodrdts==null)
-						aodrdts = new ArrayList<>();
-					aodrdts.add(aodrdt);
+					
+					if(aodrdts.get(userCode) ==null)
+						temp = new ArrayList<>();
+					else
+						temp = aodrdts.get(userCode);
+
+					temp.add(aodrdt);		
+					aodrdts.put(userCode, temp);	
 					
 					request.setAttribute("resultApresent", resultApresent);
 					request.setAttribute("resultAfab", resultAfab);					
-					request.setAttribute("aodrdts", aodrdts);
+					request.setAttribute("aodrdts", temp);
 					request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
 				} else {
 					request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
