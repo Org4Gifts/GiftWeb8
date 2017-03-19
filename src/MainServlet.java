@@ -52,18 +52,18 @@ public class MainServlet extends HttpServlet {
 	// 定時器，用來清除上面兩個名單用
 	private long time = 30 * 60 * 1000;
 	// 30分
-	
+
 	private TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>> mapsYear;
 	private TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth;
 	private TreeMap<String, ArrayList<Object>> mapsDate;
 	private ArrayList<Object> days;
-	//儲存全查詢用的功能
-	
-	private ArrayList<APRESENT> resultApresent;
-	private ArrayList<AFAB> resultAfab;
-	private HashMap<String,ArrayList<AODRDT>> aodrdts = new HashMap<>();
+	// 儲存全查詢用的功能
+
+	private static ArrayList<APRESENT> resultApresent;
+	private static ArrayList<AFAB> resultAfab;
+	private static HashMap<String, ArrayList<AODRDT>> aodrdts = new HashMap<>();
 	private ArrayList<AODRDT> temp = null;
-	//儲存訂單用的資料
+	// 儲存訂單用的資料
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -301,16 +301,17 @@ public class MainServlet extends HttpServlet {
 		request.setAttribute("changePwd", msg);
 		request.getRequestDispatcher("/index.jsp").forward(request, response);
 	}
-	
+
 	private void setMaps(String[] yymmdd,
-//			TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>> mapsYear,
-//	TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth,
-//	TreeMap<String, ArrayList<Object>> mapsDate,
-//	ArrayList<Object> days,
-	Object obj){
-		if(obj.toString().contains("aodr")){
+			// TreeMap<String, TreeMap<String, TreeMap<String,
+			// ArrayList<Object>>>> mapsYear,
+			// TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth,
+			// TreeMap<String, ArrayList<Object>> mapsDate,
+			// ArrayList<Object> days,
+			Object obj) {
+		if (obj.toString().contains("aodr")) {
 		}
-		if(!mapsYear.containsKey(yymmdd[0])){
+		if (!mapsYear.containsKey(yymmdd[0])) {
 			mapsMonth = new TreeMap<>();
 			mapsDate = new TreeMap<>();
 			days = new ArrayList<>();
@@ -318,25 +319,24 @@ public class MainServlet extends HttpServlet {
 			mapsMonth.put(yymmdd[1], mapsDate);
 			mapsDate.put(yymmdd[2], days);
 			days.add(obj);
-		}else{
-			if(!mapsMonth.containsKey(yymmdd[1])){
+		} else {
+			if (!mapsMonth.containsKey(yymmdd[1])) {
 				mapsDate = new TreeMap<>();
 				days = new ArrayList<>();
 				mapsMonth.put(yymmdd[1], mapsDate);
 				mapsDate.put(yymmdd[2], days);
 				days.add(obj);
-			}else{
-				if(!mapsDate.containsKey(yymmdd[2])){
+			} else {
+				if (!mapsDate.containsKey(yymmdd[2])) {
 					days = new ArrayList<>();
 					mapsDate.put(yymmdd[2], days);
 					days.add(obj);
-				}else{
+				} else {
 					days.add(obj);
 				}
 			}
 		}
-			
-	
+
 	}
 
 	private void queryUser(HttpServletRequest request, HttpServletResponse response)
@@ -346,20 +346,22 @@ public class MainServlet extends HttpServlet {
 
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 			Querys querys = new Querys((AUSER) userList.get(userCode)[1]);
-//			TreeMap<String, TreeMap<String, TreeMap<String, ArrayList<Object>>>> mapsYear = new TreeMap<>();
-//			TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth = new TreeMap<>();
-//			TreeMap<String, ArrayList<Object>> mapsDate = new TreeMap<>();
-//			ArrayList<Object> days = new ArrayList<>();
+			// TreeMap<String, TreeMap<String, TreeMap<String,
+			// ArrayList<Object>>>> mapsYear = new TreeMap<>();
+			// TreeMap<String, TreeMap<String, ArrayList<Object>>> mapsMonth =
+			// new TreeMap<>();
+			// TreeMap<String, ArrayList<Object>> mapsDate = new TreeMap<>();
+			// ArrayList<Object> days = new ArrayList<>();
 			mapsYear = new TreeMap<>();
 			mapsMonth = new TreeMap<>();
 			mapsDate = new TreeMap<>();
 			days = new ArrayList<>();
-			
+
 			ArrayList<AODR> aodrs = querys.getAodrs(manager);
 			if (aodrs != null) {
 				for (AODR aodr : aodrs) {
 					String[] yymmdd = aodr.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodr);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodr);
 					setMaps(yymmdd, aodr);
 				}
 				request.setAttribute("aodr", mapsYear);
@@ -367,12 +369,12 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			
+
 			ArrayList<AIO> aios = querys.getAios(manager, new AIO().getKeys()[1], "");
-			if(aios != null){
+			if (aios != null) {
 				for (AIO aio : aios) {
 					String[] yymmdd = aio.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aio);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aio);
 					setMaps(yymmdd, aio);
 				}
 				request.setAttribute("aio", mapsYear);
@@ -380,12 +382,12 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			
+
 			ArrayList<AEMP> aemps = querys.getAemps(manager, new AEMP().getKeys()[1], "");
-			if(aemps != null){
+			if (aemps != null) {
 				for (AEMP aemp : aemps) {
 					String[] yymmdd = aemp.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aemp);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aemp);
 					setMaps(yymmdd, aemp);
 				}
 				request.setAttribute("aemp", mapsYear);
@@ -393,13 +395,12 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			
-			
+
 			ArrayList<ADEP> adeps = querys.getAdeps(manager, new ADEP().getKeys()[1], "");
-			if(adeps != null){
+			if (adeps != null) {
 				for (ADEP adep : adeps) {
 					String[] yymmdd = adep.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,adep);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,adep);
 					setMaps(yymmdd, adep);
 				}
 				request.setAttribute("adep", mapsYear);
@@ -407,12 +408,12 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			
+
 			ArrayList<AFAB> afabs = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
-			if(afabs != null){
+			if (afabs != null) {
 				for (AFAB afab : afabs) {
 					String[] yymmdd = afab.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,afab);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,afab);
 					setMaps(yymmdd, afab);
 				}
 				request.setAttribute("afab", mapsYear);
@@ -420,12 +421,12 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			
+
 			ArrayList<AINVENTORY> ainventorys = querys.getAinventorys(manager, new AINVENTORY().getKeys()[1], "");
-			if(ainventorys != null){
+			if (ainventorys != null) {
 				for (AINVENTORY ainventory : ainventorys) {
 					String[] yymmdd = ainventory.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,ainventory);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,ainventory);
 					setMaps(yymmdd, ainventory);
 				}
 				request.setAttribute("ainventory", mapsYear);
@@ -435,10 +436,10 @@ public class MainServlet extends HttpServlet {
 			}
 
 			ArrayList<AIODT> aiodts = querys.getAiodts(manager, "");
-			if(aiodts != null){
+			if (aiodts != null) {
 				for (AIODT aiodt : aiodts) {
 					String[] yymmdd = aiodt.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aiodt);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aiodt);
 					setMaps(yymmdd, aiodt);
 				}
 				request.setAttribute("aiodt", mapsYear);
@@ -446,12 +447,12 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			
+
 			ArrayList<AODRDT> aodrdts = querys.getAodrdts(manager, "");
-			if(aodrdts != null){
+			if (aodrdts != null) {
 				for (AODRDT aodrdt : aodrdts) {
 					String[] yymmdd = aodrdt.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodrdt);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aodrdt);
 					setMaps(yymmdd, aodrdt);
 				}
 				request.setAttribute("aodrdt", mapsYear);
@@ -461,10 +462,10 @@ public class MainServlet extends HttpServlet {
 			}
 
 			ArrayList<APRESENT> apresents = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
-			if(apresents != null){
+			if (apresents != null) {
 				for (APRESENT apresent : apresents) {
 					String[] yymmdd = apresent.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,apresent);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,apresent);
 					setMaps(yymmdd, apresent);
 				}
 				request.setAttribute("apresent", mapsYear);
@@ -474,10 +475,10 @@ public class MainServlet extends HttpServlet {
 			}
 
 			ArrayList<AQTY> aqtys = querys.getAqtys(manager, new AQTY().getKeys()[1], "");
-			if(aqtys != null){
+			if (aqtys != null) {
 				for (AQTY aqty : aqtys) {
 					String[] yymmdd = aqty.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aqty);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,aqty);
 					setMaps(yymmdd, aqty);
 				}
 				request.setAttribute("aqty", mapsYear);
@@ -487,10 +488,10 @@ public class MainServlet extends HttpServlet {
 			}
 
 			ArrayList<ASIGNLOG> asignlogs = querys.getAsignlogs(manager, "");
-			if(asignlogs != null){
+			if (asignlogs != null) {
 				for (ASIGNLOG asignlog : asignlogs) {
 					String[] yymmdd = asignlog.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,asignlog);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,asignlog);
 					setMaps(yymmdd, asignlog);
 				}
 				request.setAttribute("asignlog", mapsYear);
@@ -498,12 +499,12 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			
+
 			ArrayList<AVDR> avdrs = querys.getAvdrs(manager, new AVDR().getKeys()[1], "");
-			if(avdrs != null){
+			if (avdrs != null) {
 				for (AVDR avdr : avdrs) {
 					String[] yymmdd = avdr.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,avdr);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,avdr);
 					setMaps(yymmdd, avdr);
 				}
 				request.setAttribute("avdr", mapsYear);
@@ -511,12 +512,12 @@ public class MainServlet extends HttpServlet {
 				mapsMonth = new TreeMap<>();
 				mapsDate = new TreeMap<>();
 			}
-			
+
 			ArrayList<AUSER> ausers = querys.getUsers(manager, new AUSER().getKeys()[1], "");
-			if(ausers != null){
+			if (ausers != null) {
 				for (AUSER auser : ausers) {
 					String[] yymmdd = auser.getCreated().toString().substring(0, 10).split("-");
-//					setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,auser);
+					// setMaps(yymmdd,mapsYear,mapsMonth,mapsDate,days,auser);
 					setMaps(yymmdd, auser);
 				}
 				request.setAttribute("auser", mapsYear);
@@ -660,55 +661,79 @@ public class MainServlet extends HttpServlet {
 		String userCode = getUserCode(request);
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
-			if(resultAfab == null || resultApresent == null){
-			Querys querys = new Querys(((AUSER) userList.get(userCode)[1]));
-			resultAfab = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
-			resultApresent = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
+			if (resultAfab == null || resultApresent == null) {
+				Querys querys = new Querys(((AUSER) userList.get(userCode)[1]));
+				resultAfab = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
+				resultApresent = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
 			}
 			request.setAttribute("resultAfab", resultAfab);
 			request.setAttribute("resultApresent", resultApresent);
 			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
-			
+
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
 		}
 	}
-	
+
 	private void addOrderdt(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 查詢訂單
-				String userCode = getUserCode(request);
-				// 檢查是否有登入?
-				if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
-//					ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
-//					ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
-//					ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>)request.getAttribute("aodrdts");
-//					System.out.println(resultApresent+" ; "+resultAfab + " ; "+aodrdts);
-										
-					AODRDT aodrdt = new AODRDT();
-					aodrdt.setComname(request.getParameter("comname"));
-					aodrdt.setPername(request.getParameter("pername"));
-					aodrdt.setAuthority(Integer.parseInt(request.getParameter("authority")));
-					aodrdt.setFgno(request.getParameter("fgno"));
-					aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
-					aodrdt.setNote1(request.getParameter("note1"));
-					
-					if(aodrdts.get(userCode) ==null)
-						temp = new ArrayList<>();
-					else
-						temp = aodrdts.get(userCode);
+		// 新增副訂單
+		String userCode = getUserCode(request);
+		// 檢查是否有登入?
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			// ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>)
+			// request.getAttribute("resultApresent");
+			// ArrayList<AFAB> resultAfab = (ArrayList<AFAB>)
+			// request.getAttribute("resultAfab");
+			// ArrayList<AODRDT> aodrdts =
+			// (ArrayList<AODRDT>)request.getAttribute("aodrdts");
+			// System.out.println(resultApresent+" ; "+resultAfab + " ;
+			// "+aodrdts);
 
-					temp.add(aodrdt);		
-					aodrdts.put(userCode, temp);	
-					
-					request.setAttribute("resultApresent", resultApresent);
-					request.setAttribute("resultAfab", resultAfab);					
-					request.setAttribute("aodrdts", temp);
-					request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
-				} else {
-					request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
-					request.getRequestDispatcher("/login.jsp").forward(request, response);
-				}
+			AODRDT aodrdt = new AODRDT();
+			aodrdt.setComname(request.getParameter("comname"));
+			aodrdt.setPername(request.getParameter("pername"));
+			aodrdt.setAuthority(Integer.parseInt(request.getParameter("authority")));
+			aodrdt.setFgno(request.getParameter("fgno"));
+			aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
+			aodrdt.setNote1(request.getParameter("note1"));
+
+			if (aodrdts.get(userCode) == null) {
+				temp = new ArrayList<>();
+				aodrdts.put(userCode, temp);
+			} else
+				temp = aodrdts.get(userCode);
+
+			temp.add(aodrdt);
+
+			request.setAttribute("resultApresent", resultApresent);
+			request.setAttribute("resultAfab", resultAfab);
+			request.setAttribute("aodrdts", temp);
+			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+	}
+
+	private void delOrderdt(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 新增副訂單
+		String userCode = getUserCode(request);
+		// 檢查是否有登入?
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+
+			temp = aodrdts.get(userCode);
+			temp.remove(request.getParameter("remove"));
+
+			request.setAttribute("resultApresent", resultApresent);
+			request.setAttribute("resultAfab", resultAfab);
+			request.setAttribute("aodrdts", temp);
+			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
 	}
 }
