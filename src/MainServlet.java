@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import tw.youth.project.gift2016.consts.ConstValue;
 import tw.youth.project.gift2016.func.Login;
+import tw.youth.project.gift2016.func.Orders;
 import tw.youth.project.gift2016.func.Querys;
 import tw.youth.project.gift2016.sql.DBManager;
 import tw.youth.project.gift2016.sql.SQLCmd;
@@ -158,6 +159,10 @@ public class MainServlet extends HttpServlet {
 				break;
 			case "addOrderdt":
 				addOrderdt(request, response);
+			case "delOrderdt":
+				delOrderdt(request, response);
+			case "submitOrderdt":
+				submitOrder(request, response);
 			}
 		}
 	}
@@ -725,7 +730,36 @@ public class MainServlet extends HttpServlet {
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 
 			temp = aodrdts.get(userCode);
-			temp.remove(request.getParameter("remove"));
+			temp.remove(request.getParameter("delOrderdt"));
+
+			request.setAttribute("resultApresent", resultApresent);
+			request.setAttribute("resultAfab", resultAfab);
+			request.setAttribute("aodrdts", temp);
+			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+	}
+	
+	private void submitOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 送出訂單
+		String userCode = getUserCode(request);
+		// 檢查是否有登入?
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			AUSER user = (AUSER) userList.get(userCode)[1];
+			Orders orders = new Orders(manager, user);
+			AODR aodr = new AODR();
+			aodr.setEmpno(request.getParameter("empno"));
+			aodr.setFno(request.getParameter("fno"));
+			
+			
+			
+			orders.submitOrders(manager, user, null);
+			
+			temp = aodrdts.get(userCode);
+			temp.remove(request.getParameter("submitOrder"));
 
 			request.setAttribute("resultApresent", resultApresent);
 			request.setAttribute("resultAfab", resultAfab);

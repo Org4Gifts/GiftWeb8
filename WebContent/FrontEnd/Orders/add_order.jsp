@@ -174,25 +174,26 @@
 		</div>
 
 		<div style="width: 900px; margin: auto">
-			目前簽核者(Reviewing by)：
+			<!-- 目前簽核者(Reviewing by)： -->
+			訂單狀態：
 			<div style="display: inline; color: blue;"><%=docStatus%></div>
 			<div style="display: none;">發放日期：</div>
 			<div style="display: none;">S/N：</div>
 			<table class="table table-bordered">
 				<tr>
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">員工工號：</td>
-					<td width="20%"><input type="text" name="input1" id="input1"
+					<td width="20%"><input type="text" name="empno" id="empno"
 						class="span1-1" /></td>
 					<td width="8%" align="right" bgcolor="#f1f1f1">員工姓名：</td>
-					<td width="20%"><input type="text" name="input2" id="input2"
+					<td width="20%"><input type="text" name="ename" id="ename"
 						class="span1-1" /></td>
 				</tr>
 				<tr>
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">部門代號：</td>
-					<td><input type="text" name="input3" id="input3"
+					<td><input type="text" name="dno" id="dno"
 						class="span1-1" /></td>
 					<td align="right" bgcolor="#f1f1f1">部門名稱：</td>
-					<td><input type="text" name="input4" id="input4"
+					<td><input type="text" name="dname" id="dname"
 						class="span1-1" /></td>
 				</tr>
 				<tr>
