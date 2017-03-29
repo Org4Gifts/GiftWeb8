@@ -753,10 +753,10 @@ public class MainServlet extends HttpServlet {
 			AODR aodr = new AODR();
 			aodr.setEmpno(request.getParameter("empno"));
 			aodr.setFno(request.getParameter("fno"));
+			//aodr要建好
 			
 			
-			
-			orders.submitOrders(manager, user, null);
+			orders.submitOrders(manager, user, aodr);
 			
 			temp = aodrdts.get(userCode);
 			temp.remove(request.getParameter("submitOrder"));
