@@ -184,24 +184,24 @@
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">員工工號：</td>
 					<td width="20%"><input type="text" name="empno" id="empno"
 						class="span1-1" /></td>
-					<td width="8%" align="right" bgcolor="#f1f1f1">員工姓名：</td>
-					<td width="20%"><input type="text" name="ename" id="ename"
+					<td width="8%" align="right" bgcolor="#f1f1f1">廠區編號：</td>
+					<td width="20%"><input type="text" name="fno" id="fno"
 						class="span1-1" /></td>
 				</tr>
 				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">部門代號：</td>
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">部門編號：</td>
 					<td><input type="text" name="dno" id="dno"
 						class="span1-1" /></td>
-					<td align="right" bgcolor="#f1f1f1">部門名稱：</td>
+					<td align="right" bgcolor="#f1f1f1">訂定日期</td>
 					<td><input type="text" name="dname" id="dname"
-						class="span1-1" /></td>
+						class="laydate-icon span1-1"  value="2017-04-01"/></td>
 				</tr>
 				<tr>
-					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">職稱：</td>
-					<td><input type="text" name="input5" id="input5"
+					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">訂單金額：</td>
+					<td><input type="number" name="tamt" id="tamt"
 						class="span1-1" /></td>
-					<td align="right" bgcolor="#f1f1f1">分機：</td>
-					<td><input type="text" name="input6" id="input6"
+					<td align="right" bgcolor="#f1f1f1">需求目的：</td>
+					<td><input type="text" name="purpose" id="purpose"
 						class="span1-1" /></td>
 				</tr>
 				<tr>

@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -753,6 +754,10 @@ public class MainServlet extends HttpServlet {
 			AODR aodr = new AODR();
 			aodr.setEmpno(request.getParameter("empno"));
 			aodr.setFno(request.getParameter("fno"));
+			aodr.setDno(request.getParameter("dno"));
+			aodr.setOdate(Timestamp.valueOf(request.getParameter("odate")));
+			aodr.setPurpose(request.getParameter("purpose"));
+			aodr.setStatus(ConstValue.ORDERS_STATUS_PROCESSING);
 			//aodr要建好
 			
 			
