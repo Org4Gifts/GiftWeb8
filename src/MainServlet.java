@@ -749,27 +749,38 @@ public class MainServlet extends HttpServlet {
 		String userCode = getUserCode(request);
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			temp = aodrdts.get(userCode);
+			if(temp!=null){
+				//如果有副檔則遞交，無則顯示沒有
 			AUSER user = (AUSER) userList.get(userCode)[1];
 			Orders orders = new Orders(manager, user);
 			AODR aodr = new AODR();
-			aodr.setEmpno(request.getParameter("empno"));
-			aodr.setFno(request.getParameter("fno"));
-			aodr.setDno(request.getParameter("dno"));
+			aodr.setEmpno(user.getEmpno());
+			aodr.setFno(user.getFno());
+			aodr.setDno(user.getDno());
 			aodr.setOdate(Timestamp.valueOf(request.getParameter("odate")));
 			aodr.setPurpose(request.getParameter("purpose"));
 			aodr.setStatus(ConstValue.ORDERS_STATUS_PROCESSING);
+			
 			//aodr要建好
 			
 			
 			orders.submitOrders(manager, user, aodr);
 			
-			temp = aodrdts.get(userCode);
-			temp.remove(request.getParameter("submitOrder"));
+//			temp.remove(request.getParameter("submitOrder"));
+			aodrdts.remove(userCode);
 
 			request.setAttribute("resultApresent", resultApresent);
 			request.setAttribute("resultAfab", resultAfab);
-			request.setAttribute("aodrdts", temp);
+//			request.setAttribute("aodrdts", temp);
+			request.setAttribute("submitOrder", "submitOrder");
 			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+			}else{
+				request.setAttribute("resultApresent", resultApresent);
+				request.setAttribute("resultAfab", resultAfab);
+				request.setAttribute("noOrderdt", "noOrderdt");
+				request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+			}
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
