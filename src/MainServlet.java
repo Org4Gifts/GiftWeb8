@@ -162,7 +162,7 @@ public class MainServlet extends HttpServlet {
 				addOrderdt(request, response);
 			case "delOrderdt":
 				delOrderdt(request, response);
-			case "submitOrderdt":
+			case "submitOrder":
 				submitOrder(request, response);
 			}
 		}

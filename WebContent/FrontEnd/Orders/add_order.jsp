@@ -100,7 +100,7 @@
 									aria-hidden="true"
 									style="width: 300px; margin-left: -300px; top: 20%">
 									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal1" onclick="closefunc()"
+										<button type="button" class="close" data-dismiss="modal1" onclick="closeFunc()"
 											aria-hidden="true">×</button>
 										<h3 id="myModalLabel2">禮品清單</h3>
 									</div>
@@ -132,9 +132,9 @@
 										</table>
 									</div>
 									<div class="modal-footer">
-										<button class="btn btn-info" data-dismiss="modal1" onclick="choicefunc()"
+										<button class="btn btn-info" data-dismiss="modal1" onclick="choiceFunc()"
 											aria-hidden="true" style="width: 80px">確定</button>
-										<button class="btn btn-info" data-dismiss="modal1" onclick="closefunc()"
+										<button class="btn btn-info" data-dismiss="modal1" onclick="closeFunc()"
 											aria-hidden="true" style="width: 80px">取消</button>
 									</div>
 								</div>
@@ -170,7 +170,7 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-info" data-dismiss="modal"
-						aria-hidden="true" style="width: 80px" onclick="addfunc()">確定</button>
+						aria-hidden="true" style="width: 80px" onclick="addFunc()">確定</button>
 					<button class="btn btn-info" data-dismiss="modal"
 						aria-hidden="true" style="width: 80px">取消</button>
 				</div>
@@ -204,6 +204,7 @@
 				</tr>
 			</table>
 			<table class="margin-bottom-20 table  no-border">
+			<form method="post" id="submitOrder">
 				<%
 					System.out.println(aodrdts);
 					if (aodrdts != null) {
@@ -236,9 +237,11 @@
 					}
 				%>
 				<tr>
+					<input type="hidden" name="submitOrder" value="submitOrder" />
 					<td class="text-center"><input type="button" value="確定"
-						class="btn btn-info " style="width: 80px;" /></td>
+						class="btn btn-info " onclick="submitFunc()" style="width: 80px;" /></td>
 				</tr>
+				</form>
 			</table>
 
 		</div>
@@ -271,15 +274,15 @@
 		type.value = "change";
 		location.href = locations + "?queryOption=" + key; //直接透過給參數的轉址來達成換值
 	}
-	function addfunc() {
+	function addFunc() {
 		document.getElementById("addOrderdt").submit();
 	}
 
-	function closefunc() {
+	function closeFunc() {
 		$('#modal-container-9735582').modal('hide');
 	}
 
-	function choicefunc() {
+	function choiceFunc() {
 		var select = document.getElementById("fgno-se");
 		var select_val = select.options[select.selectedIndex].value;
 		var select_txt = select.options[select.selectedIndex].text;
@@ -287,5 +290,9 @@
 		select_ori.value = select_val + select_txt;
 
 		closefunc();
+	}
+	
+	function submitFunc() {
+		document.getElementById("submitOrder").submit();
 	}
 </script>
