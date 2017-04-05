@@ -187,7 +187,7 @@
 				<tr>
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">員工工號：</td>
 					<td width="20%"><input type="text" name="empno" id="empno"
-						class="span1-1" /></td>
+						class="span1-1" value="<%=userEmpno%>"/></td>
 					<td align="right" bgcolor="#f1f1f1">訂定日期：</td>
 					<td><input type="text" name="odate" id="odate"
 						class="laydate-icon span1-1" value="2017-04-01" /></td>

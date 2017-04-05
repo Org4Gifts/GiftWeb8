@@ -182,6 +182,8 @@ public class MainServlet extends HttpServlet {
 			Cookie cookie = new Cookie("userCode", userCode);
 			cookie.setMaxAge(60 * 60); // 7*24*60*60 = 7天時間 現在設定1小時
 			response.addCookie(cookie);// 儲存Cookie
+			response.addCookie(new Cookie("userEname", user.getEname()));
+			response.addCookie(new Cookie("userEmpno", user.getEmpno()));
 			// response.sendRedirect(this.getServletContext().getContextPath() +
 			// "/index.jsp");
 			response.sendRedirect(this.getServletContext().getContextPath() + "/index.jsp");

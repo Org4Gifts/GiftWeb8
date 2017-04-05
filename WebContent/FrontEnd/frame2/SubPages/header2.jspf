@@ -21,11 +21,18 @@
 <%
 Cookie[] cookies = request.getCookies();
 String userCode = null;
+String userEname = null;
+String userEmpno = null;
 if(cookies != null){
 for (Cookie cook : cookies) {
 	if (cook.getName().equals("userCode")) {
 		userCode = cook.getValue();
-		break;
+	}
+	if(cook.getName().equals("userEname")){
+		userEname = cook.getValue();
+	}
+	if(cook.getName().equals("userEmpno")){
+		userEmpno = cook.getValue();
 	}
 }
 }
@@ -41,6 +48,7 @@ if(userCode == null || userCode.equals("")){
 			<img src="<%=application.getContextPath()%>/FrontEnd/frame2/img/logo.png" />
 		</div>
 		<div class="header-right">
+		<i><%=userEname%>(<%=userEmpno %>)　</i> 
 			<i class="icon-question-sign icon-white"></i> <a href="#">關於系統</a> <i
 				class="icon-off icon-white"></i> <a id="modal-973558"
 				href="#modal-container-973558" role="button" data-toggle="modal">登出</a>
