@@ -248,7 +248,16 @@ public class MainServlet extends HttpServlet {
 				userList.remove(userCode);
 				cook.setValue("");
 				response.addCookie(cook);
-				break;
+			}
+			
+			if (cook.getName().equals("userEname")) {
+				cook.setValue("");
+				response.addCookie(cook);
+			}
+			
+			if (cook.getName().equals("userEmpno")) {
+				cook.setValue("");
+				response.addCookie(cook);
 			}
 		}
 		request.setAttribute("logout", "您已登出，歡迎再次登入使用");
