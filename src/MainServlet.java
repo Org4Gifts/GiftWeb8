@@ -160,10 +160,13 @@ public class MainServlet extends HttpServlet {
 				break;
 			case "addOrderdt":
 				addOrderdt(request, response);
+				break;
 			case "delOrderdt":
 				delOrderdt(request, response);
+				break;
 			case "submitOrder":
 				submitOrder(request, response);
+				break;
 			}
 		}
 	}
@@ -736,7 +739,7 @@ public class MainServlet extends HttpServlet {
 
 	private void delOrderdt(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 新增副訂單
+		// 刪除副訂單
 		String userCode = getUserCode(request);
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
