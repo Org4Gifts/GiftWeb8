@@ -25,8 +25,9 @@
 		</ul>
 
 		<%
-			ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
-			ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
+			//ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
+		ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
+		ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
 			ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>) request.getAttribute("aodrdts");
 			if (resultApresent == null) {
 		%>
@@ -215,6 +216,7 @@
 					<td>拜訪對象</td>
 					<td>拜訪職稱</td>
 					<td>禮品代號</td>
+					<td>禮品名稱</td>
 					<td>禮品數量</td>
 					<td>禮品單價</td>
 					<td>備註</td>
@@ -227,10 +229,12 @@
 					<td><%=aodrdt.getPername()%></td>
 					<td><%=aodrdt.getAuthority()%></td>
 					<td><%=aodrdt.getFgno()%></td>
+					<td><%=aodrdt.getFgno()%></td>
 					<td><%=aodrdt.getQty()%></td>
 					<td><%=aodrdt.getPrc()%></td>
 					<td><%=aodrdt.getNote1()%></td>
 					<td><a href="<%=aodrdt.getAodrdt_id()%>">修改</a></td>
+					<td><a href="<%=aodrdt.getAodrdt_id()%>">刪除</a></td>
 				</tr>
 				<%
 					}

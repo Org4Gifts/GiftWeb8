@@ -61,7 +61,8 @@ public class MainServlet extends HttpServlet {
 	private ArrayList<Object> days;
 	// 儲存全查詢用的功能
 
-	private static ArrayList<APRESENT> resultApresent;
+//	private static ArrayList<APRESENT> resultApresent;
+	private static HashMap<String,APRESENT> resultApresent;
 	private static ArrayList<AFAB> resultAfab;
 	private static HashMap<String, ArrayList<AODRDT>> aodrdts = new HashMap<>();
 	private ArrayList<AODRDT> temp = null;
@@ -684,7 +685,11 @@ public class MainServlet extends HttpServlet {
 			if (resultAfab == null || resultApresent == null) {
 				Querys querys = new Querys(((AUSER) userList.get(userCode)[1]));
 				resultAfab = querys.getAfabs(manager, new AFAB().getKeys()[1], "");
-				resultApresent = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
+//				resultApresent = querys.getApresents(manager, new APRESENT().getKeys()[1], "");
+				resultApresent = new HashMap<>();
+				for (APRESENT apresent : querys.getApresents(manager, new APRESENT().getKeys()[1], "")) {
+					resultApresent.put(apresent.getFgno(), apresent);
+				}
 			}
 			request.setAttribute("resultAfab", resultAfab);
 			request.setAttribute("resultApresent", resultApresent);
