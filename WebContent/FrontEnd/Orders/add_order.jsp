@@ -120,10 +120,15 @@
 															<option value="D001">多功能筆記本</option>
 															<option value="S001">高爾夫球具組</option>
 -->
+											<script type="text/javascript">
+			var arrs = new Array(<%=resultApresent.size()%>)
+		</script>
 										<%
+										int count = 0;
 											for (String key : resultApresent.keySet()) {
 												APRESENT apresent = resultApresent.get(key);
 										%>
+										arrs[<%=count++%>]="<%=apresent.getPrc()%>"
 										<option value="<%=apresent.getFgno()%>"><%=apresent.getFgname()%></option>
 										<%
 											}
@@ -141,6 +146,14 @@
 									</div>
 								</div>
 								</td> -->
+							</tr>
+							<tr>
+								<td align="middle">單價:</td>
+								<td align="left"><input name="prc" type="number" value="0"
+									id="prc" class="span1-1" /> NTD</td>
+									<script type="text/javascript">
+			document.getElementById("prc").value=arrs[0]
+		</script>
 							</tr>
 							<tr>
 								<td align="middle">數量:</td>

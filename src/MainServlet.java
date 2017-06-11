@@ -721,6 +721,7 @@ public class MainServlet extends HttpServlet {
 			aodrdt.setPername(request.getParameter("pername"));
 			aodrdt.setAuthority(Integer.parseInt(request.getParameter("authority")));
 			aodrdt.setFgno(request.getParameter("fgno"));
+			aodrdt.setPrc(resultApresent.get(aodrdt.getFgno()).getPrc());
 			aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
 			aodrdt.setNote1(request.getParameter("note1"));
 
