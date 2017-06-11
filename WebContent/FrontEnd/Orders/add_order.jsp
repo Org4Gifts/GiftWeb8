@@ -26,7 +26,7 @@
 
 		<%
 			//ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
-		ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>) request.getAttribute("resultApresent");
+		HashMap<String,APRESENT> resultApresent = (HashMap<String,APRESENT>) request.getAttribute("resultApresent");
 		ArrayList<AFAB> resultAfab = (ArrayList<AFAB>) request.getAttribute("resultAfab");
 			ArrayList<AODRDT> aodrdts = (ArrayList<AODRDT>) request.getAttribute("aodrdts");
 			if (resultApresent == null) {
@@ -121,7 +121,8 @@
 															<option value="S001">高爾夫球具組</option>
 -->
 										<%
-											for (APRESENT apresent : resultApresent) {
+											for (String key : resultApresent.keySet()) {
+												APRESENT apresent = resultApresent.get(key);
 										%>
 										<option value="<%=apresent.getFgno()%>"><%=apresent.getFgname()%></option>
 										<%
@@ -229,7 +230,7 @@
 					<td><%=aodrdt.getPername()%></td>
 					<td><%=aodrdt.getAuthority()%></td>
 					<td><%=aodrdt.getFgno()%></td>
-					<td><%=aodrdt.getFgno()%></td>
+					<td><%=resultApresent.get(aodrdt.getFgno()).getFgname()%></td>
 					<td><%=aodrdt.getQty()%></td>
 					<td><%=aodrdt.getPrc()%></td>
 					<td><%=aodrdt.getNote1()%></td>
