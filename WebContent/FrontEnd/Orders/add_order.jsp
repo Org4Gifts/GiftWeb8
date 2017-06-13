@@ -235,15 +235,19 @@
 					<td><%=aodrdt.getQty()%></td>
 					<td><%=aodrdt.getPrc()%></td>
 					<td><%=aodrdt.getNote1()%></td>
+					<td><a href="#" onclick="editFunc(<%=aodrdt.getAodrdt_id()%>)">修改</a></td>
+					<td><a href="#" onclick="delFunc(<%=aodrdt.getAodrdt_id()%>)">修改</a></td>
+					<!-- 
 					<td><a href="<%=aodrdt.getAodrdt_id()%>">修改</a></td>
 					<td><a href="<%=aodrdt.getAodrdt_id()%>">刪除</a></td>
+					 -->
 				</tr>
 				<%
 					}
 					}
 				%>
 				<tr>
-					<input type="hidden" name="submitOrder" value="submitOrder" />
+					<input type="hidden" id="submitOrder" name="submitOrder" value="submitOrder" />
 					<td class="text-center"><input type="button" value="確定"
 						class="btn btn-info " onclick="submitFunc()" style="width: 80px;" /></td>
 				</tr>
@@ -296,6 +300,20 @@
 		select_ori.value = select_val + select_txt;
 
 		closefunc();
+	}
+	
+	function editFunc(orderdt){
+		var submitOrder = document.getElementById("submitOrder");
+		submitOrder.name = "editOrderdt";
+		submitOrder.value = orderdt;
+		document.getElementById("submitOrder").submit();
+	}
+	
+	function delFunc(orderdt){
+		var submitOrder = document.getElementById("submitOrder");
+		submitOrder.name = "delOrderdt";
+		submitOrder.value = orderdt;
+		document.getElementById("submitOrder").submit();
 	}
 	
 	function submitFunc() {

@@ -162,6 +162,9 @@ public class MainServlet extends HttpServlet {
 			case "addOrderdt":
 				addOrderdt(request, response);
 				break;
+			case "editOrderdt":
+				delOrderdt(request, response);
+				break;
 			case "delOrderdt":
 				delOrderdt(request, response);
 				break;
@@ -702,6 +705,48 @@ public class MainServlet extends HttpServlet {
 	}
 
 	private void addOrderdt(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// 新增副訂單
+		String userCode = getUserCode(request);
+		// 檢查是否有登入?
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			// ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>)
+			// request.getAttribute("resultApresent");
+			// ArrayList<AFAB> resultAfab = (ArrayList<AFAB>)
+			// request.getAttribute("resultAfab");
+			// ArrayList<AODRDT> aodrdts =
+			// (ArrayList<AODRDT>)request.getAttribute("aodrdts");
+			// System.out.println(resultApresent+" ; "+resultAfab + " ;
+			// "+aodrdts);
+
+			AODRDT aodrdt = new AODRDT();
+			aodrdt.setComname(request.getParameter("comname"));
+			aodrdt.setPername(request.getParameter("pername"));
+			aodrdt.setAuthority(Integer.parseInt(request.getParameter("authority")));
+			aodrdt.setFgno(request.getParameter("fgno"));
+			aodrdt.setPrc(resultApresent.get(aodrdt.getFgno()).getPrc());
+			aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
+			aodrdt.setNote1(request.getParameter("note1"));
+
+			if (aodrdts.get(userCode) == null) {
+				temp = new ArrayList<>();
+				aodrdts.put(userCode, temp);
+			} else
+				temp = aodrdts.get(userCode);
+
+			temp.add(aodrdt);
+
+			request.setAttribute("resultApresent", resultApresent);
+			request.setAttribute("resultAfab", resultAfab);
+			request.setAttribute("aodrdts", temp);
+			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+	}
+	
+	private void editOrderdt(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 新增副訂單
 		String userCode = getUserCode(request);
