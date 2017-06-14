@@ -235,8 +235,9 @@
 					<td><%=aodrdt.getQty()%></td>
 					<td><%=aodrdt.getPrc()%></td>
 					<td><%=aodrdt.getNote1()%></td>
-					<td><a href="#" onclick="editFunc(<%=aodrdt.getAodrdt_id()%>)">修改</a></td>
-					<td><a href="#" onclick="delFunc(<%=aodrdt.getAodrdt_id()%>)">修改</a></td>
+					<td><a href="#" onclick="editFunc(<%=aodrdt.getOrder1()%>)">修改</a></td>
+					<!-- 上面的修改待研議 -->
+					<td><a href="#" onclick="delFunc(<%=aodrdt.getOrder1()%>)">刪除</a></td>
 					<!-- 
 					<td><a href="<%=aodrdt.getAodrdt_id()%>">修改</a></td>
 					<td><a href="<%=aodrdt.getAodrdt_id()%>">刪除</a></td>

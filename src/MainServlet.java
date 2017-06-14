@@ -163,7 +163,7 @@ public class MainServlet extends HttpServlet {
 				addOrderdt(request, response);
 				break;
 			case "editOrderdt":
-				delOrderdt(request, response);
+				editOrderdt(request, response);
 				break;
 			case "delOrderdt":
 				delOrderdt(request, response);
@@ -728,12 +728,18 @@ public class MainServlet extends HttpServlet {
 			aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
 			aodrdt.setNote1(request.getParameter("note1"));
 
-			if (aodrdts.get(userCode) == null) {
+			if ((temp = aodrdts.get(userCode)) == null) {
 				temp = new ArrayList<>();
 				aodrdts.put(userCode, temp);
-			} else
-				temp = aodrdts.get(userCode);
-
+			} 
+			//else
+				//temp = aodrdts.get(userCode);
+			int count = 0;
+			for (AODRDT temp_aodrdt : temp) {
+				count = Integer.parseInt(temp_aodrdt.getOrder1());
+			}
+			aodrdt.setOrder1(""+count+1); //自動增加號碼
+			
 			temp.add(aodrdt);
 
 			request.setAttribute("resultApresent", resultApresent);
@@ -748,36 +754,25 @@ public class MainServlet extends HttpServlet {
 	
 	private void editOrderdt(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 新增副訂單
+		// 修改副訂單
 		String userCode = getUserCode(request);
 		// 檢查是否有登入?
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
-			// ArrayList<APRESENT> resultApresent = (ArrayList<APRESENT>)
-			// request.getAttribute("resultApresent");
-			// ArrayList<AFAB> resultAfab = (ArrayList<AFAB>)
-			// request.getAttribute("resultAfab");
-			// ArrayList<AODRDT> aodrdts =
-			// (ArrayList<AODRDT>)request.getAttribute("aodrdts");
-			// System.out.println(resultApresent+" ; "+resultAfab + " ;
-			// "+aodrdts);
 
-			AODRDT aodrdt = new AODRDT();
-			aodrdt.setComname(request.getParameter("comname"));
-			aodrdt.setPername(request.getParameter("pername"));
-			aodrdt.setAuthority(Integer.parseInt(request.getParameter("authority")));
-			aodrdt.setFgno(request.getParameter("fgno"));
-			aodrdt.setPrc(resultApresent.get(aodrdt.getFgno()).getPrc());
-			aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
-			aodrdt.setNote1(request.getParameter("note1"));
-
-			if (aodrdts.get(userCode) == null) {
-				temp = new ArrayList<>();
-				aodrdts.put(userCode, temp);
-			} else
-				temp = aodrdts.get(userCode);
-
-			temp.add(aodrdt);
-
+			temp = aodrdts.get(userCode);
+			for (AODRDT temp_aodrdt : temp) {
+				if(temp_aodrdt.getOrder1().equals(request.getParameter("editOrderdt"))){
+					temp_aodrdt.setComname(request.getParameter("comname"));
+					temp_aodrdt.setPername(request.getParameter("pername"));
+					temp_aodrdt.setAuthority(Integer.parseInt(request.getParameter("authority")));
+					temp_aodrdt.setFgno(request.getParameter("fgno"));
+					temp_aodrdt.setPrc(resultApresent.get(temp_aodrdt.getFgno()).getPrc());
+					temp_aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
+					temp_aodrdt.setNote1(request.getParameter("note1"));
+					break;
+				}
+			}
+			
 			request.setAttribute("resultApresent", resultApresent);
 			request.setAttribute("resultAfab", resultAfab);
 			request.setAttribute("aodrdts", temp);
@@ -796,7 +791,13 @@ public class MainServlet extends HttpServlet {
 		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
 
 			temp = aodrdts.get(userCode);
-			temp.remove(request.getParameter("delOrderdt"));
+			for (AODRDT temp_aodrdt : temp) {
+				if(temp_aodrdt.getOrder1().equals(request.getParameter("delOrderdt"))){
+					temp.remove(temp_aodrdt);
+					break;
+				}
+			}
+//			temp.remove(request.getParameter("delOrderdt"));
 
 			request.setAttribute("resultApresent", resultApresent);
 			request.setAttribute("resultAfab", resultAfab);
