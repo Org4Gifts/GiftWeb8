@@ -769,6 +769,7 @@ public class MainServlet extends HttpServlet {
 					temp_aodrdt.setPrc(resultApresent.get(temp_aodrdt.getFgno()).getPrc());
 					temp_aodrdt.setQty(Integer.parseInt(request.getParameter("qty")));
 					temp_aodrdt.setNote1(request.getParameter("note1"));
+					
 					break;
 				}
 			}
