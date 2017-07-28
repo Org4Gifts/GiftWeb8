@@ -825,6 +825,8 @@ public class MainServlet extends HttpServlet {
 			aodr.setEmpno(user.getEmpno());
 			aodr.setFno(user.getFno());
 			aodr.setDno(user.getDno());
+			System.out.println("Parameter = "+ request.getParameter("odate"));
+			System.out.println("Attribute = "+ request.getAttribute("odate"));
 			aodr.setOdate(Timestamp.valueOf(request.getParameter("odate")));
 			aodr.setPurpose(request.getParameter("purpose"));
 			aodr.setStatus(ConstValue.ORDERS_STATUS_PROCESSING);

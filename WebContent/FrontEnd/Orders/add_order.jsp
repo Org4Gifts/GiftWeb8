@@ -193,7 +193,7 @@
 						class="span1-1" value="<%=userEmpno%>"/></td>
 					<td align="right" bgcolor="#f1f1f1">訂定日期：</td>
 					<td><input type="text" name="odate" id="odate"
-						class="laydate-icon span1-1" value="2017-04-01" /></td>
+						class="laydate-icon span1-1" value="2017-07-01" /></td>
 				</tr>
 				<tr>
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">訂單金額：</td>
