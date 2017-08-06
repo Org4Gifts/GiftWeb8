@@ -1,3 +1,7 @@
+<%@page import="javax.management.timer.TimerMBean"%>
+<%@page import="java.sql.Time"%>
+<%@page import="java.sql.Timestamp"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="tw.youth.project.gift2016.sql.aodr.AODRDT"%>
 <%@page import="tw.youth.project.gift2016.sql.apresent.APRESENT"%>
 <%@page import="java.util.*"%>
@@ -187,13 +191,16 @@
 			<div style="display: none;">發放日期：</div>
 			<div style="display: none;">S/N：</div>
 			<table class="table table-bordered">
+						<form method="post" id="submitOrder">
 				<tr>
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">員工工號：</td>
 					<td width="20%"><input type="text" name="empno" id="empno"
 						class="span1-1" value="<%=userEmpno%>"/></td>
 					<td align="right" bgcolor="#f1f1f1">訂定日期：</td>
-					<td><input type="text" name="odate" id="odate"
-						class="laydate-icon span1-1" value="2017-07-01" /></td>
+<!--					<td><input type="text" name="odate" id="odate"
+						class="laydate-icon span1-1" value="2017-07-01" /></td>-->
+											<td><input type="text" name="odate" id="odate"
+						class="laydate-icon span1-1" value="<%=new SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis()) %>" /></td>
 				</tr>
 				<tr>
 					<td align="right" nowrap="nowrap" bgcolor="#f1f1f1">訂單金額：</td>
@@ -207,7 +214,7 @@
 				</tr>
 			</table>
 			<table class="margin-bottom-20 table  no-border">
-			<form method="post" id="submitOrder">
+	<!-- 		<form method="post" id="submitOrder"> -->
 				<%
 					System.out.println(aodrdts);
 					if (aodrdts != null) {

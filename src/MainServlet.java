@@ -1,8 +1,10 @@
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -810,6 +812,49 @@ public class MainServlet extends HttpServlet {
 		}
 	}
 	
+	private void addOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		// 送出訂單
+		String userCode = getUserCode(request);
+		// 檢查是否有登入?
+		if (userCode != null && !userCode.equals("") && chkLoginExist(userCode)) {
+			temp = aodrdts.get(userCode);
+			if(temp!=null){
+				//如果有副檔則遞交，無則顯示沒有
+			AUSER user = (AUSER) userList.get(userCode)[1];
+			Orders orders = new Orders(manager, user);
+			AODR aodr = new AODR();
+			aodr.setEmpno(user.getEmpno());
+			aodr.setFno(user.getFno());
+			aodr.setDno(user.getDno());			
+			aodr.setOdate(Timestamp.valueOf(request.getParameter("odate")+" 00:00:00"));
+			aodr.setPurpose(request.getParameter("purpose"));
+			aodr.setStatus(ConstValue.ORDERS_STATUS_PROCESSING);
+			
+			//aodr要建好
+			
+			System.out.println(orders.createOrders(manager, user, aodr, aodrdts.get(userCode)));
+			
+			aodrdts.remove(userCode);
+
+			request.setAttribute("resultApresent", resultApresent);
+			request.setAttribute("resultAfab", resultAfab);
+//			request.setAttribute("aodrdts", temp);
+			request.setAttribute("submitOrder", "addOrder");
+			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+			}else{
+				request.setAttribute("resultApresent", resultApresent);
+				request.setAttribute("resultAfab", resultAfab);
+				request.setAttribute("noOrderdt", "noOrderdt");
+				request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+			}
+		} else {
+			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);
+			request.getRequestDispatcher("/login.jsp").forward(request, response);
+		}
+		
+	}
+	
 	private void submitOrder(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// 送出訂單
@@ -824,31 +869,25 @@ public class MainServlet extends HttpServlet {
 			AODR aodr = new AODR();
 			aodr.setEmpno(user.getEmpno());
 			aodr.setFno(user.getFno());
-			aodr.setDno(user.getDno());
-			System.out.println("Parameter = "+ request.getParameter("odate"));
-			System.out.println("Attribute = "+ request.getAttribute("odate"));
-			aodr.setOdate(Timestamp.valueOf(request.getParameter("odate")));
+			aodr.setDno(user.getDno());			
+			aodr.setOdate(Timestamp.valueOf(request.getParameter("odate")+" 00:00:00"));
 			aodr.setPurpose(request.getParameter("purpose"));
 			aodr.setStatus(ConstValue.ORDERS_STATUS_PROCESSING);
 			
 			//aodr要建好
 			
 			
-			orders.submitOrders(manager, user, aodr);
-			
-//			temp.remove(request.getParameter("submitOrder"));
-			aodrdts.remove(userCode);
+			System.out.println(orders.submitOrders(manager, user, aodr));
 
 			request.setAttribute("resultApresent", resultApresent);
 			request.setAttribute("resultAfab", resultAfab);
-//			request.setAttribute("aodrdts", temp);
 			request.setAttribute("submitOrder", "submitOrder");
-			request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+			request.getRequestDispatcher("/FrontEnd/Orders/submit_order.jsp").forward(request, response);
 			}else{
 				request.setAttribute("resultApresent", resultApresent);
 				request.setAttribute("resultAfab", resultAfab);
 				request.setAttribute("noOrderdt", "noOrderdt");
-				request.getRequestDispatcher("/FrontEnd/Orders/add_order.jsp").forward(request, response);
+				request.getRequestDispatcher("/FrontEnd/Orders/submit_order.jsp").forward(request, response);
 			}
 		} else {
 			request.setAttribute("notLogin", ConstValue.LOGIN_NOT_LOGIN);

@@ -96,8 +96,9 @@ if(userCode == null || userCode.equals("")){
 					<span>申請單功能(全體同仁)</span>
 					<a style="margin-top: 6px; color: red; font-weight: bold; background: url(<%=application.getContextPath()%>/FrontEnd/frame2/img/171.png) no-repeat 30px 9px; line-height: 26px;"
 						href="<%=application.getContextPath()%>/FrontEnd/Orders/add_order.jsp">新增申請單</a>
-					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_empno.jsp">修改申請單</a>
-					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/query_date.jsp">刪除申請單</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/edit_order.jsp">修改申請單</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/submit_order.jsp">送出申請單</a>
+					<a href="<%=application.getContextPath()%>/FrontEnd/Orders/del_order.jsp">刪除申請單</a>
 				</div>
 				<div class="collapsed">
 					<span>禮品資料(管理部)</span>
