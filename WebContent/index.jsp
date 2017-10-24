@@ -47,16 +47,29 @@
 							for(Bulletin obj : bulletins){
 							i++;
 							System.out.println(obj.getSubject()+ " ; " + obj.getContent());
+							if(obj.getContent().length()<=19){
 					%>
 					<tr align="center">
 						<td><%=i%></td>
 						<td><%=obj.getSubject()%></td>
-						<td><%=obj.getContent().substring(0, 19)+"..."%></td>
+						<td><%=obj.getContent().substring(0, obj.getContent().length())%></td>
 						<td><%=obj.getCreated()%></td>
 						<td><a id="DataGrid1_ctl03_LinkButton1"
 							href="javascript:__doPostBack('DataGrid1$ctl03$LinkButton1','')">詳細</a></td>
 					</tr>
 					<%
+							}else{
+								%>
+								<tr align="center">
+									<td><%=i%></td>
+									<td><%=obj.getSubject()%></td>
+									<td><%=obj.getContent().substring(0, 19)+"..."%></td>
+									<td><%=obj.getCreated()%></td>
+									<td><a id="DataGrid1_ctl03_LinkButton1"
+										href="javascript:__doPostBack('DataGrid1$ctl03$LinkButton1','')">詳細</a></td>
+								</tr>
+								<%
+							}
 						}
 							}
 					%>
