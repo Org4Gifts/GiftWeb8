@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="tw.youth.project.gift2016.sql.normal.Bulletin"%>
 <%@page import="java.util.*"%>
 <%@page import="tw.youth.project.gift2016.consts.ConstValue"%>
@@ -46,16 +47,18 @@
 							if(bulletins!=null && bulletins.size()>0){
 							for(Bulletin obj : bulletins){
 							i++;
-							System.out.println(obj.getSubject()+ " ; " + obj.getContent());
-							if(obj.getContent().length()<=19){
+							String content = obj.getContent();
+							System.out.println(obj.getSubject()+ " ; " + content);
+							String urlWord = URLEncoder.encode(content,"iso-8859-1");
+							if(content.length()<=19){
 					%>
 					<tr align="center">
 						<td><%=i%></td>
 						<td><%=obj.getSubject()%></td>
-						<td><%=obj.getContent().substring(0, obj.getContent().length())%></td>
+						<td><%=content.substring(0, content.length())%></td>
 						<td><%=obj.getCreated()%></td>
-						<td><a id="DataGrid1_ctl03_LinkButton1"
-							href="javascript:__doPostBack('DataGrid1$ctl03$LinkButton1','')">詳細</a></td>
+									<td><a href="<%=application.getContextPath()%>/detail.jsp?bull_id=<%=URLEncoder.encode(content,"iso-8859-1")%>">詳細內容</a></td>
+									<td><a href="#" onclick="transferWord(<%=content%>)">詳細內容</a></td>
 					</tr>
 					<%
 							}else{
@@ -63,10 +66,9 @@
 								<tr align="center">
 									<td><%=i%></td>
 									<td><%=obj.getSubject()%></td>
-									<td><%=obj.getContent().substring(0, 19)+"..."%></td>
+									<td><%=content.substring(0, 19)+"..."%></td>
 									<td><%=obj.getCreated()%></td>
-									<td><a id="DataGrid1_ctl03_LinkButton1"
-										href="javascript:__doPostBack('DataGrid1$ctl03$LinkButton1','')">詳細</a></td>
+									<td><a href="<%=application.getContextPath()%>/detail.jsp?bull_id=<%=URLEncoder.encode(content,"iso-8859-1")%>">詳細內容</a></td>
 								</tr>
 								<%
 							}
@@ -90,6 +92,11 @@
 			elem : '#Calendar2'
 		});
 	}();
+	var locations = window.location.href;
+	locations = locations.substring(0, locations.indexOf("/de"));
+	function transferWord(content){
+		location.href = locations + "/detail.jsp?bull_id=" + content; //直接透過給參數的轉址來達成換值
+	}
 </script>
 
 <%@include file="/FrontEnd/frame2/SubPages/footer2.jspf"%>
